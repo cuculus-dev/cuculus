@@ -43,3 +43,4 @@ next-env.d.ts
 # sst
 .sst
 cdk.context.json
+sst-env.d.ts

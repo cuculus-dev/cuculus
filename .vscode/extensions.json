@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint", //コードを静的解析してくれる
+    "mhutchie.git-graph", //gitリポジトリのアクションをグラフ化
+    "pulkitgangwar.nextjs-snippets", //テンプレートの入力省略。省略文字は拡張機能説明要確認
+    "esbenp.prettier-vscode", //コード整形。設定はsetting.jsonで最低限設定済
+    "vscode-icons-team.vscode-icons", //フォルダ、ファイル等をアイコン化
+    "styled-components.vscode-styled-components", //CSS in JSの補完ができるようになる
+    "mosapride.zenkaku", //全角空白の可視化
+    "streetsidesoftware.code-spell-checker", //英語の誤字を強調
+    "oderwat.indent-rainbow" //インデントを色付け
+  ]
+}
