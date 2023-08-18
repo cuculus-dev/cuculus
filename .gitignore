@@ -33,3 +33,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# OpenNext
+.open-next
+
+# IDE
+.idea
+
+# sst
+.sst
+cdk.context.json
+sst-env.d.ts
