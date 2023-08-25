@@ -7,7 +7,7 @@
     "sst:dev": "sst bind next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint -f stylish",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss,html}\"",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
