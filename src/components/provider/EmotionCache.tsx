@@ -25,6 +25,7 @@ const EmotionCacheProvider = (props: Props) => {
     const cache = createCache(options);
     cache.compat = true;
     let inserted: string[] = [];
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     const prevInsert = cache.insert;
     cache.insert = (...args) => {
       const serialized = args[1];
