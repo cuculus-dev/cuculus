@@ -9,13 +9,6 @@ const theme = createTheme({
       desktop: 1200,
     },
   },
-  palette: {
-    primary: {
-      light: '#33d7da',
-      main: '#00ced1',
-      dark: '#009092',
-    },
-  },
 });
 
 export default theme;
