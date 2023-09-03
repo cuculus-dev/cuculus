@@ -7,6 +7,11 @@ const nextConfig = {
     });
     return config;
   },
+  modularizeImports: {
+    '@mui/icons-material': {
+      transform: '@mui/icons-material/{{member}}',
+    },
+  },
   reactStrictMode: true,
   swcMinify: true,
 };

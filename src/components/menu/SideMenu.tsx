@@ -1,6 +1,14 @@
 'use client';
 
 import { styled } from '@mui/material';
+import MenuItem from '@/components/menu/MenuItem';
+import { Home, Mail, Notifications, Search } from '@mui/icons-material';
+
+const Root = styled('div')`
+  width: 275px;
+  padding: 0 8px;
+  margin-left: auto;
+`;
 
 const StyledMenu = styled('nav')`
   // TODO デスクトップは左、大きい(メニューラベルが表示)
@@ -26,14 +34,18 @@ const StyledMenu = styled('nav')`
 
 const SideMenu = () => {
   return (
-    <div>
+    <Root>
       <StyledMenu>
-        <div>ホーム</div>
-        <div>検索</div>
-        <div>通知</div>
-        <div>DM</div>
+        <MenuItem href={'/home'} icon={<Home />} label={'ホーム'} />
+        <MenuItem href={'/search'} icon={<Search />} label={'検索'} />
+        <MenuItem
+          href={'/notifications'}
+          icon={<Notifications />}
+          label={'通知'}
+        />
+        <MenuItem href={'/messages'} icon={<Mail />} label={'メッセージ'} />
       </StyledMenu>
-    </div>
+    </Root>
   );
 };
 export default SideMenu;
