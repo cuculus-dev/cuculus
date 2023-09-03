@@ -23,9 +23,11 @@ const StyledMenu = styled('nav')`
   display: flex;
   position: fixed;
   flex-direction: column;
+  width: 259px;
 
   ${({ theme }) => theme.breakpoints.down('desktop')} {
     // ラップトップ
+    width: 56px;
   }
   ${({ theme }) => theme.breakpoints.down('laptop')} {
     // タブレット
