@@ -8,6 +8,11 @@ const Layout = styled('div')`
   grid-template-columns: 1fr 2fr;
   min-height: 100vh;
 
+  ${({ theme }) => theme.breakpoints.down('desktop')} {
+    // モバイル
+    grid-template-columns: 1fr 9fr;
+  }
+
   ${({ theme }) => theme.breakpoints.down('tablet')} {
     // モバイル
     grid-template-columns: 1fr;
