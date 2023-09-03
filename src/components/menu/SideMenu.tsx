@@ -5,9 +5,14 @@ import MenuItem from '@/components/menu/MenuItem';
 import { Home, Mail, Notifications, Search } from '@mui/icons-material';
 
 const Root = styled('div')`
-  width: 275px;
+  // Desktop
   padding: 0 8px;
   margin-left: auto;
+  width: 275px;
+
+  ${({ theme }) => theme.breakpoints.down('desktop')} {
+    width: 72px;
+  }
 `;
 
 const StyledMenu = styled('nav')`
@@ -27,8 +32,7 @@ const StyledMenu = styled('nav')`
   }
   ${({ theme }) => theme.breakpoints.down('tablet')} {
     // モバイル
-    flex-direction: row;
-    bottom: 0;
+    display: none;
   }
 `;
 
