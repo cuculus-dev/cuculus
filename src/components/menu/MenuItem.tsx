@@ -7,6 +7,7 @@
 import Link from 'next/link';
 import { HTMLAttributeAnchorTarget, ReactNode } from 'react';
 import { styled } from '@mui/material';
+import { usePathname } from 'next/navigation';
 
 const StyledButton = styled('div')`
   padding: 8px 11px;
@@ -35,6 +36,10 @@ const StyledButton = styled('div')`
     background-color: rgba(15, 20, 25, 0.04);
   }
 
+  &.active {
+    font-weight: 700;
+  }
+
   ${({ theme }) => theme.breakpoints.down('desktop')} {
     border-radius: 50%;
   }
@@ -54,9 +59,10 @@ type Props = {
 };
 
 const MenuItem = ({ href, target, icon, label }: Props) => {
+  const pathname = usePathname();
   return (
     <Link href={href} target={target} passHref>
-      <StyledButton>
+      <StyledButton className={href == pathname ? 'active' : undefined}>
         {icon}
         <Label>{label}</Label>
       </StyledButton>
