@@ -56,7 +56,9 @@ type Props = {
   postId: number;
   postedAt: Date;
   replyCount: number;
+  favorited: boolean;
   favoriteCount: number;
+  reposted: boolean;
   repostCount: number;
 };
 
@@ -66,7 +68,9 @@ export default function Post({
   text,
   postId,
   replyCount,
+  favorited,
   favoriteCount,
+  reposted,
   repostCount,
 }: Props) {
   const router = useRouter();
@@ -107,8 +111,8 @@ export default function Post({
               </Typography>
               <Footer>
                 <ReplyButton count={replyCount} />
-                <RePostButton count={repostCount} />
-                <FavoriteButton count={favoriteCount} />
+                <RePostButton count={repostCount} reposted={reposted} />
+                <FavoriteButton count={favoriteCount} favorited={favorited} />
                 <ShareButton />
               </Footer>
             </Content>

@@ -23,5 +23,7 @@ export const NormalPost: Story = {
     replyCount: 0,
     favoriteCount: 0,
     repostCount: 0,
+    favorited: true,
+    reposted: true,
   },
 };
