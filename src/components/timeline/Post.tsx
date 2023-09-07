@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import Link from 'next/link';
-import { Favorite } from '@mui/icons-material';
+import { Star, Sync, ChatBubbleOutline, IosShare } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 
 const Article = styled('article')`
@@ -40,8 +40,7 @@ const DisplayName = styled(Link)`
   font-weight: bold;
   font-size: 1rem;
 
-  &:hover,
-  &:focus {
+  &:hover {
     text-decoration: underline;
   }
 `;
@@ -97,13 +96,29 @@ export default function Post({ displayName, userName, text, postId }: Props) {
                 {text}
               </Typography>
               <Footer>
-                <div>返信</div>
-                <div>リポスト</div>
+                <IconButton
+                  aria-label="リプライ"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <ChatBubbleOutline />
+                </IconButton>
+                <IconButton
+                  aria-label="リポスト"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <Sync />
+                </IconButton>
                 <IconButton
                   aria-label="お気に入りに追加"
                   onClick={(event) => event.stopPropagation()}
                 >
-                  <Favorite />
+                  <Star />
+                </IconButton>
+                <IconButton
+                  aria-label="共有"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <IosShare />
                 </IconButton>
               </Footer>
             </Content>
