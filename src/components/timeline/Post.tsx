@@ -1,15 +1,12 @@
 'use client';
 
-import {
-  Avatar,
-  CardActionArea,
-  IconButton,
-  styled,
-  Typography,
-} from '@mui/material';
+import { Avatar, CardActionArea, styled, Typography } from '@mui/material';
 import Link from 'next/link';
-import { Star, Sync, ChatBubbleOutline, IosShare } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import FavoriteButton from '@/components/common/atoms/FavoriteButton';
+import RePostButton from '@/components/common/atoms/RePostButton';
+import ReplyButton from '@/components/common/atoms/ReplyButton';
+import ShareButton from '@/components/common/atoms/ShareButton';
 
 const Article = styled('article')`
   border-bottom: 1px solid rgb(239, 243, 244);
@@ -96,30 +93,10 @@ export default function Post({ displayName, userName, text, postId }: Props) {
                 {text}
               </Typography>
               <Footer>
-                <IconButton
-                  aria-label="リプライ"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  <ChatBubbleOutline />
-                </IconButton>
-                <IconButton
-                  aria-label="リポスト"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  <Sync />
-                </IconButton>
-                <IconButton
-                  aria-label="お気に入りに追加"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  <Star />
-                </IconButton>
-                <IconButton
-                  aria-label="共有"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  <IosShare />
-                </IconButton>
+                <ReplyButton count={0} />
+                <RePostButton count={0} active />
+                <FavoriteButton count={0} active />
+                <ShareButton />
               </Footer>
             </Content>
           </Original>
