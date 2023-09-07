@@ -40,7 +40,8 @@ const DisplayName = styled(Link)`
   font-weight: bold;
   font-size: 1rem;
 
-  &:hover {
+  &:hover,
+  &:focus {
     text-decoration: underline;
   }
 `;
@@ -65,9 +66,9 @@ export default function Post({ displayName, userName, text, postId }: Props) {
   return (
     <Article>
       <CardActionArea
-        onClick={() => {
-          void router.push(`/posts/${postId}`);
-        }}
+        onFocus={() => void router.prefetch(`/posts/${postId}`)}
+        onMouseEnter={() => void router.prefetch(`/posts/${postId}`)}
+        onClick={() => void router.push(`/posts/${postId}`)}
         disableRipple
       >
         <div style={{ padding: '0 16px' }}>
@@ -78,9 +79,7 @@ export default function Post({ displayName, userName, text, postId }: Props) {
               <Header>
                 <DisplayName
                   href={`/${userName}`}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
+                  onClick={(event) => event.stopPropagation()}
                 >
                   {displayName}
                 </DisplayName>
@@ -102,9 +101,7 @@ export default function Post({ displayName, userName, text, postId }: Props) {
                 <div>リポスト</div>
                 <IconButton
                   aria-label="お気に入りに追加"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
+                  onClick={(event) => event.stopPropagation()}
                 >
                   <Favorite />
                 </IconButton>
