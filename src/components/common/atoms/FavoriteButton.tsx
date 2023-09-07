@@ -2,6 +2,7 @@
 
 import { IconButton, styled } from '@mui/material';
 import { Star } from '@mui/icons-material';
+import { useState } from 'react';
 
 const Icon = styled(Star)<{ active: boolean }>`
   color: ${({ theme, active }) =>
@@ -9,19 +10,23 @@ const Icon = styled(Star)<{ active: boolean }>`
 `;
 
 type Props = {
-  active?: boolean;
   count: number;
 };
 
-export default function FavoriteButton({ active = false, count }: Props) {
+export default function FavoriteButton({ count }: Props) {
+  const [favorited, setFavorite] = useState(false);
+
   return (
     <div aria-label={`${count}件のお気に入り。お気に入りに追加する`}>
       <IconButton
         color="favorite"
         aria-label="お気に入りに追加"
-        onClick={(event) => event.stopPropagation()}
+        onClick={(event) => {
+          event.stopPropagation();
+          setFavorite(!favorited);
+        }}
       >
-        <Icon active={active} />
+        <Icon active={favorited} />
       </IconButton>
     </div>
   );

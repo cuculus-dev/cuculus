@@ -16,9 +16,12 @@ export const NormalPost: Story = {
   args: {
     displayName: 'ククルス',
     userName: 'cuculus',
-    postedAt: new Date(),
     profileImageUrl: '/',
     text: 'ココに文章が表示されます。\n改行も適用されます。',
     postId: 1,
+    postedAt: new Date(),
+    replyCount: 0,
+    favoriteCount: 0,
+    repostCount: 0,
   },
 };

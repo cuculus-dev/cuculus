@@ -2,6 +2,7 @@
 
 import { IconButton, styled } from '@mui/material';
 import { Sync } from '@mui/icons-material';
+import { useState } from 'react';
 
 const Icon = styled(Sync)<{ active: boolean }>`
   color: ${({ theme, active }) =>
@@ -9,19 +10,22 @@ const Icon = styled(Sync)<{ active: boolean }>`
 `;
 
 type Props = {
-  active?: boolean;
   count: number;
 };
 
-export default function RePostButton({ active = false, count }: Props) {
+export default function RePostButton({ count }: Props) {
+  const [reposted, setRepost] = useState(false);
   return (
     <div aria-label={`${count}件のリポスト。リポストする`}>
       <IconButton
         color="repost"
         aria-label="リポスト"
-        onClick={(event) => event.stopPropagation()}
+        onClick={(event) => {
+          event.stopPropagation();
+          setRepost(!reposted);
+        }}
       >
-        <Icon active={active} />
+        <Icon active={reposted} />
       </IconButton>
     </div>
   );

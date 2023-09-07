@@ -2,11 +2,11 @@
 
 import { Avatar, CardActionArea, styled, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import FavoriteButton from '@/components/common/atoms/FavoriteButton';
 import RePostButton from '@/components/common/atoms/RePostButton';
 import ReplyButton from '@/components/common/atoms/ReplyButton';
 import ShareButton from '@/components/common/atoms/ShareButton';
+import { useRouter } from 'next/navigation';
 
 const Article = styled('article')`
   border-bottom: 1px solid rgb(239, 243, 244);
@@ -55,13 +55,26 @@ type Props = {
   text: string;
   postId: number;
   postedAt: Date;
+  replyCount: number;
+  favoriteCount: number;
+  repostCount: number;
 };
 
-export default function Post({ displayName, userName, text, postId }: Props) {
+export default function Post({
+  displayName,
+  userName,
+  text,
+  postId,
+  replyCount,
+  favoriteCount,
+  repostCount,
+}: Props) {
   const router = useRouter();
+
   return (
     <Article>
       <CardActionArea
+        component={'div'}
         onFocus={() => void router.prefetch(`/posts/${postId}`)}
         onMouseEnter={() => void router.prefetch(`/posts/${postId}`)}
         onClick={() => void router.push(`/posts/${postId}`)}
@@ -93,9 +106,9 @@ export default function Post({ displayName, userName, text, postId }: Props) {
                 {text}
               </Typography>
               <Footer>
-                <ReplyButton count={0} />
-                <RePostButton count={0} active />
-                <FavoriteButton count={0} active />
+                <ReplyButton count={replyCount} />
+                <RePostButton count={repostCount} />
+                <FavoriteButton count={favoriteCount} />
                 <ShareButton />
               </Footer>
             </Content>
