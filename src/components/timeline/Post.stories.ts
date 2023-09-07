@@ -19,5 +19,6 @@ export const NormalPost: Story = {
     postedAt: new Date(),
     profileImageUrl: '/',
     text: 'ココに文章が表示されます。\n改行も適用されます。',
+    postId: 1,
   },
 };
