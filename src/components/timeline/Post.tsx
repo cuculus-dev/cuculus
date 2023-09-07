@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import { Favorite } from '@mui/icons-material';
-import { MouseEvent } from 'react';
 import { useRouter } from 'next/router';
 
 const Article = styled('article')`
@@ -35,17 +34,22 @@ const Header = styled('div')`
   gap: 4px;
 `;
 
+const DisplayName = styled(Link)`
+  text-decoration: none;
+  color: ${({ theme }) => theme.palette.text.primary};
+  font-weight: bold;
+  font-size: 1rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const Footer = styled('div')`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `;
-
-const stopPropagation = (
-  event: MouseEvent<HTMLAnchorElement> | MouseEvent<HTMLButtonElement>,
-) => {
-  event.stopPropagation();
-};
 
 type Props = {
   displayName: string;
@@ -61,8 +65,7 @@ export default function Post({ displayName, userName, text, postId }: Props) {
   return (
     <Article>
       <CardActionArea
-        onClick={(event) => {
-          event.stopPropagation();
+        onClick={() => {
           void router.push(`/posts/${postId}`);
         }}
         disableRipple
@@ -73,18 +76,14 @@ export default function Post({ displayName, userName, text, postId }: Props) {
             <Avatar sx={{ backgroundColor: '' }}>TODO</Avatar>
             <Content>
               <Header>
-                <Typography
-                  component={Link}
+                <DisplayName
                   href={`/${userName}`}
-                  color="text.primary"
-                  sx={{
-                    textDecoration: 'none',
-                    ':hover': { textDecoration: 'underline' },
+                  onClick={(event) => {
+                    event.stopPropagation();
                   }}
-                  fontWeight="bold"
                 >
                   {displayName}
-                </Typography>
+                </DisplayName>
                 <Typography component="span" color="#8899a6">
                   @{userName}
                 </Typography>
@@ -103,7 +102,9 @@ export default function Post({ displayName, userName, text, postId }: Props) {
                 <div>リポスト</div>
                 <IconButton
                   aria-label="お気に入りに追加"
-                  onClick={stopPropagation}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
                 >
                   <Favorite />
                 </IconButton>
