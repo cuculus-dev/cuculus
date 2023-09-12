@@ -3,9 +3,11 @@
 import { IconButton, styled } from '@mui/material';
 import { Star } from '@mui/icons-material';
 
-const Icon = styled(Star)<{ active: boolean }>`
+const Icon = styled(Star)<{ active: 'true' | 'false' }>`
   color: ${({ theme, active }) =>
-    active ? theme.palette.favorite.main : theme.palette.action.active};
+    active == 'true'
+      ? theme.palette.favorite.main
+      : theme.palette.action.active};
 `;
 
 type Props = {
@@ -21,7 +23,7 @@ export default function FavoriteButton({ count, favorited }: Props) {
         aria-label="お気に入りに追加"
         onClick={(event) => event.stopPropagation()}
       >
-        <Icon active={favorited} />
+        <Icon active={favorited ? 'true' : 'false'} />
       </IconButton>
     </div>
   );

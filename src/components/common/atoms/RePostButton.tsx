@@ -3,9 +3,9 @@
 import { IconButton, styled } from '@mui/material';
 import { Sync } from '@mui/icons-material';
 
-const Icon = styled(Sync)<{ active: boolean }>`
+const Icon = styled(Sync)<{ active: 'true' | 'false' }>`
   color: ${({ theme, active }) =>
-    active ? theme.palette.repost.main : theme.palette.action.active};
+    active == 'true' ? theme.palette.repost.main : theme.palette.action.active};
 `;
 
 type Props = {
@@ -21,7 +21,7 @@ export default function RePostButton({ count, reposted }: Props) {
         aria-label="リポスト"
         onClick={(event) => event.stopPropagation()}
       >
-        <Icon active={reposted} />
+        <Icon active={reposted ? 'true' : 'false'} />
       </IconButton>
     </div>
   );
