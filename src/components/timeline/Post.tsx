@@ -1,12 +1,20 @@
 'use client';
 
-import { Avatar, CardActionArea, styled, Typography } from '@mui/material';
+import {
+  Avatar,
+  CardActionArea,
+  styled,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import Link from 'next/link';
 import FavoriteButton from '@/components/common/atoms/FavoriteButton';
 import RePostButton from '@/components/common/atoms/RePostButton';
 import ReplyButton from '@/components/common/atoms/ReplyButton';
 import ShareButton from '@/components/common/atoms/ShareButton';
 import { useRouter } from 'next/navigation';
+import MomentAgo from '@/components/timeline/atoms/MomentAgo';
+import { format } from 'date-fns';
 
 const Article = styled('article')`
   border-bottom: 1px solid rgb(239, 243, 244);
@@ -67,6 +75,7 @@ export default function Post({
   userName,
   text,
   postId,
+  postedAt,
   replyCount,
   favorited,
   favoriteCount,
@@ -74,14 +83,15 @@ export default function Post({
   repostCount,
 }: Props) {
   const router = useRouter();
+  const postUrl = `/${userName}/status/${postId}`;
 
   return (
     <Article>
       <CardActionArea
         component={'div'}
-        onFocus={() => void router.prefetch(`/posts/${postId}`)}
-        onMouseEnter={() => void router.prefetch(`/posts/${postId}`)}
-        onClick={() => void router.push(`/posts/${postId}`)}
+        onFocus={() => void router.prefetch(postUrl)}
+        onMouseEnter={() => void router.prefetch(postUrl)}
+        onClick={() => void router.push(postUrl)}
         disableRipple
       >
         <div style={{ padding: '0 16px' }}>
@@ -102,9 +112,17 @@ export default function Post({
                 <Typography component="span" color="#8899a6">
                   ·
                 </Typography>
-                <Typography component="span" color="#8899a6">
-                  1分前
-                </Typography>
+                <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
+                  <Typography
+                    aria-label="投稿へ"
+                    component={Link}
+                    color="#8899a6"
+                    href={postUrl}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <MomentAgo postedAt={postedAt} />
+                  </Typography>
+                </Tooltip>
               </Header>
               <Typography component="div" whiteSpace="pre-wrap">
                 {text}
