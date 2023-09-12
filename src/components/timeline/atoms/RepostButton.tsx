@@ -13,7 +13,7 @@ type Props = {
   reposted: boolean;
 };
 
-export default function RePostButton({ count, reposted }: Props) {
+export default function RepostButton({ count, reposted }: Props) {
   return (
     <div aria-label={`${count}件のリポスト。リポストする`}>
       <IconButton

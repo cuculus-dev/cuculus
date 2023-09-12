@@ -8,10 +8,10 @@ import {
   Typography,
 } from '@mui/material';
 import Link from 'next/link';
-import FavoriteButton from '@/components/common/atoms/FavoriteButton';
-import RePostButton from '@/components/common/atoms/RePostButton';
-import ReplyButton from '@/components/common/atoms/ReplyButton';
-import ShareButton from '@/components/common/atoms/ShareButton';
+import FavoriteButton from '@/components/timeline/atoms/FavoriteButton';
+import RepostButton from '@/components/timeline/atoms/RepostButton';
+import ReplyButton from '@/components/timeline/atoms/ReplyButton';
+import ShareButton from '@/components/timeline/atoms/ShareButton';
 import { useRouter } from 'next/navigation';
 import MomentAgo from '@/components/timeline/atoms/MomentAgo';
 import { format } from 'date-fns';
@@ -129,7 +129,7 @@ export default function Post({
               </Typography>
               <Footer>
                 <ReplyButton count={replyCount} />
-                <RePostButton count={repostCount} reposted={reposted} />
+                <RepostButton count={repostCount} reposted={reposted} />
                 <FavoriteButton count={favoriteCount} favorited={favorited} />
                 <ShareButton />
               </Footer>
