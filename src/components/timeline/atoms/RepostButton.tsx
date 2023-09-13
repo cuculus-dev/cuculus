@@ -21,11 +21,15 @@ export default function RepostButton({ postId }: Props) {
   ) => {
     event.stopPropagation();
     if (data && !isValidating) {
-      void mutate({
-        ...data,
-        reposted: !data.reposted,
-        repostCount: data.repostCount + (data.reposted ? -1 : 1),
-      });
+      // FIXME ここでPOSTを行い、返却されたデータをmutateする
+      void mutate(
+        {
+          ...data,
+          reposted: !data.reposted,
+          repostCount: data.repostCount + (data.reposted ? -1 : 1),
+        },
+        false,
+      );
     }
   };
   return (

@@ -23,11 +23,15 @@ export default function FavoriteButton({ postId }: Props) {
   ) => {
     event.stopPropagation();
     if (data && !isValidating) {
-      void mutate({
-        ...data,
-        favorited: !data.favorited,
-        favoriteCount: data.favoriteCount + (data.favorited ? -1 : 1),
-      });
+      // FIXME ここでPOSTを行い、返却されたデータをmutateする
+      void mutate(
+        {
+          ...data,
+          favorited: !data.favorited,
+          favoriteCount: data.favoriteCount + (data.favorited ? -1 : 1),
+        },
+        false,
+      );
     }
   };
   return (

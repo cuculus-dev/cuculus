@@ -9,17 +9,7 @@ type Post = {
   repostCount: number;
 };
 
-function wait(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, ms);
-  });
-}
-
-const fetcher = async ({ postId }: { postId: number }) => {
-  //FIXME 1秒待機
-  await wait(1000);
+const fetcher = ({ postId }: { postId: number }) => {
   return {
     postId,
     favorited: false,
