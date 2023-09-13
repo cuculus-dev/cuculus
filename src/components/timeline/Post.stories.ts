@@ -26,9 +26,5 @@ export const NormalPost: Story = {
     postId: 1,
     postedAt: new Date(),
     replyCount: 0,
-    favoriteCount: 0,
-    repostCount: 0,
-    favorited: true,
-    reposted: true,
   },
 };
