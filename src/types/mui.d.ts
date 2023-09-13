@@ -14,6 +14,14 @@ declare module '@mui/system/createTheme/createBreakpoints' {
   }
 }
 
+declare module '@mui/material/IconButton' {
+  interface IconButtonPropsColorOverrides {
+    favorite: true;
+    repost: true;
+    more: true;
+  }
+}
+
 declare module '@mui/material/styles' {
   interface BreakpointOverrides {
     xs: false;
@@ -25,5 +33,29 @@ declare module '@mui/material/styles' {
     tablet: true;
     laptop: true;
     desktop: true;
+  }
+
+  interface Palette {
+    favorite: {
+      main: string;
+    };
+    repost: {
+      main: string;
+    };
+    more: {
+      main: string;
+    };
+  }
+
+  interface PaletteOptions {
+    favorite: {
+      main: string;
+    };
+    repost: {
+      main: string;
+    };
+    more: {
+      main: string;
+    };
   }
 }

@@ -9,6 +9,17 @@ const theme = createTheme({
       desktop: 1200,
     },
   },
+  palette: {
+    favorite: {
+      main: '#ffac33',
+    },
+    repost: {
+      main: '#5c913b',
+    },
+    more: {
+      main: '#30F',
+    },
+  },
 });
 
 export default theme;
