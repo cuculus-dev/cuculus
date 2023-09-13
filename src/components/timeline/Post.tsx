@@ -56,6 +56,15 @@ const Footer = styled('div')`
   justify-content: space-between;
 `;
 
+const MomentLinks = styled(Link)`
+  color: #8899a6;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 type Props = {
   displayName: string;
   userName: string;
@@ -105,15 +114,13 @@ export default function Post({
                   ·
                 </Typography>
                 <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
-                  <Typography
+                  <MomentLinks
                     aria-label="投稿へ"
-                    component={Link}
-                    color="#8899a6"
                     href={postUrl}
                     onClick={(event) => event.stopPropagation()}
                   >
                     <MomentAgo postedAt={postedAt} />
-                  </Typography>
+                  </MomentLinks>
                 </Tooltip>
               </Header>
               <Typography component="div" whiteSpace="pre-wrap">
