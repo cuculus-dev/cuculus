@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import IconButton from './IconButton';
+import { IconButton } from './IconButton';
 import { MoreHoriz } from '@mui/icons-material';
 
 const meta: Meta<typeof IconButton> = {

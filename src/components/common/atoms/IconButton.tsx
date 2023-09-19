@@ -1,29 +1,48 @@
 'use client';
 
-import { styled, IconButton as MuiDefaultIconButton } from '@mui/material';
-import type { IconButtonProps, ButtonProps } from '@mui/material';
+// FIXME 関連Issues → https://github.com/cuculus-dev/cuculus/issues/21
 
-interface ExtraProps extends IconButtonProps {
+import { styled, IconButton as MuiDefaultIconButton } from '@mui/material';
+import type {
+  IconButtonProps as MuiDefaultIconButtonProps,
+  ButtonProps,
+} from '@mui/material';
+
+interface IconButtonProps extends MuiDefaultIconButtonProps {
   variant?: Exclude<NonNullable<ButtonProps['variant']>, 'text'> | 'icon';
 }
 
 const IconButton = styled(MuiDefaultIconButton, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<ExtraProps>(({ variant, color }) => {
+})<IconButtonProps>(({ variant, color }) => {
+  // FIXME ButtonとIconButtonで高さが異なる問題。ベタ書きで暫定対処。
+  const width = 36;
+  const height = width;
+
   switch (variant) {
     case 'outlined':
       return {
-        outlineWidth: 1,
+        // FIXME 透明度が効いてない
+        color,
+        height,
         outlineStyle: 'solid',
+        outlineWidth: 1,
+        width,
       };
     case 'contained':
-      // FIXME 色効かない
       return {
+        // FIXME 色がつかない
         backgroundColor: color,
+        height,
+        width,
       };
     case 'icon':
-      return {};
+      return {
+        height,
+        width,
+      };
   }
 });
 
-export default IconButton;
+export type { IconButtonProps };
+export { IconButton };
