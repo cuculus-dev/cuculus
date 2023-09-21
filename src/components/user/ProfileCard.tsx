@@ -1,15 +1,97 @@
 'use client';
 
+import { MoreHoriz } from '@mui/icons-material';
+import {
+  Avatar,
+  Box,
+  Card,
+  CardMedia,
+  Typography,
+  styled,
+} from '@mui/material';
+import { usePathname, useRouter } from 'next/navigation';
+import { ReactElement, useState } from 'react';
 import {
   FollowButton,
   FollowStatus,
 } from '@/components/user/atoms/FollowButton';
-import { MoreHoriz } from '@mui/icons-material';
-import { Avatar, Box, Card, CardMedia, Typography } from '@mui/material';
 import { IconButton } from '@/components/common/atoms/IconButton';
 
-import { usePathname, useRouter } from 'next/navigation';
-import { ReactElement, useState } from 'react';
+const UnselectableCard = styled(Card)`
+  user-select: none;
+`;
+
+const HeaderImage = styled(CardMedia)`
+  height: 250px;
+`;
+
+const Flex = styled(Box)`
+  display: flex;
+  flex-wrap: nowrap;
+`;
+
+const VFlex = styled(Flex)`
+  flex-direction: column;
+`;
+
+const HFlex = styled(Flex)`
+  flex-direction: row;
+`;
+
+const FillFlex = styled(Box)`
+  flex-grow: 1;
+`;
+
+const UserIcon = styled(Avatar)`
+  flex-grow: 64px;
+  width: 80px;
+  height: 80px;
+  box-sizing: 'content-box';
+
+  // ↓CO解除でTwitterみたいな感じの表示
+  /*
+  margin-top: -56px;
+  border-color: 'white';
+  border-style: 'solid';
+  */
+`;
+
+const DisplayName = styled(Typography)``;
+
+const UserName = styled(Typography)``;
+
+const Bio = styled(Typography)`
+  white-space: pre-wrap;
+`;
+
+/**
+ * 数字を1000区切りにする
+ * @example delimitedNum(1234) === '1,234'
+ */
+const delimitedNum = (num: number): string =>
+  Array
+    // ['1', '2', '3', '4']
+    .from(String(num))
+    // ['4', '3', '2', '1']
+    .reverse()
+    // [['4', '3', '2'], ['1']]
+    .reduce(
+      (a, e, i) => {
+        if (i % 3 === 0) {
+          a.push([e]);
+        } else {
+          a[a.length - 1].push(e);
+        }
+        return a;
+      },
+      [] as [string, string?, string?][],
+    )
+    // ['234', '1']
+    .map((e) => e.reverse().join(''))
+    // ['1', '234']
+    .reverse()
+    // '1,234'
+    .join(',');
 
 interface Props {
   // TODO stringだけ受けるか、elementも受けるか検討(リンクどうするかとか)
@@ -33,17 +115,51 @@ export default function ProfileCard({
   profileHeaderImageUrl,
   userName,
 }: Props) {
+  // FIXME setShowFollowButton(globalState.loginUserId !== userName)
   const [getShowFollowButton, setShowFollowButton] = useState(true);
   const [getFollowStatus, setFollowStatus] = useState(followStatus ?? NaN);
 
   const router = useRouter();
-  const followingUrl = `${usePathname()}/following`;
-  const followersUrl = `${usePathname()}/followers`;
+
+  const UserCount = ({
+    label,
+    linkUrl,
+    num,
+  }: {
+    label: string;
+    linkUrl: string;
+    num: number;
+  }) => (
+    <Box
+      onMouseEnter={() => router.prefetch(linkUrl)}
+      onFocus={() => router.prefetch(linkUrl)}
+      onClick={() => router.push(linkUrl)}
+    >
+      <Typography component={'div'}>{label}</Typography>
+      <Typography component={'div'} textAlign={'right'}>
+        {delimitedNum(num)}
+      </Typography>
+    </Box>
+  );
+
+  const Follows = ({ num }: { num: number }) =>
+    UserCount({
+      label: 'フォロー数',
+      linkUrl: `${usePathname()}/following`,
+      num,
+    });
+
+  const Followers = ({ num }: { num: number }) =>
+    UserCount({
+      label: 'フォロワー数',
+      linkUrl: `${usePathname()}/followers`,
+      num,
+    });
 
   return (
     <>
-      {/* TODO テスト用コード削除 */}
-      <div style={{ display: 'block' }}>
+      {/* FIXME テスト用コード削除 */}
+      <div className="test-code" style={{ display: 'block' }}>
         <div>
           <label style={{ userSelect: 'none' }}>
             <input
@@ -70,115 +186,50 @@ export default function ProfileCard({
         </div>
       </div>
 
-      {/* TODO Boxまみれをどうにかする */}
-      <Card
-        variant="outlined"
-        sx={{
-          userSelect: 'none',
-        }}
-      >
-        {/* ヘッダー画像 */}
-        <CardMedia image={profileHeaderImageUrl} sx={{ height: 250 }} />
+      <UnselectableCard variant="outlined">
+        <HeaderImage image={profileHeaderImageUrl} />
 
-        <Box p={2} display={'flex'} flexWrap={'nowrap'} gap={4}>
+        <HFlex gap={4} p={2}>
           {/* アイコン */}
-          <Avatar
-            src={profileAvatarImageUrl}
-            sx={{
-              flexGrow: '64px',
-              width: 80,
-              height: 80,
-              boxSizing: 'content-box',
-              // ↓CO解除でX(Twitter)みたいにヘッダに重ねる
-              // mt: -7,
-              // borderColor: 'white',
-              // borderStyle: 'solid',
-            }}
-          />
+          <UserIcon src={profileAvatarImageUrl} />
 
-          <Box
-            display={'flex'}
-            flexDirection={'column'}
-            gap={3}
-            flex={1}
-            pt={2}
-          >
-            <Box display={'flex'} flexDirection={'row'} gap={1}>
-              {/* 名前・ID */}
-              {/* FIXME デザイン調整 */}
-              <Box>
-                <Typography>{displayName}</Typography>
-                <Typography>@{userName}</Typography>
-              </Box>
+          <FillFlex>
+            <VFlex gap={2} pt={2}>
+              <HFlex gap={1}>
+                {/* 名前・ID */}
+                {/* FIXME デザイン調整 */}
+                <VFlex>
+                  <DisplayName>{displayName}</DisplayName>
+                  <UserName>@{userName}</UserName>
+                </VFlex>
 
-              <Box flexGrow={1}>
-                <Box
-                  display={'flex'}
-                  gap={2}
-                  flexDirection={'row'}
-                  justifyContent={'end'}
-                >
-                  {/* フォローボタン */}
-                  {getShowFollowButton && (
-                    <FollowButton
-                      followStatus={getFollowStatus}
-                      userName={userName}
-                    />
-                  )}
-                  {/* ミートボールボタン */}
-                  {/* FIXME サイズ調整 */}
-                  <IconButton color="primary" variant="outlined">
-                    <MoreHoriz />
-                  </IconButton>
-                </Box>
-              </Box>
-            </Box>
+                <FillFlex>
+                  <HFlex gap={2} justifyContent={'end'}>
+                    {/* フォローボタン */}
+                    {getShowFollowButton && (
+                      <FollowButton
+                        followStatus={getFollowStatus}
+                        userName={userName}
+                      />
+                    )}
+                    {/* ミートボールボタン */}
+                    <IconButton color="primary" variant="outlined">
+                      <MoreHoriz />
+                    </IconButton>
+                  </HFlex>
+                </FillFlex>
+              </HFlex>
 
-            {/* bio */}
-            <Box>
-              <Typography whiteSpace={'pre-wrap'}>{bio}</Typography>
-            </Box>
+              <Bio>{bio}</Bio>
 
-            <Box display={'inline-flex'} flexDirection={'row'} gap={2}>
-              {/* フォロー数 */}
-              <Box
-                onMouseEnter={() => router.prefetch(followingUrl)}
-                onFocus={() => router.prefetch(followingUrl)}
-                onClick={() => router.push(followingUrl)}
-              >
-                <Typography component={'span'} display={'block'}>
-                  フォロー数
-                </Typography>
-                <Typography
-                  component={'span'}
-                  display={'block'}
-                  textAlign={'right'}
-                >
-                  {followsCount}
-                </Typography>
-              </Box>
-
-              {/* フォロワー数 */}
-              <Box
-                onMouseEnter={() => router.prefetch(followersUrl)}
-                onFocus={() => router.prefetch(followersUrl)}
-                onClick={() => router.push(followersUrl)}
-              >
-                <Typography component={'span'} display={'block'}>
-                  フォロワー数
-                </Typography>
-                <Typography
-                  component={'span'}
-                  display={'block'}
-                  textAlign={'right'}
-                >
-                  {followedCount}
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      </Card>
+              <HFlex gap={2}>
+                <Follows num={followsCount} />
+                <Followers num={followedCount} />
+              </HFlex>
+            </VFlex>
+          </FillFlex>
+        </HFlex>
+      </UnselectableCard>
     </>
   );
 }
