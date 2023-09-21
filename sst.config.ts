@@ -10,11 +10,15 @@ export default {
   },
   stacks(app) {
     app.stack(function Site({ stack }) {
+      let domain = 'cuculus.jp';
+      // 検証環境向けだった場合
+      if (stack.stage !== 'production') {
+        domain = `${stack.stage}.${domain}`;
+      }
       const site = new NextjsSite(stack, 'site', {
         customDomain: {
-          domainName:
-            stack.stage == 'prod' ? 'cuculus.jp' : `${stack.stage}.cuculus.jp`,
-          hostedZone: 'cuculus.jp',
+          domainName: domain,
+          hostedZone: domain,
         },
       });
 
