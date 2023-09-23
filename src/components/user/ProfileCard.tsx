@@ -57,9 +57,15 @@ const UserIcon = styled(Avatar)`
   */
 `;
 
-const DisplayName = styled(Typography)``;
+const DisplayName = styled(Typography)`
+  font-weight: bold;
+  font-size: 1.3rem;
+`;
 
-const UserName = styled(Typography)``;
+const UserName = styled(Typography)`
+  font-weight: bold;
+  font-size: 0.9rem;
+`;
 
 const Bio = styled(Typography)`
   white-space: pre-wrap;
@@ -141,7 +147,9 @@ export default function ProfileCard({
       onFocus={() => router.prefetch(linkUrl)}
       onClick={() => router.push(linkUrl)}
     >
-      <Typography component={'div'}>{label}</Typography>
+      <Typography component={'div'} fontWeight={'bold'}>
+        {label}
+      </Typography>
       <Typography component={'div'} textAlign={'right'}>
         {delimitedNum(num)}
       </Typography>
