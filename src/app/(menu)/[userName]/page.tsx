@@ -3,6 +3,7 @@ import ProfileCard from '@/components/user/ProfileCard';
 export default function Profile({ params }: { params: { userName: string } }) {
   return (
     <main style={{ height: '2000px' }}>
+      {/* FIXME mock値 */}
       <ProfileCard
         bio={'bio\nfoobarbaz\n\n    hogefuga'}
         displayName={'testDispName'}
