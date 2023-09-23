@@ -5,7 +5,6 @@ import {
   MenuItem as MuiDefaultMenuItem,
   MenuProps,
   styled,
-  ClickAwayListener,
 } from '@mui/material';
 
 const Menu = styled(MuiDefaultMenu)`
