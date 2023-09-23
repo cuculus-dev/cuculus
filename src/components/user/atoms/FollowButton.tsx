@@ -18,26 +18,26 @@ export const FollowStatus = {
 } satisfies Record<FollowStatusKeys, number>;
 
 interface Props {
-  userName: string;
+  userId: number;
   followStatus: FollowStatusKeys[keyof FollowStatusKeys];
 }
 
-export function FollowButton({ followStatus, userName }: Props) {
-  const getPostUrl = (action: string) => `/${userName}/${action}`;
+export function FollowButton({ followStatus, userId }: Props) {
+  const followActionUrl = `/v1/users/${userId}/follow`;
 
   // TODO ボタン処理実装
   const follow: MouseEventHandler<HTMLButtonElement> = () => {
-    const postUrl = getPostUrl('follow');
+    // doPost(followActionUrl)
   };
 
   // TODO ボタン処理実装
   const unfollow: MouseEventHandler<HTMLButtonElement> = () => {
-    const postUrl = getPostUrl('unfollow');
+    // doDelete(followActionUrl);
   };
 
   // TODO ボタン処理実装
   const cancelRequest: MouseEventHandler<HTMLButtonElement> = () => {
-    const postUrl = getPostUrl('cancelFollowRequest');
+    // doCancel(???);
   };
 
   const [color, enabled, text, onClick] = ((): [

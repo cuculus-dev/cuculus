@@ -94,13 +94,15 @@ const delimitedNum = (num: number): string =>
     // '1,234'
     .join(',');
 
-interface Props {
+// TODO 表示項目の内容を引数で受け取るか、userIdだけ受け取ってこっちでAPI叩いて表示するか決める
+interface ProfileCardProps {
   // TODO stringだけ受けるか、elementも受けるか検討(リンクどうするかとか)
   bio: string | ReactElement;
   displayName: string;
   followStatus: (typeof FollowStatus)[keyof typeof FollowStatus];
   followedCount: number;
   followsCount: number;
+  userId: number;
   profileAvatarImageUrl: string;
   profileHeaderImageUrl: string;
   userName: string;
@@ -112,11 +114,12 @@ export default function ProfileCard({
   followStatus,
   followedCount,
   followsCount,
+  userId,
   profileAvatarImageUrl,
   profileHeaderImageUrl,
   userName,
-}: Props) {
-  // FIXME setShowFollowButton(globalState.loginUserId !== userName)
+}: ProfileCardProps) {
+  // FIXME setShowFollowButton(globalState.me.id !== userId)
   const [getShowFollowButton, setShowFollowButton] = useState(true);
   const [getFollowStatus, setFollowStatus] = useState(followStatus ?? NaN);
   const [getShowMoreMenu, setShowMoreMenu] = useState(false);
@@ -213,7 +216,7 @@ export default function ProfileCard({
                     {getShowFollowButton && (
                       <FollowButton
                         followStatus={getFollowStatus}
-                        userName={userName}
+                        userId={userId}
                       />
                     )}
                     {/* ミートボールボタン */}
