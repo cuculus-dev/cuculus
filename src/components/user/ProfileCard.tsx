@@ -121,7 +121,6 @@ export default function ProfileCard({
 }: ProfileCardProps) {
   // FIXME setShowFollowButton(globalState.me.id !== userId)
   const [getShowFollowButton, setShowFollowButton] = useState(true);
-  const [getFollowStatus, setFollowStatus] = useState(followStatus ?? NaN);
   const [getShowMoreMenu, setShowMoreMenu] = useState(false);
 
   const router = useRouter();
@@ -177,20 +176,6 @@ export default function ProfileCard({
             フォローボタン表示
           </label>
         </div>
-        <div>
-          <label style={{ userSelect: 'none' }}>
-            フォロー状態:
-            <select
-              defaultValue={getFollowStatus}
-              onChange={(e) => setFollowStatus(Number(e.target.value))}
-            >
-              <option value={0}>未フォロー</option>
-              <option value={1}>フォロー中</option>
-              <option value={2}>承認待ち</option>
-              <option value={3}>ブロック</option>
-            </select>
-          </label>
-        </div>
       </div>
 
       <UnselectableCard variant="outlined">
@@ -215,7 +200,7 @@ export default function ProfileCard({
                     {/* フォローボタン */}
                     {getShowFollowButton && (
                       <FollowButton
-                        followStatus={getFollowStatus}
+                        followStatus={followStatus}
                         userId={userId}
                       />
                     )}
