@@ -10,6 +10,7 @@ export default function Profile({ params }: { params: { userName: string } }) {
         followStatus={0}
         profileAvatarImageUrl="/mock/profileAvatarImage.png"
         profileHeaderImageUrl="/mock/profileHeaderImage.png"
+        userId={Math.random()}
         userName={params.userName}
         followsCount={Math.floor(Math.random() * 100)}
         followedCount={Math.floor(Math.random() * 100_000 + 10_000)}
