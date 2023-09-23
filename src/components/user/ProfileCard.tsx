@@ -1,6 +1,6 @@
 'use client';
 
-import { MoreHoriz } from '@mui/icons-material';
+import { Mail, MoreHoriz } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -126,7 +126,7 @@ export default function ProfileCard({
   userName,
 }: ProfileCardProps) {
   // FIXME setShowFollowButton(globalState.me.id !== userId)
-  const [getShowFollowButton, setShowFollowButton] = useState(true);
+  const [getIsSelf, setShowFollowButton] = useState(false);
   const [getShowMoreMenu, setShowMoreMenu] = useState(false);
 
   const router = useRouter();
@@ -178,10 +178,10 @@ export default function ProfileCard({
           <label style={{ userSelect: 'none' }}>
             <input
               type="checkbox"
-              defaultChecked={getShowFollowButton}
-              onChange={() => setShowFollowButton(!getShowFollowButton)}
+              defaultChecked={getIsSelf}
+              onChange={() => setShowFollowButton(!getIsSelf)}
             />
-            フォローボタン表示
+            フォローボタン・DMボタン表示
           </label>
         </div>
       </div>
@@ -206,12 +206,26 @@ export default function ProfileCard({
                 <FillFlex>
                   <HFlex gap={2} justifyContent={'end'}>
                     {/* フォローボタン */}
-                    {getShowFollowButton && (
+                    {!getIsSelf && (
                       <FollowButton
                         followStatus={followStatus}
                         userId={userId}
                       />
                     )}
+
+                    {/* DMボタン */}
+                    {!getIsSelf && (
+                      <IconButton
+                        color="primary"
+                        variant="outlined"
+                        onClick={() => {
+                          /* FIXME */
+                        }}
+                      >
+                        <Mail />
+                      </IconButton>
+                    )}
+
                     {/* ミートボールボタン */}
                     <IconButton
                       ref={moreMenuRef}
