@@ -10,12 +10,13 @@ import {
   styled,
 } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 import {
   FollowButton,
   FollowStatus,
 } from '@/components/user/atoms/FollowButton';
 import { IconButton } from '@/components/common/atoms/IconButton';
+import MoreMenu from '@/components/user/atoms/MoreMenu';
 
 const UnselectableCard = styled(Card)`
   user-select: none;
@@ -118,8 +119,11 @@ export default function ProfileCard({
   // FIXME setShowFollowButton(globalState.loginUserId !== userName)
   const [getShowFollowButton, setShowFollowButton] = useState(true);
   const [getFollowStatus, setFollowStatus] = useState(followStatus ?? NaN);
+  const [getShowMoreMenu, setShowMoreMenu] = useState(false);
 
   const router = useRouter();
+
+  const moreMenuRef = useRef(null);
 
   const UserCount = ({
     label,
@@ -213,8 +217,18 @@ export default function ProfileCard({
                       />
                     )}
                     {/* ミートボールボタン */}
-                    <IconButton color="primary" variant="outlined">
+                    <IconButton
+                      ref={moreMenuRef}
+                      color="primary"
+                      variant="outlined"
+                      onClick={() => setShowMoreMenu(!getShowMoreMenu)}
+                    >
                       <MoreHoriz />
+
+                      <MoreMenu
+                        anchorEl={moreMenuRef.current}
+                        open={getShowMoreMenu}
+                      />
                     </IconButton>
                   </HFlex>
                 </FillFlex>
