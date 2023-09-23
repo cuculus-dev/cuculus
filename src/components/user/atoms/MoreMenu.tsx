@@ -15,9 +15,9 @@ const MenuItem = styled(MuiDefaultMenuItem)``;
 
 type OmitKey = 'children' | 'disableScrollLock';
 
-interface MoreMenuProps extends Omit<MenuProps, OmitKey> {}
+type MoreMenuProps = Omit<MenuProps, OmitKey>;
 
-export default function (props: MoreMenuProps) {
+export default function MoreMenu(props: MoreMenuProps) {
   return (
     <Menu
       {...props}

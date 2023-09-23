@@ -44,7 +44,7 @@ export function FollowButton({ followStatus, userId }: Props) {
     ButtonTypeMap['props']['color'],
     boolean,
     string | React.JSX.Element,
-    MouseEventHandler<HTMLButtonElement>,
+    MouseEventHandler<HTMLButtonElement>?,
   ] => {
     switch (followStatus) {
       case FollowStatus.NotFollowing:
@@ -54,9 +54,9 @@ export function FollowButton({ followStatus, userId }: Props) {
       case FollowStatus.Pending:
         return ['secondary', true, '承認待ち', cancelRequest];
       case FollowStatus.Blocked:
-        return ['warning', false, 'ブロックされています', () => {}];
+        return ['warning', false, 'ブロックされています'];
       default:
-        return ['error', false, '(invalid value)', () => {}];
+        return ['error', false, '(invalid value)'];
     }
   })();
 
