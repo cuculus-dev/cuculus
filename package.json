@@ -20,6 +20,7 @@
     }
   },
   "dependencies": {
+    "@cuculus/cuculus-api": "^0.1.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.7",
@@ -47,6 +48,8 @@
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "aws-cdk-lib": "2.95.1",
+    "constructs": "10.2.69",
     "eslint": "^8.46.0",
     "eslint-config-next": "^13.4.12",
     "eslint-config-prettier": "^8.9.0",
@@ -55,11 +58,9 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.0",
-    "storybook": "^7.2.0",
-    "typescript": "^5.1.6",
     "sst": "^2.25.6",
-    "aws-cdk-lib": "2.95.1",
-    "constructs": "10.2.69"
+    "storybook": "^7.2.0",
+    "typescript": "^5.1.6"
   },
   "volta": {
     "node": "18.17.0",
