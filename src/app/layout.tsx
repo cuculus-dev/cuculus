@@ -8,6 +8,13 @@ const title = 'Cuculus';
 const description = 'Cuculusは新しいけどどこか懐かしい短文投稿サービスです。';
 
 export const metadata: Metadata = {
+  applicationName: title,
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title,
+  },
   title,
   description,
   openGraph: {

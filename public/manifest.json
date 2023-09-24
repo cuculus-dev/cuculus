@@ -1,0 +1,16 @@
+{
+  "name": "Cuculus",
+  "short_name": "Cuculus",
+  "icons": [
+    {
+      "src": "/icons/icon.png",
+      "sizes": "401x401",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
