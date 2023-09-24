@@ -44,3 +44,7 @@ next-env.d.ts
 .sst
 cdk.context.json
 sst-env.d.ts
+
+# PWA
+/public/sw.js
+/public/workbox-*.js
