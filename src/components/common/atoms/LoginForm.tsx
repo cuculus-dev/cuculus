@@ -1,14 +1,34 @@
-import FormButton from '@/components/common/atoms/FormButton';
-import LinkButton from '@/components/common/atoms/LinkButton';
-import { styled } from '@mui/material';
-import { useRouter } from 'next/router';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  styled,
+} from '@mui/material';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const StyledLogin = styled('div')`
   display: grid;
   grid-template-columns: 2fr 3fr;
   align-items: center;
+  background-size: cover;
   min-height: 100vh;
+`;
+
+const Title = styled('div')`
+  text-align: right;
+  background-color: #e4e4e4;
+  padding-right: 50px;
+`;
+
+const StyledTitle = styled('h1')`
+  font-size: 48px;
+`;
+
+const StyledForm = styled('div')`
+  padding-left: 200px;
 `;
 
 export default function LoginForm() {
@@ -29,41 +49,71 @@ export default function LoginForm() {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
   };
 
   return (
     <StyledLogin>
-      <div>ログイン</div>
-      <div>メールアドレス、パスワードを入力してください。</div>
+      <Title>
+        <StyledTitle>ログイン</StyledTitle>
+        <span>メールアドレス、パスワードを入力してください。</span>
+      </Title>
       <form>
-        {/* 入力欄 */}
-        <input
-          id="id"
-          type="text"
-          placeholder="ユーザー名またeメールアドレス"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-        />
-        <div>
-          <input
-            id="password"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="パスワード"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></input>
-          <button type="button" onClick={togglePasswordVisibility}>
-            {showPassword ? 'hidden' : 'open'}
-          </button>
-        </div>
-        <LinkButton href={'/'}>Back</LinkButton>
-        <LinkButton href={'/login'} onClick={handleLogin}>
-          Next
-        </LinkButton>
+        <StyledForm>
+          <div>
+            <FormControl
+              sx={{ mb: 5, width: '50ch' }}
+              variant="outlined"
+              size="small"
+            >
+              <OutlinedInput
+                id="id"
+                type="text"
+                onChange={(e) => setId(e.target.value)}
+                placeholder="mail address"
+              />
+            </FormControl>
+          </div>
+          <div>
+            <FormControl
+              sx={{ mb: 5, width: '50ch' }}
+              variant="outlined"
+              size="small"
+            >
+              <OutlinedInput
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="password"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </div>
+          <div>
+            <Link href={'/'}>Back</Link>
+            <Link href={'/login'} onClick={handleLogin}>
+              Next
+            </Link>
+          </div>
+          <div>{error && <>{error}</>}</div>
+        </StyledForm>
       </form>
-      {error && <div>{error}</div>}
     </StyledLogin>
   );
 }
