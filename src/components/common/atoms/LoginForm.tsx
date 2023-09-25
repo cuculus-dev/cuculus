@@ -10,25 +10,50 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 const StyledLogin = styled('div')`
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-  align-items: center;
-  background-size: cover;
-  min-height: 100vh;
+  display: flex;
 `;
 
-const Title = styled('div')`
+const StyledLeftColumn = styled('div')`
   text-align: right;
+  display: flex;
+  flex-direction: column;
   background-color: #e4e4e4;
   padding-right: 50px;
+  min-height: 100vh;
+  justify-content: center;
+  flex: 2;
 `;
 
 const StyledTitle = styled('h1')`
   font-size: 48px;
+  font-family: inter;
+  margin-block-start: 0%;
+  margin-block-end: 2%;
 `;
 
-const StyledForm = styled('div')`
+const StyledText = styled('span')`
+  font-size: 16px;
+  font-family: inter;
+`;
+
+const StyledRightColumn = styled('div')`
+  display: flex;
+  flex-direction: column;
+  flex: 3;
   padding-left: 200px;
+  min-height: 100vh;
+  justify-content: center;
+`;
+
+const StyledForm = styled('form')`
+  width: fit-content;
+  height: fit-content;
+`;
+
+const StyledLink = styled('div')`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 export default function LoginForm() {
@@ -59,11 +84,11 @@ export default function LoginForm() {
 
   return (
     <StyledLogin>
-      <Title>
+      <StyledLeftColumn>
         <StyledTitle>ログイン</StyledTitle>
-        <span>メールアドレス、パスワードを入力してください。</span>
-      </Title>
-      <form>
+        <StyledText>メールアドレス、パスワードを入力してください。</StyledText>
+      </StyledLeftColumn>
+      <StyledRightColumn>
         <StyledForm>
           <div>
             <FormControl
@@ -105,15 +130,18 @@ export default function LoginForm() {
               />
             </FormControl>
           </div>
-          <div>
-            <Link href={'/'}>Back</Link>
+          <StyledLink>
+            <div>
+              <Link href={'/'}>Back</Link>
+            </div>
+            <div style={{ marginLeft: 'auto' }} />
             <Link href={'/login'} onClick={handleLogin}>
               Next
             </Link>
-          </div>
+          </StyledLink>
           <div>{error && <>{error}</>}</div>
         </StyledForm>
-      </form>
+      </StyledRightColumn>
     </StyledLogin>
   );
 }
