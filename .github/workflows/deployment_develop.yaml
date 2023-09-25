@@ -1,0 +1,29 @@
+name: Deployment Develop
+on:
+  push:
+    branches: [ develop ]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: develop
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: NPM install
+        run: npm install
+
+      - name: Build and deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_CLOUDFRONT_URL: ${{ secrets.AWS_CLOUDFRONT_URL }}
+        run: npx sst deploy --stage develop

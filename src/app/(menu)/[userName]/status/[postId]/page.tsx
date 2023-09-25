@@ -1,4 +1,4 @@
-export default function Profile({
+export default function page({
   params,
 }: {
   params: { userName: string; postId: string };

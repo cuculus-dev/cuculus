@@ -1,9 +1,10 @@
 import LinkButton from '@/components/common/atoms/LinkButton';
+import Top from '@/app/(plain)/_components/Top';
 
-export default function Top() {
+export default function page() {
   return (
     <main>
-      Top
+      <Top />
       <LinkButton href={'/login'}>Login</LinkButton>
     </main>
   );
