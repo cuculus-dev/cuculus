@@ -100,7 +100,7 @@ export default function LoginForm() {
                 id="id"
                 type="text"
                 onChange={(e) => setId(e.target.value)}
-                placeholder="mail address"
+                placeholder="mail address or id"
               />
             </FormControl>
           </div>
