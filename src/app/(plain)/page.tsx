@@ -1,3 +1,9 @@
-export default function Top() {
-  return <main>Top</main>;
+import Top from '@/app/(plain)/_components/Top';
+
+export default function page() {
+  return (
+    <main>
+      <Top />
+    </main>
+  );
 }
