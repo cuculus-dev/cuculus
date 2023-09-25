@@ -3,6 +3,7 @@ import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import EmotionRegistry from '@/components/provider/Registry';
 import CssBaseline from '@mui/material/CssBaseline';
+import AuthProvider from '@/components/provider/AuthProvider';
 
 const title = 'Cuculus';
 const description = 'Cuculusは新しいけどどこか懐かしい短文投稿サービスです。';
@@ -43,7 +44,9 @@ export default function RootLayout({
       <head />
       <CssBaseline />
       <body>
-        <EmotionRegistry>{children}</EmotionRegistry>
+        <EmotionRegistry>
+          <AuthProvider>{children}</AuthProvider>
+        </EmotionRegistry>
       </body>
     </html>
   );
