@@ -1,6 +1,6 @@
 import useSWR from 'swr';
-import { authMiddleware } from '@/api/cuculus-client';
-import { LoginRequest } from '@cuculus/cuculus-api';
+import { authMiddleware, usersApi } from '@/api/cuculus-client';
+import { LoginRequest, UserResponse } from '@cuculus/cuculus-api';
 import useSWRMutation from 'swr/mutation';
 
 const fetchAuthenticated = async (): Promise<boolean> => {
@@ -15,6 +15,10 @@ const fetchAuthenticated = async (): Promise<boolean> => {
   }
 };
 
+/**
+ * ログイン状態のみを返す。
+ * TODO 後々booleanではなくuser_idを入れたPayloadを返却するようになる
+ */
 export const useAuth = () => {
   return useSWR<boolean, Error>(
     { url: 'postTokenRefresh' },
@@ -22,6 +26,9 @@ export const useAuth = () => {
   );
 };
 
+/**
+ * ログイン処理
+ */
 export const useLogin = () => {
   const { mutate } = useAuth();
   const login = async (url: string, { arg }: { arg: LoginRequest }) => {
@@ -34,4 +41,19 @@ export const useLogin = () => {
   };
 
   return useSWRMutation<void, Error, string, LoginRequest>('postLogin', login);
+};
+
+const fetchMe = async () => {
+  try {
+    return await usersApi.getMe();
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * 自身の情報を取得する
+ */
+export const useProfile = () => {
+  return useSWR<UserResponse | undefined, Error>({ url: 'getMe' }, fetchMe);
 };
