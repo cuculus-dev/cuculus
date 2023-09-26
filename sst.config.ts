@@ -20,6 +20,9 @@ export default {
           domainName: domain,
           hostedZone: domain,
         },
+        environment: {
+          NEXT_PUBLIC_CUCULUS_API_URL: `https://api.${domain}`,
+        },
       });
 
       stack.addOutputs({
