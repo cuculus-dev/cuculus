@@ -1,6 +1,6 @@
 'use client';
 
-import { MoreHoriz } from '@mui/icons-material';
+import { Mail, MoreHoriz } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -57,9 +57,15 @@ const UserIcon = styled(Avatar)`
   */
 `;
 
-const DisplayName = styled(Typography)``;
+const DisplayName = styled(Typography)`
+  font-weight: bold;
+  font-size: 1.3rem;
+`;
 
-const UserName = styled(Typography)``;
+const UserName = styled(Typography)`
+  font-weight: bold;
+  font-size: 0.9rem;
+`;
 
 const Bio = styled(Typography)`
   white-space: pre-wrap;
@@ -120,7 +126,7 @@ export default function ProfileCard({
   userName,
 }: ProfileCardProps) {
   // FIXME setShowFollowButton(globalState.me.id !== userId)
-  const [getShowFollowButton, setShowFollowButton] = useState(true);
+  const [getIsSelf, setShowFollowButton] = useState(false);
   const [getShowMoreMenu, setShowMoreMenu] = useState(false);
 
   const router = useRouter();
@@ -141,7 +147,9 @@ export default function ProfileCard({
       onFocus={() => router.prefetch(linkUrl)}
       onClick={() => router.push(linkUrl)}
     >
-      <Typography component={'div'}>{label}</Typography>
+      <Typography component={'div'} fontWeight={'bold'}>
+        {label}
+      </Typography>
       <Typography component={'div'} textAlign={'right'}>
         {delimitedNum(num)}
       </Typography>
@@ -170,10 +178,10 @@ export default function ProfileCard({
           <label style={{ userSelect: 'none' }}>
             <input
               type="checkbox"
-              defaultChecked={getShowFollowButton}
-              onChange={() => setShowFollowButton(!getShowFollowButton)}
+              defaultChecked={getIsSelf}
+              onChange={() => setShowFollowButton(!getIsSelf)}
             />
-            フォローボタン表示
+            フォローボタン・DMボタン表示
           </label>
         </div>
       </div>
@@ -198,12 +206,26 @@ export default function ProfileCard({
                 <FillFlex>
                   <HFlex gap={2} justifyContent={'end'}>
                     {/* フォローボタン */}
-                    {getShowFollowButton && (
+                    {!getIsSelf && (
                       <FollowButton
                         followStatus={followStatus}
                         userId={userId}
                       />
                     )}
+
+                    {/* DMボタン */}
+                    {!getIsSelf && (
+                      <IconButton
+                        color="primary"
+                        variant="outlined"
+                        onClick={() => {
+                          /* FIXME */
+                        }}
+                      >
+                        <Mail />
+                      </IconButton>
+                    )}
+
                     {/* ミートボールボタン */}
                     <IconButton
                       ref={moreMenuRef}
