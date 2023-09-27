@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "sst:dev": "sst bind next dev",
+    "dev:proxy": "node proxy.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint -f stylish",
@@ -20,11 +20,14 @@
     }
   },
   "dependencies": {
+    "@cuculus/cuculus-api": "^0.1.2",
+    "@ducanh2912/next-pwa": "^9.7.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.5",
     "date-fns": "^2.30.0",
+    "jwt-decode": "^3.1.2",
     "next": "^13.4.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -47,19 +50,21 @@
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "aws-cdk-lib": "2.95.1",
+    "constructs": "10.2.69",
     "eslint": "^8.46.0",
     "eslint-config-next": "^13.4.12",
     "eslint-config-prettier": "^8.9.0",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-storybook": "^0.6.13",
+    "http-proxy-middleware": "^2.0.6",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.0",
+    "sst": "^2.25.6",
     "storybook": "^7.2.0",
     "typescript": "^5.1.6",
-    "sst": "^2.25.6",
-    "aws-cdk-lib": "2.95.1",
-    "constructs": "10.2.69"
+    "webpack": "^5.88.2"
   },
   "volta": {
     "node": "18.17.0",
