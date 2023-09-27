@@ -13,6 +13,7 @@ export default function page({ params }: { params: { userName: string } }) {
         userName={params.userName}
         followsCount={Math.floor(Math.random() * 100)}
         followedCount={Math.floor(Math.random() * 100_000 + 10_000)}
+        userId={0}
       />
     </main>
   );
