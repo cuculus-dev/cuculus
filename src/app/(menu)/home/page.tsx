@@ -1,19 +1,14 @@
 'use client';
 
-import Post from '@/components/timeline/Post';
+import PrimaryColumn from '@/components/PrimaryColumn';
+import Timeline from '@/components/timeline/Timeline';
 
 export default function page() {
   return (
-    <main style={{ height: '2000px' }}>
-      <Post
-        displayName={'ククルス'}
-        userName={'cuculus'}
-        profileImageUrl={'/'}
-        text={'あああああああああああああああああああ'}
-        postId={1}
-        postedAt={new Date()}
-        replyCount={0}
-      />
+    <main>
+      <PrimaryColumn columnName={'ホーム'}>
+        <Timeline />
+      </PrimaryColumn>
     </main>
   );
 }
