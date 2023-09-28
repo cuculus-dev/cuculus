@@ -22,6 +22,15 @@ const Header = styled('header')`
   z-index: ${({ theme }) => theme.zIndex.appBar};
 `;
 
+const Title = styled('div')`
+  display: flex;
+  min-height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 16px;
+  align-items: center;
+`;
+
 type Props = {
   columnName: string;
   tabs?: string[];
@@ -31,7 +40,9 @@ type Props = {
 export default function PrimaryColumn({ columnName, children }: Props) {
   return (
     <Main>
-      <Header>{columnName}</Header>
+      <Header>
+        <Title>{columnName}</Title>
+      </Header>
       {children}
     </Main>
   );
