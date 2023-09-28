@@ -44,10 +44,8 @@ const FillFlex = styled(Box)`
 `;
 
 const UserIcon = styled(Avatar)`
-  flex-grow: 64px;
   width: 80px;
   height: 80px;
-  box-sizing: 'content-box';
 
   // ↓CO解除でTwitterみたいな感じの表示
   /*
