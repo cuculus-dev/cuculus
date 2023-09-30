@@ -2,7 +2,7 @@
 
 import { IconButton, styled } from '@mui/material';
 import { Star } from '@mui/icons-material';
-import usePost from '@/swr/client/post';
+import { usePostMutation } from '@/swr/client/post';
 import React from 'react';
 
 const Icon = styled(Star)<{ active: 'true' | 'false' }>`
@@ -14,38 +14,30 @@ const Icon = styled(Star)<{ active: 'true' | 'false' }>`
 
 type Props = {
   postId: number;
+  favorited: boolean;
+  favoriteCount: number;
 };
 
-export default function FavoriteButton({ postId }: Props) {
-  const { data, mutate, isValidating } = usePost(postId);
+export default function FavoriteButton({
+  postId,
+  favorited,
+  favoriteCount,
+}: Props) {
+  const { updatePost } = usePostMutation(postId);
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.stopPropagation();
-    if (data && !isValidating) {
-      // FIXME ここでPOSTを行い、返却されたデータをmutateする
-      void mutate(
-        {
-          ...data,
-          favorited: !data.favorited,
-          favoriteCount: data.favoriteCount + (data.favorited ? -1 : 1),
-        },
-        false,
-      );
-    }
+    void updatePost(postId);
   };
   return (
-    <div
-      aria-label={`${
-        data?.favoriteCount ?? 0
-      }件のお気に入り。お気に入りに追加する`}
-    >
+    <div aria-label={`${favoriteCount}件のお気に入り。お気に入りに追加する`}>
       <IconButton
         color="favorite"
         aria-label="お気に入りに追加"
         onClick={handleClick}
       >
-        <Icon active={data?.favorited ?? false ? 'true' : 'false'} />
+        <Icon active={favorited ? 'true' : 'false'} />
       </IconButton>
     </div>
   );
