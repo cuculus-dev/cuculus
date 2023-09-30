@@ -1,14 +1,15 @@
-'use client';
-
 import PrimaryColumn from '@/components/PrimaryColumn';
 import Timeline from '@/components/timeline/Timeline';
+import ScrollRestoration from '@/components/provider/ScrollRestoration';
 
 export default function page() {
   return (
     <main>
-      <PrimaryColumn columnName={'ホーム'}>
-        <Timeline />
-      </PrimaryColumn>
+      <ScrollRestoration key={'/home'}>
+        <PrimaryColumn columnName={'ホーム'}>
+          <Timeline />
+        </PrimaryColumn>
+      </ScrollRestoration>
     </main>
   );
 }
