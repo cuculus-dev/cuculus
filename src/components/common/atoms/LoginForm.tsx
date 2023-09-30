@@ -17,7 +17,7 @@ const StyledLeftColumn = styled('div')`
   text-align: right;
   display: flex;
   flex-direction: column;
-  background-color: #e4e4e4;
+  background-color: #007bbb;
   padding-right: 50px;
   min-height: 100vh;
   justify-content: center;
@@ -29,11 +29,13 @@ const StyledTitle = styled('h1')`
   font-family: inter;
   margin-block-start: 0%;
   margin-block-end: 2%;
+  color: #ffffff;
 `;
 
 const StyledText = styled('span')`
   font-size: 16px;
   font-family: inter;
+  color: #ffffff;
 `;
 
 const StyledRightColumn = styled('div')`
