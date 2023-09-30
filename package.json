@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "sst:dev": "sst bind next dev",
+    "dev:proxy": "node proxy.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint -f stylish",
@@ -57,6 +57,7 @@
     "eslint-config-prettier": "^8.9.0",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-storybook": "^0.6.13",
+    "http-proxy-middleware": "^2.0.6",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.0",

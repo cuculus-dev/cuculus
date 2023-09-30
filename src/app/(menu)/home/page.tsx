@@ -1,19 +1,15 @@
-'use client';
-
-import Post from '@/components/timeline/Post';
+import PrimaryColumn from '@/components/PrimaryColumn';
+import Timeline from '@/components/timeline/Timeline';
+import ScrollRestoration from '@/components/provider/ScrollRestoration';
 
 export default function page() {
   return (
-    <main style={{ height: '2000px' }}>
-      <Post
-        displayName={'ククルス'}
-        userName={'cuculus'}
-        profileImageUrl={'/'}
-        text={'あああああああああああああああああああ'}
-        postId={1}
-        postedAt={new Date()}
-        replyCount={0}
-      />
+    <main>
+      <ScrollRestoration path={'/home'}>
+        <PrimaryColumn columnName={'ホーム'}>
+          <Timeline />
+        </PrimaryColumn>
+      </ScrollRestoration>
     </main>
   );
 }

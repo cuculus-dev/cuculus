@@ -17,8 +17,8 @@ import MomentAgo from '@/components/timeline/atoms/MomentAgo';
 import { format } from 'date-fns';
 
 const Article = styled('article')`
-  border-bottom: 1px solid rgb(239, 243, 244);
-  max-width: 600px;
+  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
+  max-width: 640px;
   background-color: ${({ theme }) => theme.palette.background.paper};
   color: rgba(0, 0, 0, 0.87);
 `;
@@ -73,6 +73,10 @@ type Props = {
   postId: number;
   postedAt: Date;
   replyCount: number;
+  favorited: boolean;
+  favoriteCount: number;
+  reposted: boolean;
+  repostCount: number;
 };
 
 export default function Post({
@@ -82,6 +86,10 @@ export default function Post({
   postId,
   postedAt,
   replyCount,
+  favorited,
+  favoriteCount,
+  reposted,
+  repostCount,
 }: Props) {
   const router = useRouter();
   const postUrl = `/${userName}/status/${postId}`;
@@ -128,8 +136,16 @@ export default function Post({
               </Typography>
               <Footer>
                 <ReplyButton count={replyCount} />
-                <RepostButton postId={postId} />
-                <FavoriteButton postId={postId} />
+                <RepostButton
+                  postId={postId}
+                  reposted={reposted}
+                  repostCount={repostCount}
+                />
+                <FavoriteButton
+                  postId={postId}
+                  favorited={favorited}
+                  favoriteCount={favoriteCount}
+                />
                 <ShareButton />
               </Footer>
             </Content>

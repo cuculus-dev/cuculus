@@ -10,6 +10,11 @@ const theme = createTheme({
     },
   },
   palette: {
+    primary: {
+      light: '#D9EFFB',
+      main: '#007BBB',
+      dark: '#1E50A2',
+    },
     favorite: {
       main: '#ffac33',
     },
