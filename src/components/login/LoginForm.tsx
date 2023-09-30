@@ -1,3 +1,5 @@
+'use client';
+
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   FormControl,
@@ -17,7 +19,7 @@ const StyledLeftColumn = styled('div')`
   text-align: right;
   display: flex;
   flex-direction: column;
-  background-color: #007bbb;
+  background-color: ${({ theme }) => theme.palette.primary.main};
   padding-right: 50px;
   min-height: 100vh;
   justify-content: center;
@@ -26,16 +28,14 @@ const StyledLeftColumn = styled('div')`
 
 const StyledTitle = styled('h1')`
   font-size: 48px;
-  font-family: inter;
-  margin-block-start: 0%;
+  margin-block-start: 0;
   margin-block-end: 2%;
-  color: #ffffff;
+  color: ${({ theme }) => theme.palette.primary.contrastText};
 `;
 
 const StyledText = styled('span')`
   font-size: 16px;
-  font-family: inter;
-  color: #ffffff;
+  color: ${({ theme }) => theme.palette.primary.contrastText};
 `;
 
 const StyledRightColumn = styled('div')`

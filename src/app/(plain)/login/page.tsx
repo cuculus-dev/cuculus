@@ -1,6 +1,4 @@
-'use client';
-
-import LoginForm from '@/components/common/atoms/LoginForm';
+import LoginForm from '@/components/login/LoginForm';
 
 export default function Login() {
   return (
