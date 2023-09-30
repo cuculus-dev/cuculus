@@ -1,27 +1,26 @@
-import { ReactNode, useMemo } from 'react';
-import Post from '@/components/timeline/Post';
+'use client';
+
+import { useTimeline } from '@/swr/client/timeline';
+import TimelinePost from '@/components/timeline/organisms/TimelinePost';
 
 /**
  * FIXME THIS IS MOCK
+ * 再レンダリング起こすタイミングは要調整
  * @constructor
  */
 export default function Timeline() {
-  const posts: ReactNode[] = useMemo(() => {
-    const tempPosts: ReactNode[] = [];
-    for (let i = 0; i < 10; i++) {
-      tempPosts.push(
-        <Post
-          displayName={'ククルス'}
-          userName={'cuculus'}
-          profileImageUrl={'/'}
-          text={'あああああああああああああああああああ'}
-          postId={1}
-          postedAt={new Date()}
-          replyCount={0}
-        />,
-      );
-    }
-    return tempPosts;
-  }, []);
-  return <div>{posts}</div>;
+  const { data } = useTimeline();
+  return (
+    <div>
+      {data?.map((post) => {
+        return (
+          <TimelinePost
+            key={post.postId}
+            postId={post.postId}
+            fallbackData={post}
+          />
+        );
+      })}
+    </div>
+  );
 }

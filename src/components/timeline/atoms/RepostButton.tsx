@@ -2,7 +2,7 @@
 
 import { IconButton, styled } from '@mui/material';
 import { Sync } from '@mui/icons-material';
-import usePost from '@/swr/client/post';
+import { usePostMutation } from '@/swr/client/post';
 import React from 'react';
 
 const Icon = styled(Sync)<{ active: 'true' | 'false' }>`
@@ -12,30 +12,22 @@ const Icon = styled(Sync)<{ active: 'true' | 'false' }>`
 
 type Props = {
   postId: number;
+  reposted: boolean;
+  repostCount: number;
 };
 
-export default function RepostButton({ postId }: Props) {
-  const { data, mutate, isValidating } = usePost(postId);
+export default function RepostButton({ postId, reposted, repostCount }: Props) {
+  const { updatePost } = usePostMutation(postId);
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.stopPropagation();
-    if (data && !isValidating) {
-      // FIXME ここでPOSTを行い、返却されたデータをmutateする
-      void mutate(
-        {
-          ...data,
-          reposted: !data.reposted,
-          repostCount: data.repostCount + (data.reposted ? -1 : 1),
-        },
-        false,
-      );
-    }
+    void updatePost(postId);
   };
   return (
-    <div aria-label={`${data?.repostCount ?? 0}件のリポスト。リポストする`}>
+    <div aria-label={`${repostCount}件のリポスト。リポストする`}>
       <IconButton color="repost" aria-label="リポスト" onClick={handleClick}>
-        <Icon active={data?.reposted ?? false ? 'true' : 'false'} />
+        <Icon active={reposted ? 'true' : 'false'} />
       </IconButton>
     </div>
   );

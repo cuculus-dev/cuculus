@@ -2,6 +2,7 @@
 
 import useTimer from '@/swr/client/timer';
 import {
+  differenceInSeconds,
   differenceInMinutes,
   differenceInHours,
   differenceInDays,
@@ -10,7 +11,11 @@ import {
 
 function timeAgo(now: Date, postedAt: Date): string {
   const minutesAgo = differenceInMinutes(now, postedAt);
-  if (minutesAgo < 1) return 'たった今';
+  if (minutesAgo < 1) {
+    const secondsAgo = differenceInSeconds(now, postedAt);
+    if (secondsAgo <= 0) return 'たった今';
+    return `${secondsAgo}秒前`;
+  }
   if (minutesAgo < 60) return `${minutesAgo}分前`;
 
   const hoursAgo = differenceInHours(now, postedAt);
