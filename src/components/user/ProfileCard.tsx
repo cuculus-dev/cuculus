@@ -1,14 +1,7 @@
 'use client';
 
 import { Mail, MoreHoriz } from '@mui/icons-material';
-import {
-  Avatar,
-  Box,
-  Card,
-  CardMedia,
-  Typography,
-  styled,
-} from '@mui/material';
+import { Avatar, Box, CardMedia, Typography, styled } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import { ReactElement, useRef, useState } from 'react';
 import {
@@ -18,8 +11,12 @@ import {
 import { IconButton } from '@/components/common/atoms/IconButton';
 import MoreMenu from '@/components/user/atoms/MoreMenu';
 
-const UnselectableCard = styled(Card)`
+const UnselectableCard = styled('div')`
   user-select: none;
+  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
+  max-width: 640px;
+  background-color: ${({ theme }) => theme.palette.background.paper};
+  color: rgba(0, 0, 0, 0.87);
 `;
 
 const HeaderImage = styled(CardMedia)`
@@ -155,7 +152,7 @@ export default function ProfileCard({
         </div>
       </div>
 
-      <UnselectableCard variant="outlined">
+      <UnselectableCard>
         <HeaderImage image={profileHeaderImageUrl} />
 
         <HFlex gap={4} p={2}>
