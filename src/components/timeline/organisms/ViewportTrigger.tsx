@@ -21,6 +21,8 @@ function ViewportTrigger({ onInView, interval = 0, children }: Props) {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    const currentRef = ref.current;
+
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
@@ -43,13 +45,13 @@ function ViewportTrigger({ onInView, interval = 0, children }: Props) {
       { threshold: 0.1 },
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
