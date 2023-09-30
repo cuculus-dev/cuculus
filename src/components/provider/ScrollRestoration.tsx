@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect } from 'react';
 
-const scrollPositions: { [key: string]: number } = {};
+const scrollPositions: { [path: string]: number } = {};
 
 function setScrollPosition(path: string, y: number) {
   scrollPositions[path] = y;
@@ -14,18 +14,18 @@ function getScrollPosition(path: string) {
 
 type Props = {
   children?: ReactNode;
-  key: string;
+  path: string;
 };
 
-const ScrollRestoration = ({ key, children }: Props) => {
+const ScrollRestoration = ({ path, children }: Props) => {
   useEffect(() => {
-    const savedScrollY = getScrollPosition(key);
+    const savedScrollY = getScrollPosition(path);
     if (savedScrollY) {
       window.scrollTo(window.scrollX, savedScrollY);
     }
 
     const handleScroll = () => {
-      setScrollPosition(key, window.scrollY);
+      setScrollPosition(path, window.scrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -33,7 +33,7 @@ const ScrollRestoration = ({ key, children }: Props) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [key]);
+  }, [path]);
 
   return <>{children}</>;
 };

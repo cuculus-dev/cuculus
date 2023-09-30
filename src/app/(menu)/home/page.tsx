@@ -5,7 +5,7 @@ import ScrollRestoration from '@/components/provider/ScrollRestoration';
 export default function page() {
   return (
     <main>
-      <ScrollRestoration key={'/home'}>
+      <ScrollRestoration path={'/home'}>
         <PrimaryColumn columnName={'ホーム'}>
           <Timeline />
         </PrimaryColumn>
