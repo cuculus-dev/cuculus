@@ -17,6 +17,12 @@ type Props = {
   path: string;
 };
 
+/**
+ * スクロール位置を保存/復元する。
+ * @param path
+ * @param children
+ * @constructor
+ */
 const ScrollRestoration = ({ path, children }: Props) => {
   useEffect(() => {
     const savedScrollY = getScrollPosition(path);
