@@ -7,18 +7,39 @@ import { redirect } from 'next/navigation';
 import LoginForm from '@/app/(plain)/login/_components/LoginForm';
 
 const StyledLogin = styled('div')`
-  display: flex;
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 2fr 3fr;
+  gap: 200px;
+
+  ${({ theme }) => theme.breakpoints.down('desktop')} {
+    gap: 100px;
+  }
+
+  ${({ theme }) => theme.breakpoints.down('laptop')} {
+    gap: 50px;
+  }
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 5fr;
+  }
 `;
 
 const StyledLeftColumn = styled('div')`
-  text-align: right;
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.palette.primary.main};
-  padding-right: 50px;
-  min-height: 100vh;
   justify-content: center;
-  flex: 2;
+
+  ${({ theme }) => theme.breakpoints.up('tablet')} {
+    text-align: right;
+    padding-right: 50px;
+  }
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    text-align: center;
+  }
 `;
 
 const StyledTitle = styled('h1')`
@@ -36,9 +57,6 @@ const StyledText = styled('span')`
 const StyledRightColumn = styled('div')`
   display: flex;
   flex-direction: column;
-  flex: 3;
-  padding-left: 200px;
-  min-height: 100vh;
   justify-content: center;
 `;
 
