@@ -1,5 +1,5 @@
 import { AuthApi, Configuration, ResponseError } from '@cuculus/cuculus-api';
-import jwtDecode, { JwtPayload } from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 
 const accessToken = {
   set: (token: string) => localStorage.setItem('accessToken', token),
@@ -13,6 +13,24 @@ const authApi = new AuthApi(
   }),
 );
 
+export interface AuthJwtPayload {
+  id: number;
+  exp: number;
+  iat: number;
+}
+
+/**
+ * TokenをAUthJwtPayloadにデコード
+ * @param token
+ */
+export function decodeToAuthJwtPayload(token: string): AuthJwtPayload {
+  try {
+    return jwtDecode<AuthJwtPayload>(token);
+  } catch (error) {
+    throw error;
+  }
+}
+
 export class AuthMiddleware {
   private isRefreshing = false;
   private refreshSubscribers: Array<(token: string) => void> = [];
@@ -21,22 +39,23 @@ export class AuthMiddleware {
    * ログイン処理
    * @param username
    * @param password
+   * @throws Error
    */
-  public fetchSignIn = async (username: string, password: string) => {
-    try {
-      const response = await authApi.postSignIn(
-        {
-          loginRequest: {
-            username,
-            password,
-          },
+  public fetchSignIn = async (
+    username: string,
+    password: string,
+  ): Promise<string> => {
+    const response = await authApi.postSignIn(
+      {
+        loginRequest: {
+          username,
+          password,
         },
-        { credentials: 'include' },
-      );
-      accessToken.set(response.accessToken);
-    } catch (error) {
-      throw error;
-    }
+      },
+      { credentials: 'include' },
+    );
+    accessToken.set(response.accessToken);
+    return response.accessToken;
   };
 
   /**
@@ -57,7 +76,7 @@ export class AuthMiddleware {
     }
     const token = accessToken.get();
     try {
-      const payload = jwtDecode<JwtPayload>(token);
+      const payload = decodeToAuthJwtPayload(token);
       if (payload.exp) {
         const now = new Date().getTime() / 1000;
         // 期限に60分以上余裕がある場合はそのまま返す

@@ -1,10 +1,10 @@
 'use client';
 
 import { useAuth } from '@/swr/client/auth';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { redirect } from 'next/navigation';
 
-export default function Top() {
+export default function Layout({ children }: { children: ReactNode }) {
   const { data } = useAuth();
 
   useEffect(() => {
@@ -13,5 +13,5 @@ export default function Top() {
     }
   }, [data]);
 
-  return <>top</>;
+  return <>{children}</>;
 }
