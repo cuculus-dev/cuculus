@@ -1,46 +1,62 @@
 import useSWR from 'swr';
 import { authMiddleware, usersApi } from '@/api/cuculus-client';
-import { LoginRequest, UserResponse } from '@cuculus/cuculus-api';
+import {
+  LoginRequest,
+  ResponseError,
+  UserResponse,
+} from '@cuculus/cuculus-api';
+import { AuthJwtPayload, decodeToAuthJwtPayload } from '@/api/auth-middleware';
 import useSWRMutation from 'swr/mutation';
 
-const fetchAuthenticated = async (): Promise<boolean> => {
+const AUTH_KEY = 'useAuth';
+
+const fetchAuthenticated = async (): Promise<AuthJwtPayload> => {
   const token = await authMiddleware.fetchAccessToken('bearer');
-  // ちゃんと更新できている場合
   if (token) {
-    // TODO JWTの期限見て判別可能。オフラインで更新に失敗してることも有り
-    return true;
+    return decodeToAuthJwtPayload(token);
   } else {
-    // セッション切れ
-    return false;
+    throw new Error('Unauthorized.');
   }
 };
 
 /**
  * ログイン状態のみを返す。
- * TODO 後々booleanではなくuser_idを入れたPayloadを返却するようになる
  */
 export const useAuth = () => {
-  return useSWR<boolean, Error>(
-    { url: 'postTokenRefresh' },
-    fetchAuthenticated,
-  );
+  return useSWR<AuthJwtPayload, Error>(AUTH_KEY, fetchAuthenticated);
+};
+
+const signIn = async (
+  key: string,
+  { arg }: { arg: LoginRequest },
+): Promise<AuthJwtPayload> => {
+  try {
+    const result = await authMiddleware.fetchSignIn(arg.username, arg.password);
+    return decodeToAuthJwtPayload(result);
+  } catch (error) {
+    // エラー内容の分析
+    if (error instanceof ResponseError) {
+      if (error.response.status === 400) {
+        throw new Error('ユーザー名またはパスワードが間違っています。');
+      }
+    }
+  }
+  throw new Error('サーバーとの通信に失敗しました。');
 };
 
 /**
  * ログイン処理
  */
-export const useLogin = () => {
-  const { mutate } = useAuth();
-  const login = async (url: string, { arg }: { arg: LoginRequest }) => {
-    try {
-      await authMiddleware.fetchSignIn(arg.username, arg.password);
-      await mutate(true, false);
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  return useSWRMutation<void, Error, string, LoginRequest>('postLogin', login);
+export const useSignIn = () => {
+  return useSWRMutation<AuthJwtPayload, Error, typeof AUTH_KEY, LoginRequest>(
+    AUTH_KEY,
+    signIn,
+    {
+      throwOnError: false,
+      populateCache: (data) => data,
+      revalidate: false,
+    },
+  );
 };
 
 const fetchMe = async () => {
