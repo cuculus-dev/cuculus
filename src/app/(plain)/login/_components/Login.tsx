@@ -23,6 +23,7 @@ const StyledLogin = styled('div')`
   ${({ theme }) => theme.breakpoints.down('tablet')} {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 5fr;
+    gap: 0px;
   }
 `;
 
