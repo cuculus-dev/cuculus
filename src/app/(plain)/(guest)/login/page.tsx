@@ -1,10 +1,7 @@
 'use client';
 
 import { styled } from '@mui/material';
-import { useEffect } from 'react';
-import { useAuth } from '@/swr/client/auth';
-import { redirect } from 'next/navigation';
-import LoginForm from '@/app/(plain)/login/_components/LoginForm';
+import LoginForm from '@/app/(plain)/(guest)/login/_components/LoginForm';
 
 const StyledLogin = styled('div')`
   display: grid;
@@ -23,7 +20,7 @@ const StyledLogin = styled('div')`
   ${({ theme }) => theme.breakpoints.down('tablet')} {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 5fr;
-    gap: 0px;
+    gap: 0;
   }
 `;
 
@@ -61,24 +58,20 @@ const StyledRightColumn = styled('div')`
   justify-content: center;
 `;
 
-export default function Login() {
-  const { data } = useAuth();
-
-  useEffect(() => {
-    if (data) {
-      redirect('/home');
-    }
-  }, [data]);
-
+export default function page() {
   return (
-    <StyledLogin>
-      <StyledLeftColumn>
-        <StyledTitle>ログイン</StyledTitle>
-        <StyledText>メールアドレス、パスワードを入力してください。</StyledText>
-      </StyledLeftColumn>
-      <StyledRightColumn>
-        <LoginForm />
-      </StyledRightColumn>
-    </StyledLogin>
+    <main>
+      <StyledLogin>
+        <StyledLeftColumn>
+          <StyledTitle>ログイン</StyledTitle>
+          <StyledText>
+            メールアドレス、パスワードを入力してください。
+          </StyledText>
+        </StyledLeftColumn>
+        <StyledRightColumn>
+          <LoginForm />
+        </StyledRightColumn>
+      </StyledLogin>
+    </main>
   );
 }
