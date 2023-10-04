@@ -1,9 +1,11 @@
 import useSWR from 'swr';
-import { authMiddleware, usersApi } from '@/api/cuculus-client';
+import { authMiddleware, usersApi, authApi } from '@/api/cuculus-client';
 import {
   LoginRequest,
+  PreUserRequest,
   ResponseError,
   UserResponse,
+  VerifyCodeRequest,
 } from '@cuculus/cuculus-api';
 import { AuthJwtPayload, decodeToAuthJwtPayload } from '@/api/auth-middleware';
 import useSWRMutation from 'swr/mutation';
@@ -72,4 +74,68 @@ const fetchMe = async () => {
  */
 export const useProfile = () => {
   return useSWR<UserResponse | undefined, Error>({ url: 'getMe' }, fetchMe);
+};
+
+const preSignUp = async (
+  key: string,
+  { arg }: { arg: PreUserRequest },
+): Promise<boolean> => {
+  try {
+    await authApi.postPreSignUp({ preUserRequest: arg });
+    return true;
+  } catch (error) {
+    // エラー内容の分析
+    if (error instanceof ResponseError) {
+      if (error.response.status === 409) {
+        throw new Error('既に登録されているメールアドレスです。');
+      }
+    }
+  }
+  throw new Error('サーバーとの通信に失敗しました。');
+};
+
+export const usePreSignUp = () => {
+  return useSWRMutation<boolean, Error, string, PreUserRequest>(
+    'postPreSignUp',
+    preSignUp,
+    {
+      throwOnError: false,
+    },
+  );
+};
+
+const verifyCode = async (
+  key: string,
+  { arg }: { arg: VerifyCodeRequest },
+): Promise<boolean> => {
+  try {
+    await authApi.postPreSignUpVerifyCode({ verifyCodeRequest: arg });
+    return true;
+  } catch (error) {
+    // エラー内容の分析
+    if (error instanceof ResponseError) {
+      if (error.response.status === 400) {
+        throw new Error('認証コードが違います。');
+      }
+      if (error.response.status === 403) {
+        throw new Error('認証コードを規定回数以上間違えました。');
+      }
+      if (error.response.status === 404) {
+        throw new Error(
+          'ユーザーが見つかりませんでした。最初からやり直してください。',
+        );
+      }
+    }
+  }
+  throw new Error('サーバーとの通信に失敗しました。');
+};
+
+export const useVerifyCode = () => {
+  return useSWRMutation<boolean, Error, string, VerifyCodeRequest>(
+    'postPreSignUpVerifyCode',
+    verifyCode,
+    {
+      throwOnError: false,
+    },
+  );
 };

@@ -1,98 +1,24 @@
 'use client';
 
-import { Alert, Button, OutlinedInput, styled } from '@mui/material';
-import { ReactNode, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useSignIn } from '@/swr/client/auth';
 import { useSystem } from '@/swr/client/system';
-import { useInvitationVerify } from '@/swr/client/invitations';
-
-const Form = styled('form')`
-  display: flex;
-  max-width: 500px;
-  padding: 20px;
-  gap: 40px;
-  flex-direction: column;
-`;
-
-const Bottom = styled('div')`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-function FormTemplate({
-  onSubmit,
-  disabled,
-  children,
-}: {
-  onSubmit: () => void;
-  disabled: boolean;
-  children: ReactNode;
-}) {
-  return (
-    <Form
-      onSubmit={(event) => {
-        event.preventDefault();
-        void onSubmit();
-      }}
-    >
-      {children}
-      <Bottom>
-        <div style={{ marginLeft: 'auto' }} />
-        <Button type="submit" disabled={disabled}>
-          Next
-        </Button>
-      </Bottom>
-    </Form>
-  );
-}
-
-function StepInvitationCode({ onNext }: { onNext: () => void }) {
-  const { trigger, error, isMutating } = useInvitationVerify();
-  const [input, setInput] = useState('');
-
-  return (
-    <FormTemplate
-      onSubmit={() => {
-        void trigger({ invitationCode: input }).then((value) => {
-          if (value) {
-            onNext();
-          }
-        });
-      }}
-      disabled={isMutating}
-    >
-      <OutlinedInput
-        sx={{ width: '100%' }}
-        size="small"
-        disabled={isMutating}
-        name="invitationCode"
-        type="text"
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="invitationCode"
-      />
-      {!isMutating && error && <Alert severity="error">{error.message}</Alert>}
-    </FormTemplate>
-  );
-}
+import StepInvitationCode from '@/app/(plain)/(guest)/signup/_components/steps/StepInvitationCode';
+import StepEmail from '@/app/(plain)/(guest)/signup/_components/steps/StepEmail';
+import StepVerifyCode from '@/app/(plain)/(guest)/signup/_components/steps/StepVerifyCode';
 
 export default function SignUpForm() {
-  const router = useRouter();
-
   // 招待限定
   const { data: systemSettings } = useSystem();
-  const [step, setStep] = useState(0); // 0 => 招待コード入力, 1 => 表示名とメールアドレス入力, 2 => 確認コード入力, 3 => パスワード入力とユーザー名入力
+  // 1 => 招待コード入力, 2 => 表示名とメールアドレス入力, 3 => 確認コード入力, 4 => パスワード入力とユーザー名入力
+  const [step, setStep] = useState(1);
 
   const [invitationCode, setInvitationCode] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
+  const [pinCode, setPinCode] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  // ステップ0 => もし招待コード入力が必須だった場合は、ここで入力させる（Cuculusは現在、招待制となっております。）
-  // ステップ1 => 表示名とメールアドレスを入力させて、そのまま確認コード入力に飛ばす
-  // ステップ2 => 確認コードを入力させて、そのままパスワード入力とユーザー名入力に飛ばす
 
   const { isMutating, trigger, error } = useSignIn();
 
@@ -104,13 +30,43 @@ export default function SignUpForm() {
     return <></>;
   }
 
+  const maxStep = 4 - (systemSettings.invitationOnly ? 0 : 1);
+
   return (
     <>
-      <StepInvitationCode
-        onNext={() => {
-          console.log('onNext');
-        }}
-      />
+      {step === 1 - (systemSettings.invitationOnly ? 0 : 1) && (
+        <StepInvitationCode
+          onSuccess={(code) => {
+            setInvitationCode(code);
+            setStep(2);
+          }}
+          step={step}
+          maxStep={maxStep}
+        />
+      )}
+      {step === 2 - (systemSettings.invitationOnly ? 0 : 1) && (
+        <StepEmail
+          onSuccess={(email, displayName) => {
+            setEmail(email);
+            setDisplayName(displayName);
+            setStep(3);
+          }}
+          step={step}
+          maxStep={maxStep}
+        />
+      )}
+      {step === 3 - (systemSettings.invitationOnly ? 0 : 1) && (
+        <StepVerifyCode
+          email={email}
+          onSuccess={(pinCode, email) => {
+            setPinCode(pinCode);
+            setStep(4);
+          }}
+          step={step}
+          maxStep={maxStep}
+        />
+      )}
+      {step === 4 - (systemSettings.invitationOnly ? 0 : 1) && <>まだだよー</>}
     </>
   );
 }

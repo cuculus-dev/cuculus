@@ -5,6 +5,7 @@ import {
   Button,
   IconButton,
   InputAdornment,
+  LinearProgress,
   OutlinedInput,
   styled,
 } from '@mui/material';
@@ -78,6 +79,7 @@ export default function LoginForm() {
           </InputAdornment>
         }
       />
+      {isMutating && <LinearProgress />}
       {!isMutating && error && <Alert severity="error">{error.message}</Alert>}
       <Bottom>
         <Button
