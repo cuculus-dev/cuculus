@@ -18,9 +18,7 @@ const StyledLogin = styled('div')`
   }
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 5fr;
-    gap: 0;
+    display: inline;
   }
 `;
 
@@ -36,7 +34,7 @@ const StyledLeftColumn = styled('div')`
   }
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
-    text-align: center;
+    display: none;
   }
 `;
 
@@ -58,6 +56,16 @@ const StyledRightColumn = styled('div')`
   justify-content: center;
 `;
 
+const Title = styled('div')`
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 20px;
+
+  ${({ theme }) => theme.breakpoints.up('tablet')} {
+    display: none;
+  }
+`;
+
 export default function page() {
   return (
     <main>
@@ -68,6 +76,7 @@ export default function page() {
             メールアドレス、パスワードを入力してください。
           </StyledText>
         </StyledLeftColumn>
+        <Title>Cuculusにログイン</Title>
         <StyledRightColumn>
           <LoginForm />
         </StyledRightColumn>

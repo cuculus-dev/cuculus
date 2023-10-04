@@ -18,9 +18,7 @@ const Root = styled('div')`
   }
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 5fr;
-    gap: 0;
+    display: inline;
   }
 `;
 
@@ -36,11 +34,11 @@ const Left = styled('div')`
   }
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
-    text-align: center;
+    display: none;
   }
 `;
 
-const Title = styled('h1')`
+const LeftTitle = styled('h1')`
   font-size: 40px;
   margin-block-start: 0;
   margin-block-end: 2%;
@@ -53,13 +51,24 @@ const Right = styled('div')`
   justify-content: center;
 `;
 
+const Title = styled('div')`
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 20px;
+
+  ${({ theme }) => theme.breakpoints.up('tablet')} {
+    display: none;
+  }
+`;
+
 export default function page() {
   return (
     <main>
       <Root>
         <Left>
-          <Title>アカウントを作成</Title>
+          <LeftTitle>アカウントを作成</LeftTitle>
         </Left>
+        <Title>Cuculus アカウント登録</Title>
         <Right>
           <SignUpForm />
         </Right>
