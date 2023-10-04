@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { useSignIn } from '@/swr/client/auth';
 import { useSystem } from '@/swr/client/system';
 import StepInvitationCode from '@/app/(plain)/(guest)/signup/_components/steps/StepInvitationCode';
 import StepEmail from '@/app/(plain)/(guest)/signup/_components/steps/StepEmail';
 import StepVerifyCode from '@/app/(plain)/(guest)/signup/_components/steps/StepVerifyCode';
+import StepSignup from '@/app/(plain)/(guest)/signup/_components/steps/StepSignup';
 
 export default function SignUpForm() {
   // 招待限定
@@ -17,14 +17,6 @@ export default function SignUpForm() {
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [pinCode, setPinCode] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const { isMutating, trigger, error } = useSignIn();
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   if (!systemSettings) {
     return <></>;
@@ -58,7 +50,7 @@ export default function SignUpForm() {
       {step === 3 - (systemSettings.invitationOnly ? 0 : 1) && (
         <StepVerifyCode
           email={email}
-          onSuccess={(pinCode, email) => {
+          onSuccess={(pinCode) => {
             setPinCode(pinCode);
             setStep(4);
           }}
@@ -66,7 +58,19 @@ export default function SignUpForm() {
           maxStep={maxStep}
         />
       )}
-      {step === 4 - (systemSettings.invitationOnly ? 0 : 1) && <>まだだよー</>}
+      {step === 4 - (systemSettings.invitationOnly ? 0 : 1) && (
+        <StepSignup
+          step={step}
+          maxStep={maxStep}
+          email={email}
+          displayName={displayName}
+          pinCode={pinCode}
+          invitationCode={invitationCode}
+          onSuccess={() => {
+            // TODO /homeに移動させる
+          }}
+        />
+      )}
     </>
   );
 }

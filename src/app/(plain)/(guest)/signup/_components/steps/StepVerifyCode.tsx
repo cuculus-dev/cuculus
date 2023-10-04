@@ -33,7 +33,7 @@ export default function StepVerifyCode({
       error={error}
       step={step}
       maxStep={maxStep}
-      title={'メールアドレスにPINコードを送信しました。'}
+      title={`${email}に確認コードを送信しました。`}
     >
       <OutlinedInput
         sx={{ width: '100%' }}

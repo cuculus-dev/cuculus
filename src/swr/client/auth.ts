@@ -9,6 +9,7 @@ import {
 } from '@cuculus/cuculus-api';
 import { AuthJwtPayload, decodeToAuthJwtPayload } from '@/api/auth-middleware';
 import useSWRMutation from 'swr/mutation';
+import { UserRequest } from '@cuculus/cuculus-api/dist/models';
 
 const AUTH_KEY = 'useAuth';
 
@@ -136,6 +137,48 @@ export const useVerifyCode = () => {
     verifyCode,
     {
       throwOnError: false,
+    },
+  );
+};
+
+const signUp = async (
+  key: string,
+  { arg }: { arg: UserRequest },
+): Promise<AuthJwtPayload> => {
+  try {
+    const result = await authMiddleware.fetchSignUp(
+      arg.username,
+      arg.password,
+      arg.code,
+      arg.email,
+      arg.invitationCode,
+    );
+    return decodeToAuthJwtPayload(result);
+  } catch (error) {
+    // エラー内容の分析
+    if (error instanceof ResponseError) {
+      if (error.response.status === 409) {
+        throw new Error('既に登録されているユーザーIDです。');
+      }
+      if (error.response.status === 400) {
+        throw new Error('不正なリクエストです。');
+      }
+    }
+  }
+  throw new Error('サーバーとの通信に失敗しました。');
+};
+
+/**
+ * アカウント登録
+ */
+export const useSignUp = () => {
+  return useSWRMutation<AuthJwtPayload, Error, typeof AUTH_KEY, UserRequest>(
+    AUTH_KEY,
+    signUp,
+    {
+      throwOnError: false,
+      populateCache: (data) => data,
+      revalidate: false,
     },
   );
 };
