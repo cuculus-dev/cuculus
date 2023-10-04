@@ -1,9 +1,9 @@
 'use client';
 
 import { styled } from '@mui/material';
-import LoginForm from '@/app/(plain)/(guest)/login/_components/LoginForm';
+import SignUpForm from '@/app/(plain)/(guest)/signup/_components/SignUpForm';
 
-const StyledLogin = styled('div')`
+const Root = styled('div')`
   display: grid;
   min-height: 100vh;
   grid-template-columns: 2fr 3fr;
@@ -24,7 +24,7 @@ const StyledLogin = styled('div')`
   }
 `;
 
-const StyledLeftColumn = styled('div')`
+const Left = styled('div')`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.palette.primary.main};
@@ -40,19 +40,14 @@ const StyledLeftColumn = styled('div')`
   }
 `;
 
-const StyledTitle = styled('h1')`
+const Title = styled('h1')`
   font-size: 40px;
   margin-block-start: 0;
   margin-block-end: 2%;
   color: ${({ theme }) => theme.palette.primary.contrastText};
 `;
 
-const StyledText = styled('span')`
-  font-size: 16px;
-  color: ${({ theme }) => theme.palette.primary.contrastText};
-`;
-
-const StyledRightColumn = styled('div')`
+const Right = styled('div')`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -61,17 +56,14 @@ const StyledRightColumn = styled('div')`
 export default function page() {
   return (
     <main>
-      <StyledLogin>
-        <StyledLeftColumn>
-          <StyledTitle>ログイン</StyledTitle>
-          <StyledText>
-            メールアドレス、パスワードを入力してください。
-          </StyledText>
-        </StyledLeftColumn>
-        <StyledRightColumn>
-          <LoginForm />
-        </StyledRightColumn>
-      </StyledLogin>
+      <Root>
+        <Left>
+          <Title>アカウントを作成</Title>
+        </Left>
+        <Right>
+          <SignUpForm />
+        </Right>
+      </Root>
     </main>
   );
 }
