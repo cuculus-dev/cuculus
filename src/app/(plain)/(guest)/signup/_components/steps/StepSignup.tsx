@@ -18,7 +18,6 @@ export default function StepSignup({
   onSuccess,
   step,
   maxStep,
-  displayName, // TODO そういえばエンドポイントに表示名がない...
   pinCode,
   invitationCode,
   email,

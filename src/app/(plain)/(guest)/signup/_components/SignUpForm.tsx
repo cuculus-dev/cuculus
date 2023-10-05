@@ -6,8 +6,11 @@ import StepInvitationCode from '@/app/(plain)/(guest)/signup/_components/steps/S
 import StepEmail from '@/app/(plain)/(guest)/signup/_components/steps/StepEmail';
 import StepVerifyCode from '@/app/(plain)/(guest)/signup/_components/steps/StepVerifyCode';
 import StepSignup from '@/app/(plain)/(guest)/signup/_components/steps/StepSignup';
+import { useRouter } from 'next/navigation';
 
 export default function SignUpForm() {
+  const router = useRouter();
+
   // 招待限定
   const { data: systemSettings } = useSystem();
   // 1 => 招待コード入力, 2 => 表示名とメールアドレス入力, 3 => 確認コード入力, 4 => パスワード入力とユーザー名入力
@@ -67,7 +70,7 @@ export default function SignUpForm() {
           pinCode={pinCode}
           invitationCode={invitationCode}
           onSuccess={() => {
-            // TODO /homeに移動させる
+            router.push('/home');
           }}
         />
       )}
