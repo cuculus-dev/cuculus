@@ -1,36 +1,28 @@
-'use client';
-
-import {
-  Alert,
-  Button,
-  IconButton,
-  InputAdornment,
-  LinearProgress,
-  OutlinedInput,
-  styled,
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSignIn } from '@/swr/client/auth';
+import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
+import StepTemplate from '@/app/(plain)/(guest)/signup/_components/steps/StepTemplate';
+import { useSignUp } from '@/swr/client/auth';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-const StyledForm = styled('form')`
-  display: flex;
-  max-width: 500px;
-  padding: 20px;
-  gap: 40px;
-  flex-direction: column;
-`;
+type Props = {
+  step: number;
+  maxStep: number;
+  email: string;
+  displayName: string;
+  pinCode: string;
+  invitationCode?: string;
+  onSuccess?: () => void;
+};
 
-const Bottom = styled('div')`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-export default function LoginForm() {
-  const router = useRouter();
-  const { isMutating, trigger, error } = useSignIn();
+export default function StepSignup({
+  onSuccess,
+  step,
+  maxStep,
+  pinCode,
+  invitationCode,
+  email,
+}: Props) {
+  const { trigger, error, isMutating } = useSignUp();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -39,11 +31,25 @@ export default function LoginForm() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
-    <StyledForm
-      onSubmit={(event) => {
-        event.preventDefault();
-        void trigger({ username, password });
+    <StepTemplate
+      onSubmit={() => {
+        void trigger({
+          username,
+          password,
+          email,
+          code: pinCode,
+          invitationCode,
+        }).then((value) => {
+          if (value && onSuccess) {
+            onSuccess();
+          }
+        });
       }}
+      isMutating={isMutating}
+      error={error}
+      step={step}
+      maxStep={maxStep}
+      title={'使用するユーザーIDとパスワードを入力してください'}
     >
       <OutlinedInput
         sx={{ width: '100%' }}
@@ -79,22 +85,6 @@ export default function LoginForm() {
           </InputAdornment>
         }
       />
-      {isMutating && <LinearProgress />}
-      {!isMutating && error && <Alert severity="error">{error.message}</Alert>}
-      <Bottom>
-        <Button
-          type="button"
-          onClick={() => {
-            router.back();
-          }}
-        >
-          Back
-        </Button>
-        <div style={{ marginLeft: 'auto' }} />
-        <Button type="submit" disabled={isMutating}>
-          Next
-        </Button>
-      </Bottom>
-    </StyledForm>
+    </StepTemplate>
   );
 }
