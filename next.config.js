@@ -21,6 +21,19 @@ const nextConfig = {
   },
   reactStrictMode: true,
   swcMinify: true,
+  headers: async () => [
+    {
+      source: '/logout',
+      headers: [
+        /** @see {@link https://developer.mozilla.org/docs/Web/HTTP/Headers/Clear-Site-Data} */
+        {
+          // FIXME このヘッダ使えない？
+          key: 'Clear-Site-Data',
+          value: '"cache" "storage"',
+        },
+      ],
+    },
+  ],
 };
 
 module.exports = withPWA(nextConfig);
