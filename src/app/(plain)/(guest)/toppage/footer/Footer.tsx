@@ -7,8 +7,11 @@ import Image from 'next/image';
 
 const StyledFooter = styled('footer')`
   max-width: ${({ theme }) => theme.breakpoints.values.desktop}px;
-  padding: 0 24px;
+  padding: 20px;
   margin: 0 auto;
+  position: absolute;
+  bottom: 0%;
+  right: 0%;
 `;
 
 const Container = styled('div')`
