@@ -1,7 +1,6 @@
 'use client';
 
 import LinkButton from '@/components/common/atoms/LinkButton';
-import GitHubLink from '@/components/common/molecules/GitHubLink';
 import { styled } from '@mui/material';
 import Image from 'next/image';
 
@@ -26,7 +25,6 @@ export default function footer() {
     fontFamily: 'Inter',
     fontWeight: 'bold',
     color: '#9D9D9D',
-    textTransform: 'none',
   };
   return (
     <StyledFooter>
@@ -40,17 +38,15 @@ export default function footer() {
           Roadmap
         </LinkButton>
         <div style={{ paddingRight: '20px' }} />
-        <Image
-          src="/icons/github.png"
-          alt={'cuculus'}
-          width={50}
-          height={50}
-        ></Image>
-        <GitHubLink
-          href="https://github.com/cuculus-dev"
-          height="24px"
-          width="24px"
-        />
+
+        <a href="https://github.com/cuculus-dev">
+          <Image
+            src="/icons/github.png"
+            alt={'cuculus'}
+            width={50}
+            height={50}
+          ></Image>
+        </a>
       </Container>
     </StyledFooter>
   );
