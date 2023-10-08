@@ -6,7 +6,6 @@ import { styled } from '@mui/material';
 import Image from 'next/image';
 
 const StyledFooter = styled('footer')`
-  max-width: ${({ theme }) => theme.breakpoints.values.desktop}px;
   padding: 20px;
   margin: 0 auto;
   position: absolute;
@@ -22,17 +21,25 @@ const Container = styled('div')`
 `;
 
 export default function footer() {
+  const buttonStyles = {
+    fontSize: '24px',
+    fontFamily: 'Inter',
+    fontWeight: 'bold',
+    color: '#9D9D9D',
+    textTransform: 'none',
+  };
   return (
     <StyledFooter>
       <Container>
-        <div style={{ marginLeft: 'auto' }} />
         <LinkButton
           href="https://about.cuculus.jp/"
           color="primary"
           target="_blank"
+          style={buttonStyles}
         >
           Roadmap
         </LinkButton>
+        <div style={{ paddingRight: '20px' }} />
         <Image
           src="/icons/github.png"
           alt={'cuculus'}
