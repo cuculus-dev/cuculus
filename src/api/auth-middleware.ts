@@ -59,6 +59,38 @@ export class AuthMiddleware {
   };
 
   /**
+   * アカウント登録処理
+   * @param username
+   * @param password
+   * @param code
+   * @param email
+   * @param invitationCode
+   * @throws Error
+   */
+  public fetchSignUp = async (
+    username: string,
+    password: string,
+    code: string,
+    email: string,
+    invitationCode?: string,
+  ): Promise<string> => {
+    const response = await authApi.postSignUp(
+      {
+        userRequest: {
+          username,
+          password,
+          code,
+          email,
+          invitationCode,
+        },
+      },
+      { credentials: 'include' },
+    );
+    accessToken.set(response.accessToken);
+    return response.accessToken;
+  };
+
+  /**
    * アクセストークン自動更新
    * @param name
    */
