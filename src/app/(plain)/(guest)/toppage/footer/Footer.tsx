@@ -8,8 +8,8 @@ const StyledFooter = styled('footer')`
   padding: 20px;
   margin: 0 auto;
   position: absolute;
-  bottom: 0%;
-  right: 0%;
+  bottom: 0;
+  right: 0;
 `;
 
 const Container = styled('div')`
@@ -19,24 +19,24 @@ const Container = styled('div')`
   align-items: center;
 `;
 
+const StyledButton = styled(LinkButton)`
+  text-transform: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #9d9d9d;
+`;
+
 export default function footer() {
-  const buttonStyles = {
-    fontSize: '24px',
-    fontFamily: 'Inter',
-    fontWeight: 'bold',
-    color: '#9D9D9D',
-  };
   return (
     <StyledFooter>
       <Container>
-        <LinkButton
+        <StyledButton
           href="https://about.cuculus.jp/"
           color="primary"
           target="_blank"
-          style={buttonStyles}
         >
           Roadmap
-        </LinkButton>
+        </StyledButton>
         <div style={{ paddingRight: '20px' }} />
 
         <a href="https://github.com/cuculus-dev">
