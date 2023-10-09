@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Footer from '@/app/(plain)/(guest)/toppage/footer/Footer';
+import Footer from '@/app/(plain)/(guest)/_components/Footer';
 import LinkButton from '@/components/common/atoms/LinkButton';
 import { styled } from '@mui/material';
 
@@ -50,11 +50,15 @@ export default function toppage() {
             ></Image>
           </Title>
           <Bottom>
-            <LinkButton variant="contained" style={buttonStyles} href={''}>
+            <LinkButton
+              variant="contained"
+              style={buttonStyles}
+              href={'/signup'}
+            >
               アカウントを作成
             </LinkButton>
             <div style={{ marginLeft: 'auto' }} />
-            <LinkButton variant="outlined" style={buttonStyles} href={''}>
+            <LinkButton variant="outlined" style={buttonStyles} href={'/login'}>
               ログイン
             </LinkButton>
           </Bottom>
