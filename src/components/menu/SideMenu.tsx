@@ -72,7 +72,6 @@ const StyledSpacer = styled(Spacer)`
   }
 `;
 
-// FIXME 引数にprops受け取る
 const SideMenu = () => {
   const { data: profile } = useProfile();
 
