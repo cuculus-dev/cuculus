@@ -64,7 +64,10 @@ export const useSignIn = () => {
 
 const fetchMe = async () => {
   try {
-    return await usersApi.getMe();
+    if (authMiddleware.hasAccessToken()) {
+      return await usersApi.getMe();
+    }
+    return undefined;
   } catch (error) {
     throw error;
   }

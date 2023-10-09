@@ -143,4 +143,8 @@ export class AuthMiddleware {
     }
     return Promise.resolve(accessToken.get());
   };
+
+  hasAccessToken = (): boolean => {
+    return accessToken.get() !== '';
+  };
 }
