@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { authMiddleware, usersApi, authApi } from '@/api/cuculus-client';
+import { authMiddleware, usersApi, authApi } from '@/libs/cuculus-client';
 import {
   LoginRequest,
   PreUserRequest,
@@ -7,7 +7,7 @@ import {
   UserResponse,
   VerifyCodeRequest,
 } from '@cuculus/cuculus-api';
-import { AuthJwtPayload, decodeToAuthJwtPayload } from '@/api/auth-middleware';
+import { AuthJwtPayload, decodeToAuthJwtPayload } from '@/libs/auth-middleware';
 import useSWRMutation from 'swr/mutation';
 import { UserRequest } from '@cuculus/cuculus-api/dist/models';
 

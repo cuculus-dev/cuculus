@@ -5,7 +5,7 @@ import {
   InvitationsApi,
   UsersApi,
 } from '@cuculus/cuculus-api';
-import { AuthMiddleware } from '@/api/auth-middleware';
+import { AuthMiddleware } from '@/libs/auth-middleware';
 
 const authMiddleware = new AuthMiddleware();
 
