@@ -10,14 +10,36 @@ const Container = styled('div')`
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    flex-direction: column;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 const Title = styled('div')`
   display: flex;
   padding: 0 150px 40px 150px;
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    padding: 0 0 40px 0;
+  }
 `;
 const Bottom = styled('div')`
   display: flex;
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    padding: 210px 0 0 0;
+    left: 50%;
+    gap: 20px;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 const Background = styled('div')`
@@ -27,16 +49,16 @@ const Background = styled('div')`
   background-repeat: no-repeat;
 `;
 
+const StyledLinkButton = styled(LinkButton)`
+  box-shadow: none;
+  border-radius: 30px;
+  width: 265px;
+  height: 49px;
+  font-size: 24px;
+  font-weight: bold;
+`;
+
 export default function toppage() {
-  const buttonStyles = {
-    boxShadow: 'none',
-    borderRadius: '30px',
-    width: '265px',
-    height: '49px',
-    fontSize: '24px',
-    fontWeight: 'bold',
-    fontFamily: 'Inter',
-  };
   return (
     <main>
       <Background>
@@ -47,20 +69,16 @@ export default function toppage() {
               alt={'cuculus'}
               width={344}
               height={84}
-            ></Image>
+            />
           </Title>
           <Bottom>
-            <LinkButton
-              variant="contained"
-              style={buttonStyles}
-              href={'/signup'}
-            >
+            <StyledLinkButton variant="contained" href={'/signup'}>
               アカウントを作成
-            </LinkButton>
+            </StyledLinkButton>
             <div style={{ marginLeft: 'auto' }} />
-            <LinkButton variant="outlined" style={buttonStyles} href={'/login'}>
+            <StyledLinkButton variant="outlined" href={'/login'}>
               ログイン
-            </LinkButton>
+            </StyledLinkButton>
           </Bottom>
         </Container>
         <Footer />
