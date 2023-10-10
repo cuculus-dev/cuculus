@@ -35,7 +35,7 @@ export default function MenuLayout({ children }: { children: ReactNode }) {
     <Layout>
       <SideMenu />
       {children}
-      <div></div>
+      <div />
     </Layout>
   );
 }

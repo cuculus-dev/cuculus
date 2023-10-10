@@ -12,6 +12,7 @@ const Root = styled('div')`
   margin-left: auto;
   padding: 0 8px;
   width: 275px;
+  background-color: ${({ theme }) => theme.palette.background.paper};
 
   ${({ theme }) => theme.breakpoints.down('desktop')} {
     margin-left: 0.25rem;
