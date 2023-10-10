@@ -185,3 +185,26 @@ export const useSignUp = () => {
     },
   );
 };
+
+const fetchSignOut = async () => {
+  try {
+    return await authMiddleware.fetchSignOut();
+  } catch {
+    throw new Error('サーバーとの通信に失敗しました。');
+  }
+};
+
+/**
+ * ログアウト処理
+ */
+export const useSignOut = () => {
+  return useSWRMutation<void, Error, typeof AUTH_KEY, void>(
+    AUTH_KEY,
+    fetchSignOut,
+    {
+      throwOnError: false,
+      populateCache: () => undefined,
+      revalidate: false,
+    },
+  );
+};

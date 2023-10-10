@@ -90,6 +90,11 @@ export class AuthMiddleware {
     return response.accessToken;
   };
 
+  public fetchSignOut = async (): Promise<void> => {
+    await authApi.postSignOut({ credentials: 'include' });
+    accessToken.delete();
+  };
+
   /**
    * アクセストークン自動更新
    * @param name
