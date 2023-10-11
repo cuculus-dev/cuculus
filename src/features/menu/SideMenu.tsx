@@ -79,7 +79,7 @@ const SideMenu = () => {
   return (
     <Root>
       <StyledMenu>
-        <SideMenuPostButton userId={0} />
+        {profile && <SideMenuPostButton />}
         <StyledSpacer size={'1rem'} />
         <SideMenuLinkItem href={'/home'} icon={<Home />} label={'ホーム'} />
         <SideMenuLinkItem href={'/search'} icon={<Search />} label={'検索'} />
