@@ -4,7 +4,7 @@ import {
   LoginRequest,
   PreUserRequest,
   ResponseError,
-  UserResponse,
+  User,
   VerifyCodeRequest,
 } from '@cuculus/cuculus-api';
 import { AuthJwtPayload, decodeToAuthJwtPayload } from '@/libs/auth-middleware';
@@ -77,7 +77,7 @@ const fetchMe = async () => {
  * 自身の情報を取得する
  */
 export const useProfile = () => {
-  return useSWR<UserResponse | undefined, Error>({ url: 'getMe' }, fetchMe);
+  return useSWR<User | undefined, Error>({ url: 'getMe' }, fetchMe);
 };
 
 const preSignUp = async (
