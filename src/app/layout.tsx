@@ -1,9 +1,9 @@
 import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
-import EmotionRegistry from '@/components/provider/Registry';
+import EmotionRegistry from '@/components/providers/Registry';
 import CssBaseline from '@mui/material/CssBaseline';
-import AuthProvider from '@/components/provider/AuthProvider';
+import AuthProvider from '@/components/providers/AuthProvider';
 
 const title = 'Cuculus';
 const description = 'Cuculusは新しいけどどこか懐かしい短文投稿サービスです。';

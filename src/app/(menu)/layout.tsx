@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@mui/material';
-import SideMenu from '@/components/menu/SideMenu';
+import SideMenu from '@/features/menu/SideMenu';
 import { ReactNode } from 'react';
 
 const Layout = styled('div')`
