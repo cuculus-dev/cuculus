@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import Footer from '@/app/(plain)/(guest)/_components/Footer';
-import LinkButton from '@/components/common/atoms/LinkButton';
+import Footer from '@/components/layouts/Footer';
+import LinkButton from '@/components/elements/LinkButton';
 import { styled } from '@mui/material';
 
 const Container = styled('div')`

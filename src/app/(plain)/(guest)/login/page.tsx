@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@mui/material';
-import LoginForm from '@/app/(plain)/(guest)/login/_components/LoginForm';
+import LoginForm from '@/features/login/LoginForm';
 
 const StyledLogin = styled('div')`
   display: grid;

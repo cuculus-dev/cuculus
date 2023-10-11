@@ -1,5 +1,5 @@
-import ProfileCard from '@/components/user/ProfileCard';
-import PrimaryColumn from '@/components/PrimaryColumn';
+import ProfileCard from '@/features/user/layouts/ProfileCard';
+import PrimaryColumn from '@/components/layouts/PrimaryColumn';
 
 export default function page({ params }: { params: { userName: string } }) {
   return (
