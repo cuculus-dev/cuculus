@@ -6,26 +6,21 @@ import LinkButton from '@/components/common/atoms/LinkButton';
 import { styled } from '@mui/material';
 
 const Container = styled('div')`
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
-    flex-direction: column;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 `;
 
 const Title = styled('div')`
   display: flex;
-  padding: 0 150px 40px 150px;
+  padding: 0 150px 40px;
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
-    padding: 0 0 40px 0;
+    padding: 0 0 80px 0;
   }
 `;
 const Bottom = styled('div')`
@@ -34,15 +29,15 @@ const Bottom = styled('div')`
   ${({ theme }) => theme.breakpoints.down('tablet')} {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    padding: 210px 0 0 0;
-    left: 50%;
+    margin: auto;
+    padding: 0 0 50px 0;
     gap: 20px;
-    transform: translate(-50%, -50%);
   }
 `;
 
 const Background = styled('div')`
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background-position: top center;
   background-size: 100% auto;
