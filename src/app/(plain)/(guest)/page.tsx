@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
-import Footer from '@/components/layouts/Footer';
-import LinkButton from '@/components/elements/LinkButton';
+import CuculusSvg from '@assets/icons/Cuculus.svg';
 import { styled } from '@mui/material';
+import LinkButton from '@/components/elements/LinkButton';
+import Footer from '@/components/layouts/Footer';
 
 const Container = styled('div')`
   display: flex;
@@ -59,12 +59,7 @@ export default function toppage() {
       <Background>
         <Container>
           <Title>
-            <Image
-              src="/icons/title.png"
-              alt={'cuculus'}
-              width={344}
-              height={84}
-            />
+            <CuculusSvg />
           </Title>
           <Bottom>
             <StyledLinkButton variant="contained" href={'/signup'}>

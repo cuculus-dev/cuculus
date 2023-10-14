@@ -1,8 +1,8 @@
 'use client';
 
+import GitHubLink from '@/components/elements/GitHubLink';
 import LinkButton from '@/components/elements/LinkButton';
 import { styled } from '@mui/material';
-import Image from 'next/image';
 
 const StyledFooter = styled('footer')``;
 
@@ -53,15 +53,11 @@ export default function footer() {
         >
           Roadmap
         </StyledButton>
-
-        <a href="https://github.com/cuculus-dev">
-          <Image
-            src="/icons/github.png"
-            alt={'cuculus'}
-            width={50}
-            height={50}
-          ></Image>
-        </a>
+        <GitHubLink
+          href="https://github.com/cuculus-dev"
+          height="35px"
+          width="35px"
+        />
       </Container>
       <div style={{ paddingBottom: '12px' }} />
     </StyledFooter>
