@@ -1,4 +1,4 @@
-import { invitationsApi } from '@/api/cuculus-client';
+import { invitationsApi } from '@/libs/cuculus-client';
 import { InvitationCodeRequest, ResponseError } from '@cuculus/cuculus-api';
 import useSWRMutation from 'swr/mutation';
 

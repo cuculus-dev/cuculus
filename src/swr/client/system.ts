@@ -1,10 +1,9 @@
 import useSWRImmutable from 'swr/immutable';
-import { defaultApi } from '@/api/cuculus-client';
+import { defaultApi } from '@/libs/cuculus-client';
 import { SystemSettings } from '@cuculus/cuculus-api';
 
 const fetcher = async () => {
-  const systemSettings = await defaultApi.getSystemSettings();
-  return systemSettings;
+  return await defaultApi.getSystemSettings();
 };
 
 export const useSystem = () => {

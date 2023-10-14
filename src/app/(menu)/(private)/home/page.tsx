@@ -1,6 +1,6 @@
-import PrimaryColumn from '@/components/PrimaryColumn';
-import Timeline from '@/components/timeline/Timeline';
-import ScrollRestoration from '@/components/provider/ScrollRestoration';
+import PrimaryColumn from '@/components/layouts/PrimaryColumn';
+import Timeline from '@/features/timeline/Timeline';
+import ScrollRestoration from '@/components/providers/ScrollRestoration';
 
 export default function page() {
   return (

@@ -1,13 +1,13 @@
 import useSWR from 'swr';
-import { authMiddleware, usersApi, authApi } from '@/api/cuculus-client';
+import { authMiddleware, usersApi, authApi } from '@/libs/cuculus-client';
 import {
   LoginRequest,
   PreUserRequest,
   ResponseError,
-  UserResponse,
+  User,
   VerifyCodeRequest,
 } from '@cuculus/cuculus-api';
-import { AuthJwtPayload, decodeToAuthJwtPayload } from '@/api/auth-middleware';
+import { AuthJwtPayload, decodeToAuthJwtPayload } from '@/libs/auth-middleware';
 import useSWRMutation from 'swr/mutation';
 import { UserRequest } from '@cuculus/cuculus-api/dist/models';
 
@@ -64,7 +64,10 @@ export const useSignIn = () => {
 
 const fetchMe = async () => {
   try {
-    return await usersApi.getMe();
+    if (authMiddleware.hasAccessToken()) {
+      return await usersApi.getMe();
+    }
+    return undefined;
   } catch (error) {
     throw error;
   }
@@ -74,7 +77,7 @@ const fetchMe = async () => {
  * 自身の情報を取得する
  */
 export const useProfile = () => {
-  return useSWR<UserResponse | undefined, Error>({ url: 'getMe' }, fetchMe);
+  return useSWR<User | undefined, Error>({ url: 'getMe' }, fetchMe);
 };
 
 const preSignUp = async (
@@ -178,6 +181,29 @@ export const useSignUp = () => {
     {
       throwOnError: false,
       populateCache: (data) => data,
+      revalidate: false,
+    },
+  );
+};
+
+const fetchSignOut = async () => {
+  try {
+    return await authMiddleware.fetchSignOut();
+  } catch {
+    throw new Error('サーバーとの通信に失敗しました。');
+  }
+};
+
+/**
+ * ログアウト処理
+ */
+export const useSignOut = () => {
+  return useSWRMutation<void, Error, typeof AUTH_KEY, void>(
+    AUTH_KEY,
+    fetchSignOut,
+    {
+      throwOnError: false,
+      populateCache: () => undefined,
       revalidate: false,
     },
   );
