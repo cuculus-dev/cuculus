@@ -10,9 +10,6 @@ const Container = styled('div')`
   flex-direction: column;
   justify-content: center;
   margin: auto;
-
-  ${({ theme }) => theme.breakpoints.down('tablet')} {
-  }
 `;
 
 const Title = styled('div')`

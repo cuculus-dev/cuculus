@@ -4,7 +4,12 @@ import GitHubLink from '@/components/elements/GitHubLink';
 import LinkButton from '@/components/elements/LinkButton';
 import { styled } from '@mui/material';
 
-const StyledFooter = styled('footer')``;
+const StyledFooter = styled('footer')`
+  width: 100%;
+  max-width: ${({ theme }) => theme.breakpoints.values.desktop}px;
+  padding: 0 24px;
+  margin: 0 auto;
+`;
 
 const BorderLine = styled('hr')`
   width: 100%;
