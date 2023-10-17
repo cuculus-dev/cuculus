@@ -1,66 +1,71 @@
 'use client';
 
-import Image from 'next/image';
-import Footer from '@/components/layouts/Footer';
-import LinkButton from '@/components/elements/LinkButton';
+import CuculusSvg from '@assets/icons/Cuculus.svg';
 import { styled } from '@mui/material';
+import LinkButton from '@/components/elements/LinkButton';
+import Footer from '@/components/layouts/Footer';
 
 const Container = styled('div')`
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
 `;
 
 const Title = styled('div')`
   display: flex;
-  padding: 0 150px 40px 150px;
+  padding: 0 150px 40px;
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    padding: 0 0 80px 0;
+  }
 `;
 const Bottom = styled('div')`
   display: flex;
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 0 0 50px 0;
+    gap: 20px;
+  }
 `;
 
 const Background = styled('div')`
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background-position: top center;
   background-size: 100% auto;
   background-repeat: no-repeat;
 `;
 
+const StyledLinkButton = styled(LinkButton)`
+  box-shadow: none;
+  border-radius: 30px;
+  width: 265px;
+  height: 49px;
+  font-size: 24px;
+  font-weight: bold;
+`;
+
 export default function toppage() {
-  const buttonStyles = {
-    boxShadow: 'none',
-    borderRadius: '30px',
-    width: '265px',
-    height: '49px',
-    fontSize: '24px',
-    fontWeight: 'bold',
-    fontFamily: 'Inter',
-  };
   return (
     <main>
       <Background>
         <Container>
           <Title>
-            <Image
-              src="/icons/title.png"
-              alt={'cuculus'}
-              width={344}
-              height={84}
-            ></Image>
+            <CuculusSvg />
           </Title>
           <Bottom>
-            <LinkButton
-              variant="contained"
-              style={buttonStyles}
-              href={'/signup'}
-            >
+            <StyledLinkButton variant="contained" href={'/signup'}>
               アカウントを作成
-            </LinkButton>
+            </StyledLinkButton>
             <div style={{ marginLeft: 'auto' }} />
-            <LinkButton variant="outlined" style={buttonStyles} href={'/login'}>
+            <StyledLinkButton variant="outlined" href={'/login'}>
               ログイン
-            </LinkButton>
+            </StyledLinkButton>
           </Bottom>
         </Container>
         <Footer />
