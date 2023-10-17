@@ -11,14 +11,6 @@ const nextConfig = {
     });
     return config;
   },
-  modularizeImports: {
-    '@mui/icons-material': {
-      transform: '@mui/icons-material/{{member}}',
-    },
-    'date-fns': {
-      transform: 'date-fns/{{member}}',
-    },
-  },
   reactStrictMode: true,
   swcMinify: true,
 };
