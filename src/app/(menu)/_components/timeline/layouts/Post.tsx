@@ -40,8 +40,9 @@ const Content = styled('div')`
 
 const Header = styled('div')`
   display: flex;
-  margin-bottom: 5px;
+  flex-direction: row;
   gap: 4px;
+  margin-bottom: 5px;
 `;
 
 const DisplayName = styled(Link)`
@@ -70,14 +71,15 @@ const MomentLinks = styled(Link)`
   }
 `;
 
-const NameHidden = styled('div')`
-  max-width: 600px;
-  width: 65%;
+const NameHidden = styled('span')`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
+const WhiteSpace = styled('span')`
+  white-space: nowrap;
+`;
 type Props = {
   displayName: string;
   userName: string;
@@ -130,22 +132,27 @@ export default function Post({
                   >
                     {displayName}
                   </DisplayName>
+                  <WhiteSpace>
+                    <Typography component="span" color="#8899a6">
+                      @{userName}
+                    </Typography>
+                  </WhiteSpace>
                 </NameHidden>
-                <Typography component="span" color="#8899a6">
-                  @{userName}
-                </Typography>
+
                 <Typography component="span" color="#8899a6">
                   ·
                 </Typography>
-                <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
-                  <MomentLinks
-                    aria-label="投稿へ"
-                    href={postUrl}
-                    onClick={(event) => event.stopPropagation()}
-                  >
-                    <MomentAgo postedAt={postedAt} />
-                  </MomentLinks>
-                </Tooltip>
+                <WhiteSpace>
+                  <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
+                    <MomentLinks
+                      aria-label="投稿へ"
+                      href={postUrl}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <MomentAgo postedAt={postedAt} />
+                    </MomentLinks>
+                  </Tooltip>
+                </WhiteSpace>
               </Header>
               <Typography component="div" whiteSpace="pre-wrap">
                 {text}
