@@ -70,6 +70,14 @@ const MomentLinks = styled(Link)`
   }
 `;
 
+const NameHidden = styled('div')`
+  max-width: 600px;
+  width: 65%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 type Props = {
   displayName: string;
   userName: string;
@@ -115,12 +123,14 @@ export default function Post({
             <Avatar src={profileImageUrl} alt={'プロフィール画像'} />
             <Content>
               <Header>
-                <DisplayName
-                  href={`/${userName}`}
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  {displayName}
-                </DisplayName>
+                <NameHidden>
+                  <DisplayName
+                    href={`/${userName}`}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    {displayName}
+                  </DisplayName>
+                </NameHidden>
                 <Typography component="span" color="#8899a6">
                   @{userName}
                 </Typography>
