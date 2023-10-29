@@ -7,6 +7,7 @@ import { CircularProgress } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { UserPost } from '@cuculus/cuculus-api';
 import { Timeline as Result } from '@/libs/swr/timeline/types';
+import Showmore from '@/features/timeline/layouts/Showmore';
 
 const Queue = ({
   data,
@@ -35,15 +36,14 @@ const Queue = ({
   return (
     queue &&
     queue.length > 0 && (
-      <button
+      <Showmore
+        text={`${queue.length} 件のポストを表示`}
         onClick={() => {
           if (queue) {
             setLatest(queue);
           }
         }}
-      >
-        {queue.length}件の新しい投稿
-      </button>
+      />
     )
   );
 };
@@ -104,13 +104,12 @@ export default function Timeline() {
           );
         }
       })}
-      <button
+      <Showmore
+        text={'もっと見る'}
         onClick={() => {
           void mutateOlder();
         }}
-      >
-        もっと見る
-      </button>
+      />
     </div>
   );
 }
