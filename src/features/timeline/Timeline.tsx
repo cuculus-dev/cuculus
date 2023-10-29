@@ -93,14 +93,13 @@ export default function Timeline() {
           });
         } else {
           return (
-            <button
+            <Showmore
               key={serializeGap(item)}
               onClick={() => {
                 void mutateGap(item);
               }}
-            >
-              ポストを更に表示
-            </button>
+              text="ポストを更に表示"
+            />
           );
         }
       })}
