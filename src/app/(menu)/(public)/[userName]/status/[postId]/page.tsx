@@ -1,11 +1,11 @@
-export default function page({
-  params,
-}: {
+import ComingSoon from '@/components/layouts/ComingSoon';
+
+export default function page({}: {
   params: { userName: string; postId: string };
 }) {
   return (
-    <main style={{ height: '2000px' }}>
-      UserName: {params.userName} & postId: {params.postId}
+    <main>
+      <ComingSoon />
     </main>
   );
 }
