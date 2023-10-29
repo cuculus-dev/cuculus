@@ -19,12 +19,14 @@ function TimelinePost({
   postId: string;
   fallbackData: UserPost;
 }) {
+  // FIXME 個別取得APIが出来たらmutateで更新するようにする
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, mutate } = usePostImmutable(postId, fallbackData);
 
   return data ? (
     <ViewTrigger
       onInView={() => {
-        void mutate();
+        // void mutate();
       }}
       interval={5}
     >
