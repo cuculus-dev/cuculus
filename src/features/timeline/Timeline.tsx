@@ -9,6 +9,17 @@ import { UserPost } from '@cuculus/cuculus-api';
 import { Timeline as Result } from '@/libs/swr/timeline/types';
 import Showmore from '@/features/timeline/layouts/Showmore';
 
+// 投稿の件数をカウントする
+const lengthPost = (data: Result<UserPost>) => {
+  return data.reduce((acc, cur) => {
+    if (Array.isArray(cur)) {
+      return acc + cur.length;
+    } else {
+      return acc;
+    }
+  }, 0);
+};
+
 const Queue = ({
   data,
   setLatest,
@@ -37,7 +48,7 @@ const Queue = ({
     queue &&
     queue.length > 0 && (
       <Showmore
-        text={`${queue.length} 件のポストを表示`}
+        text={`${lengthPost(queue)} 件のポストを表示`}
         onClick={() => {
           if (queue) {
             setLatest(queue);
