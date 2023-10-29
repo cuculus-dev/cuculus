@@ -2,6 +2,9 @@
 
 import { styled } from '@mui/material';
 import LinkButton from '@/components/elements/LinkButton';
+import { MuseoModerno } from 'next/font/google';
+
+const museoModerno = MuseoModerno({ subsets: ['latin'], weight: ['700'] });
 
 const Root = styled('div')`
   display: flex;
@@ -44,7 +47,7 @@ export default function ComingSoon() {
   return (
     <Root>
       <Container>
-        <Title>Coming Soon</Title>
+        <Title className={museoModerno.className}>Coming Soon</Title>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span>私たちのチームは熱心に新機能の開発に取り組んでいます。</span>
           <span>
