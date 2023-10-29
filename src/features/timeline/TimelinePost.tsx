@@ -19,13 +19,12 @@ function TimelinePost({
   postId: string;
   fallbackData: UserPost;
 }) {
-  // FIXME 自動mutate一旦OFF
   const { data, mutate } = usePostImmutable(postId, fallbackData);
 
   return data ? (
     <ViewTrigger
       onInView={() => {
-        /**/
+        void mutate();
       }}
       interval={5}
     >

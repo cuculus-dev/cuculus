@@ -30,7 +30,7 @@ const Queue = ({
         }
       }
     }
-  }, [data]);
+  }, [data, reset]);
 
   return (
     queue &&

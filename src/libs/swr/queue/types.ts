@@ -7,6 +7,7 @@ import {
 } from 'swr/_internal';
 import { SWRTimelineFetcher, Timeline } from '@/libs/swr/timeline/types';
 
+//eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface SWRQueueResponse<Data = any, Error = any>
   extends Pick<SWRResponse<Data, Error>, 'error'> {
   data: Timeline<Data> | undefined;
@@ -36,6 +37,7 @@ export interface SWRQueueConfiguration<Data, Error>
 }
 
 export interface SWRQueueHook {
+  //eslint-disable-next-line @typescript-eslint/no-explicit-any
   <Data = any, Error = any>(
     key: Key,
     fetcher: SWRTimelineFetcher<Data> | null,
@@ -43,6 +45,7 @@ export interface SWRQueueHook {
   ): SWRQueueResponse<Data, Error>;
 }
 
+//eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface SWRQueueCacheValue<Data, Error = any>
   extends State<Timeline<Data>, Error> {
   // key

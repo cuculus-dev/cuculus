@@ -29,9 +29,11 @@ const findLatest = <Data>(timeline: Timeline<Data>): Data | undefined => {
  * 専用SWRHook
  */
 interface SWRHook<T> {
+  //eslint-disable-next-line @typescript-eslint/no-explicit-any
   <Data = Timeline<T>, Error = any>(
     key: Key,
     fetcher: BareFetcher<Data> | null,
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     config?: any,
   ): SWRResponse<Data, Error>;
 }
@@ -86,6 +88,7 @@ const queue = (<Data, Error>(useSWRNext: SWRHook<Data>) =>
         set({ data: [], _s: since });
         return await swr.mutate();
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [key, cache],
     );
 
