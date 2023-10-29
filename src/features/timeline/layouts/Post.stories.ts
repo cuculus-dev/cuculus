@@ -23,7 +23,7 @@ export const NormalPost: Story = {
     userName: 'cuculus',
     profileImageUrl: '/',
     text: 'ココに文章が表示されます。\n改行も適用されます。',
-    postId: 1,
+    postId: '27392710123986944',
     postedAt: new Date(),
     replyCount: 0,
     repostCount: 0,

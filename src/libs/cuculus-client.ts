@@ -3,6 +3,8 @@ import {
   Configuration,
   DefaultApi,
   InvitationsApi,
+  PostsApi,
+  TimelinesApi,
   UsersApi,
 } from '@cuculus/cuculus-api';
 import { AuthMiddleware } from '@/libs/auth-middleware';
@@ -18,5 +20,15 @@ const authApi = new AuthApi(config);
 const usersApi = new UsersApi(config);
 const defaultApi = new DefaultApi(config);
 const invitationsApi = new InvitationsApi(config);
+const timelinesApi = new TimelinesApi(config);
+const postsApi = new PostsApi(config);
 
-export { authMiddleware, authApi, usersApi, defaultApi, invitationsApi };
+export {
+  authMiddleware,
+  authApi,
+  usersApi,
+  defaultApi,
+  invitationsApi,
+  timelinesApi,
+  postsApi,
+};

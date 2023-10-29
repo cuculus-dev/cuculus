@@ -11,18 +11,18 @@ const Icon = styled(Sync)<{ active: 'true' | 'false' }>`
 `;
 
 type Props = {
-  postId: number;
+  postId: string;
   reposted: boolean;
   repostCount: number;
 };
 
 export default function RepostButton({ postId, reposted, repostCount }: Props) {
-  const { updatePost } = usePostMutation(postId);
+  const { trigger } = usePostMutation(postId);
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.stopPropagation();
-    void updatePost(postId);
+    void trigger({ reposted: !reposted });
   };
   return (
     <div aria-label={`${repostCount}件のリポスト。リポストする`}>

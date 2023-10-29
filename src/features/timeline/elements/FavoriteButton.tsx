@@ -13,7 +13,7 @@ const Icon = styled(Star)<{ active: 'true' | 'false' }>`
 `;
 
 type Props = {
-  postId: number;
+  postId: string;
   favorited: boolean;
   favoriteCount: number;
 };
@@ -23,12 +23,12 @@ export default function FavoriteButton({
   favorited,
   favoriteCount,
 }: Props) {
-  const { updatePost } = usePostMutation(postId);
+  const { trigger } = usePostMutation(postId);
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.stopPropagation();
-    void updatePost(postId);
+    void trigger({ favorited: !favorited });
   };
   return (
     <div aria-label={`${favoriteCount}件のお気に入り。お気に入りに追加する`}>
