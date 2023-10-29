@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  Avatar,
+  Avatar as MuiDefaultAvatar,
   CardActionArea,
   styled,
   Tooltip,
@@ -15,6 +15,12 @@ import ShareButton from '@/features/timeline/elements/ShareButton';
 import { useRouter } from 'next/navigation';
 import MomentAgo from '@/features/timeline/elements/MomentAgo';
 import { format } from 'date-fns';
+
+const Avatar = styled(MuiDefaultAvatar)`
+  aspect-ratio: 1;
+  height: 40px;
+  width: 40px;
+`;
 
 const Article = styled('article')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
@@ -70,7 +76,7 @@ type Props = {
   userName: string;
   profileImageUrl: string;
   text: string;
-  postId: number;
+  postId: string;
   postedAt: Date;
   replyCount: number;
   favorited: boolean;
@@ -82,6 +88,7 @@ type Props = {
 export default function Post({
   displayName,
   userName,
+  profileImageUrl,
   text,
   postId,
   postedAt,
@@ -106,7 +113,7 @@ export default function Post({
         <div style={{ padding: '0 16px' }}>
           {/*<div>〇〇さんがリポストしました。</div>*/}
           <Original>
-            <Avatar sx={{ backgroundColor: '' }}>TODO</Avatar>
+            <Avatar src={profileImageUrl} />
             <Content>
               <Header>
                 <DisplayName

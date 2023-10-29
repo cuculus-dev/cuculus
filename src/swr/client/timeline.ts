@@ -1,25 +1,34 @@
-import useSWR from 'swr';
-import { PostData } from '@/swr/client/post';
+import { UserPost } from '@cuculus/cuculus-api';
+import { timelinesApi } from '@/libs/cuculus-client';
+import useSWRTimeline from '@/libs/swr/timeline';
+import useSWRQueue from '@/libs/swr/queue';
 
-// FIXME Timeline型 後で消えます。
-type TimelineData = PostData[];
+const LIMIT = 20;
 
-const fetcher = (): TimelineData => {
-  const mockTimeline: TimelineData = [];
-  for (let i = 0; i < 20; i++) {
-    const mockPost: PostData = {
-      postId: i,
-      text: `ポストID:${i}`,
-      favorited: false,
-      favoriteCount: 0,
-      reposted: false,
-      repostCount: 0,
-    };
-    mockTimeline.push(mockPost);
-  }
-  return mockTimeline;
+const fetcher = async (since: UserPost | null, max: UserPost | null) => {
+  const posts = await timelinesApi.getHomeTimeline({
+    sinceId: since?.id,
+    maxId: max?.id,
+    limit: LIMIT,
+  });
+  return {
+    data: posts,
+    hasGap: since !== null && posts.length >= LIMIT, //取得し切れなかった時にtrueを返す
+  };
 };
 
-export const useTimeline = () => {
-  return useSWR<TimelineData>({ key: `useTimeline:` }, fetcher);
+/**
+ * メインとなるタイムライン
+ */
+export const useHomeTimeline = () => {
+  return useSWRTimeline<UserPost>('useHomeTimeline', fetcher);
+};
+
+/**
+ * キューイング
+ */
+export const useHomeQueue = () => {
+  return useSWRQueue<UserPost>('useHomeQueue', fetcher, {
+    refreshInterval: 5000,
+  });
 };

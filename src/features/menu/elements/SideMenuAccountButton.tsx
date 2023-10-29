@@ -28,10 +28,10 @@ const Grid = styled(Box)`
 
 const Avatar = styled(MuiDefaultAvatar)`
   aspect-ratio: 1;
-  height: 48px;
+  height: 40px;
   margin-bottom: auto;
   margin-top: auto;
-  width: 48px;
+  width: 40px;
 
   ${({ theme }) => theme.breakpoints.down('desktop')} {
     height: auto;

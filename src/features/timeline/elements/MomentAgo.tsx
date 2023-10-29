@@ -1,6 +1,5 @@
 'use client';
 
-import useTimer from '@/swr/client/timer';
 import {
   differenceInSeconds,
   differenceInMinutes,
@@ -28,6 +27,5 @@ function timeAgo(now: Date, postedAt: Date): string {
 }
 
 export default function MomentAgo({ postedAt }: { postedAt: Date }) {
-  const { data } = useTimer(60000);
-  return <>{timeAgo(data ?? new Date(), postedAt)}</>;
+  return <>{timeAgo(new Date(), postedAt)}</>;
 }

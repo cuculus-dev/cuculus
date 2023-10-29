@@ -1,8 +1,9 @@
 'use client';
 
-import { PostData, usePostImmutable } from '@/swr/client/post';
+import { usePostImmutable } from '@/swr/client/post';
 import ViewTrigger from '@/features/timeline/ViewportTrigger';
 import Post from '@/features/timeline/layouts/Post';
+import { UserPost } from '@cuculus/cuculus-api';
 
 /**
  * タイムライン表示用のPostコンポーネント
@@ -15,21 +16,28 @@ function TimelinePost({
   postId,
   fallbackData,
 }: {
-  postId: number;
-  fallbackData: PostData;
+  postId: string;
+  fallbackData: UserPost;
 }) {
+  // FIXME 個別取得APIが出来たらmutateで更新するようにする
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, mutate } = usePostImmutable(postId, fallbackData);
 
   return data ? (
-    <ViewTrigger onInView={() => void mutate()} interval={5}>
+    <ViewTrigger
+      onInView={() => {
+        // void mutate();
+      }}
+      interval={5}
+    >
       <Post
-        displayName={'ククルス'}
-        userName={'cuculus'}
-        profileImageUrl={'/'}
-        text={data.text}
-        postId={data.postId}
-        postedAt={new Date()}
-        replyCount={0}
+        displayName={data.author.name}
+        userName={data.author.username}
+        profileImageUrl={data.author.profileImageUrl}
+        text={data.text ?? ''}
+        postId={data.id}
+        postedAt={data.postedAt}
+        replyCount={0} //FIXME
         favorited={data.favorited}
         favoriteCount={data.favoriteCount}
         reposted={data.reposted}

@@ -1,47 +1,51 @@
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import useSWRMutation from 'swr/mutation';
-
-// FIXME 仮Post型 後で消えます。
-export type PostData = {
-  postId: number;
-  text: string;
-  favorited: boolean;
-  favoriteCount: number;
-  reposted: boolean;
-  repostCount: number;
-};
-
-const fetcher = ({ postId }: { postId: number }): PostData => {
-  return {
-    postId,
-    text: `ポストID:${postId}`,
-    favorited: false,
-    favoriteCount: 0,
-    reposted: false,
-    repostCount: 0,
-  };
-};
-
-const update = (key: Key, { arg }: { arg: { postId: number } }): PostData => {
-  // TODO Update処理
-  return {
-    postId: arg.postId,
-    text: `ポストID:${arg.postId}`,
-    favorited: true,
-    favoriteCount: 0,
-    reposted: true,
-    repostCount: 0,
-  };
-};
+import { postsApi } from '@/libs/cuculus-client';
+import { UserPost } from '@cuculus/cuculus-api';
 
 type Key = {
   key: string;
-  postId: number;
+  postId: string;
 };
 
-const getKey = (postId: number): Key => {
-  return { key: `usePost:${postId}`, postId };
+const getKey = (postId: string): Key => {
+  return { key: 'usePost', postId };
+};
+
+const fetcher = async ({ postId }: { postId: string }): Promise<UserPost> => {
+  return await postsApi.getPost({ id: postId });
+};
+
+type UpdateRequest = {
+  favorited?: boolean;
+  reposted?: boolean;
+};
+
+const update = async (
+  key: Key,
+  { arg }: { arg: UpdateRequest },
+): Promise<UserPost> => {
+  let userPost: UserPost | undefined = undefined;
+  if (arg.favorited !== undefined) {
+    if (arg.favorited) {
+      userPost = await postsApi.createFavorite({ id: key.postId });
+    } else {
+      userPost = await postsApi.deleteFavorite({ id: key.postId });
+    }
+  }
+  if (arg.reposted !== undefined) {
+    if (arg.reposted) {
+      userPost = await postsApi.createRepost({ id: key.postId });
+    } else {
+      userPost = await postsApi.deleteRepost({ id: key.postId });
+    }
+  }
+  // どちらでもない場合
+  if (!userPost) {
+    throw new Error('不正なリクエスト');
+  }
+  return userPost;
 };
 
 /**
@@ -50,14 +54,14 @@ const getKey = (postId: number): Key => {
  * @param postId
  * @param initialData
  */
-export const usePostImmutable = (postId: number, initialData?: PostData) => {
-  return useSWRImmutable<PostData>(getKey(postId), fetcher, {
+export const usePostImmutable = (postId: string, initialData?: UserPost) => {
+  return useSWRImmutable<UserPost>(getKey(postId), fetcher, {
     fallbackData: initialData,
   });
 };
 
-export const usePostMutation = (postId: number) => {
-  const { trigger } = useSWRMutation<PostData, Error, Key, { postId: number }>(
+export const usePostMutation = (postId: string) => {
+  return useSWRMutation<UserPost, Error, Key, UpdateRequest>(
     getKey(postId),
     update,
     {
@@ -65,10 +69,6 @@ export const usePostMutation = (postId: number) => {
       revalidate: false,
     },
   );
-  const updatePost = async (postId: number) => {
-    await trigger({ postId });
-  };
-  return { updatePost };
 };
 
 /**
@@ -76,6 +76,6 @@ export const usePostMutation = (postId: number) => {
  * 自動再検証されるので、詳細ページで使うのが望ましい
  * @param postId
  */
-export const usePost = (postId: number) => {
-  return useSWR<PostData>(getKey(postId), fetcher);
+export const usePost = (postId: string) => {
+  return useSWR<UserPost>(getKey(postId), fetcher);
 };
