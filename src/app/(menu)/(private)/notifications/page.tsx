@@ -1,3 +1,9 @@
+import ComingSoon from '@/components/layouts/ComingSoon';
+
 export default function page() {
-  return <main style={{ height: '2000px' }}>Notifications</main>;
+  return (
+    <main>
+      <ComingSoon />
+    </main>
+  );
 }
