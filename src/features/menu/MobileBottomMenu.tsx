@@ -1,6 +1,6 @@
 'use client';
 
-import MobileBottomMenuLinkItem from '@/features/mobile-menu/elements/MobileBottomMenuLinkItem';
+import MobileBottomMenuLinkItem from '@/features/menu/elements/MobileBottomMenuLinkItem';
 import { useProfile } from '@/swr/client/auth';
 import { Home, Mail, Notifications, Search } from '@mui/icons-material';
 import { styled } from '@mui/material';

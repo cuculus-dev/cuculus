@@ -2,7 +2,7 @@ import ComingSoon from '@/components/layouts/ComingSoon';
 
 export default function page() {
   return (
-    <main>
+    <main style={{ height: '100vh' }}>
       <ComingSoon />
     </main>
   );
