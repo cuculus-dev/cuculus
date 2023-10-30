@@ -14,7 +14,12 @@ export default function LinkButton({
   ...args
 }: LinkButtonProps) {
   return (
-    <Link href={href} target={target} passHref>
+    <Link
+      style={{ textDecorationLine: 'none' }}
+      href={href}
+      target={target}
+      passHref
+    >
       <Button {...args}>{children}</Button>
     </Link>
   );
