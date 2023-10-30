@@ -2,6 +2,7 @@
 
 import { styled } from '@mui/material';
 import SideMenu from '@/features/menu/SideMenu';
+import MobileBottomMenu from '@/features/mobile-menu/MobileBottomMenu';
 import { ReactNode } from 'react';
 
 const Layout = styled('div')`
@@ -36,6 +37,7 @@ export default function MenuLayout({ children }: { children: ReactNode }) {
       <SideMenu />
       {children}
       <div />
+      <MobileBottomMenu />
     </Layout>
   );
 }
