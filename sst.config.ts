@@ -22,6 +22,7 @@ export default {
         },
         environment: {
           NEXT_PUBLIC_CUCULUS_API_URL: `https://api.${domain}`,
+          SITE_URL: `https://${domain}`,
         },
       });
 
