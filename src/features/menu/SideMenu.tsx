@@ -1,7 +1,16 @@
 'use client';
 
 import { Box, styled } from '@mui/material';
-import { Home, Notifications, Search, Settings } from '@mui/icons-material';
+import {
+  Home,
+  HomeOutlined,
+  Notifications,
+  NotificationsOutlined,
+  Search,
+  SearchOutlined,
+  Settings,
+  SettingsOutlined,
+} from '@mui/icons-material';
 import SideMenuAccountButton from '@/features/menu/elements/SideMenuAccountButton';
 import SideMenuPostButton from '@/features/menu/elements/SideMenuPostButton';
 import SideMenuLinkItem from '@/features/menu/elements/SideMenuLinkItem';
@@ -81,18 +90,30 @@ const SideMenu = () => {
       <StyledMenu>
         {profile && <SideMenuPostButton />}
         <StyledSpacer size={'1rem'} />
-        <SideMenuLinkItem href={'/home'} icon={<Home />} label={'ホーム'} />
-        <SideMenuLinkItem href={'/search'} icon={<Search />} label={'検索'} />
+        <SideMenuLinkItem
+          href={'/home'}
+          icon={<HomeOutlined />}
+          activeIcon={<Home />}
+          label={'ホーム'}
+        />
+        <SideMenuLinkItem
+          href={'/search'}
+          icon={<SearchOutlined />}
+          activeIcon={<Search />}
+          label={'検索'}
+        />
         {profile && (
           <>
             <SideMenuLinkItem
               href={'/notifications'}
-              icon={<Notifications />}
+              icon={<NotificationsOutlined />}
+              activeIcon={<Notifications />}
               label={'通知'}
             />
             <SideMenuLinkItem
               href={'/settings'}
-              icon={<Settings />}
+              icon={<SettingsOutlined />}
+              activeIcon={<Settings />}
               label={'設定'}
             />
           </>

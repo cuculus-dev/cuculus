@@ -14,26 +14,24 @@ const StyledLink = styled(NextLink)`
   display: flex;
   flex-direction: column;
 
-  &::after {
-    font-size: 1.5rem;
-    line-height: 1rem;
+  &.active {
+    font-weight: 700;
   }
 
-  &.active::after {
-    content: '・';
-  }
-
-  &:not(.active)::after {
-    content: '　';
+  & > svg {
+    aspect-ratio: 1 / 1;
+    width: 41px;
+    height: 41px;
   }
 `;
 
 interface Props {
   href: string;
   icon: ReactNode;
+  activeIcon?: ReactNode;
 }
 
-const MobileBottomMenuLinkItem = ({ href, icon }: Props) => {
+const MobileBottomMenuLinkItem = ({ href, icon, activeIcon }: Props) => {
   const pathname = usePathname();
 
   return (
@@ -42,7 +40,7 @@ const MobileBottomMenuLinkItem = ({ href, icon }: Props) => {
         href={href}
         className={href === pathname ? 'active' : undefined}
       >
-        {icon}
+        {activeIcon && href === pathname ? activeIcon : icon}
       </StyledLink>
     </MobileBottomMenuItemStyleBase>
   );

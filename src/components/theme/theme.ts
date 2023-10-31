@@ -25,6 +25,11 @@ const theme = createTheme({
       main: '#30F',
     },
   },
+  mixins: {
+    bottomMenu: {
+      height: 53,
+    },
+  },
 });
 
 export default theme;

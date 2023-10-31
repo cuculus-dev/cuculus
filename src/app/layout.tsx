@@ -32,6 +32,7 @@ export const metadata: Metadata = {
     site: '@cuculus_jp',
     creator: '@CureDotTyphoon',
   },
+  viewport: 'viewport-fit=cover, width=device-width, initial-scale=1',
 };
 
 export default function RootLayout({

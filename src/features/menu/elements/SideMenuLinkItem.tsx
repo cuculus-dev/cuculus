@@ -50,10 +50,11 @@ const Label = styled(Box)`
 interface Props {
   href: string;
   icon: ReactNode;
+  activeIcon?: ReactNode;
   label: string;
 }
 
-const SideMenuLinkItem = ({ href, icon, label }: Props) => {
+const SideMenuLinkItem = ({ href, icon, label, activeIcon }: Props) => {
   const pathname = usePathname();
 
   return (
@@ -62,8 +63,7 @@ const SideMenuLinkItem = ({ href, icon, label }: Props) => {
         href={href}
         className={href === pathname ? 'active' : undefined}
       >
-        {icon}
-
+        {activeIcon && href === pathname ? activeIcon : icon}
         <Label>{label}</Label>
       </StyledLink>
     </Wrapper>

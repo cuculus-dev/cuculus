@@ -58,4 +58,10 @@ declare module '@mui/material/styles' {
       main: string;
     };
   }
+
+  interface Mixins {
+    bottomMenu: {
+      height: number;
+    };
+  }
 }
