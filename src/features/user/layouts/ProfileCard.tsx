@@ -122,17 +122,19 @@ export default function ProfileCard({
     </Box>
   );
 
+  const path = usePathname();
+
   const Follows = ({ num }: { num: number }) =>
     UserCount({
       label: 'フォロー数',
-      linkUrl: `${usePathname()}/following`,
+      linkUrl: path ? `${path}/following` : '',
       num,
     });
 
   const Followers = ({ num }: { num: number }) =>
     UserCount({
       label: 'フォロワー数',
-      linkUrl: `${usePathname()}/followers`,
+      linkUrl: path ? `${path}/following` : '',
       num,
     });
 
