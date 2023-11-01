@@ -10,6 +10,10 @@ const description = 'Cuculusは新しいけどどこか懐かしい短文投稿�
 
 export const metadata: Metadata = {
   applicationName: title,
+  icons: {
+    shortcut: { url: '/icon.png', type: 'image/png' },
+    apple: { url: '/apple-icon.png', type: 'image/png' },
+  },
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
