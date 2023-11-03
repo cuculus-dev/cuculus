@@ -2,7 +2,7 @@
 
 import { Mail, MoreHoriz } from '@mui/icons-material';
 import { Avatar, Box, CardMedia, Typography, styled } from '@mui/material';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { ReactElement, useRef, useState } from 'react';
 import {
   FollowButton,
@@ -10,9 +10,9 @@ import {
 } from '@/features/user/elements/FollowButton';
 import { IconButton } from '@/components/elements/IconButton';
 import MoreMenu from '@/features/user/elements/MoreMenu';
+import UserCount from '@/features/user/elements/UserCount';
 
 const UnselectableCard = styled('div')`
-  user-select: none;
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
   max-width: 640px;
   background-color: ${({ theme }) => theme.palette.background.paper};
@@ -20,7 +20,8 @@ const UnselectableCard = styled('div')`
 `;
 
 const HeaderImage = styled(CardMedia)`
-  height: 250px;
+  aspect-ratio: 3 / 1;
+  background-color: ${({ theme }) => theme.palette.primary.light};
 `;
 
 const Flex = styled(Box)`
@@ -41,29 +42,34 @@ const FillFlex = styled(Box)`
 `;
 
 const UserIcon = styled(Avatar)`
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
 
-  // ↓CO解除でTwitterみたいな感じの表示
-  /*
-  margin-top: -56px;
-  border-color: 'white';
-  border-style: 'solid';
-  */
+  margin-top: -80px;
+  border-color: ${({ theme }) => theme.palette.background.paper};
+  border-style: solid;
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    width: 80px;
+    height: 80px;
+    margin-top: -48px;
+  }
 `;
 
 const DisplayName = styled(Typography)`
+  word-wrap: break-word;
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: 20px;
 `;
 
 const UserName = styled(Typography)`
-  font-weight: bold;
-  font-size: 0.9rem;
+  color: #8899a6;
+  font-size: 15px;
 `;
 
 const Bio = styled(Typography)`
   white-space: pre-wrap;
+  margin-bottom: 12px;
 `;
 
 // TODO 表示項目の内容を引数で受け取るか、userIdだけ受け取ってこっちでAPI叩いて表示するか決める
@@ -95,132 +101,89 @@ export default function ProfileCard({
   const [getIsSelf, setShowFollowButton] = useState(false);
   const [getShowMoreMenu, setShowMoreMenu] = useState(false);
 
-  const router = useRouter();
-
   const moreMenuRef = useRef(null);
-
-  const UserCount = ({
-    label,
-    linkUrl,
-    num,
-  }: {
-    label: string;
-    linkUrl: string;
-    num: number;
-  }) => (
-    <Box
-      onMouseEnter={() => router.prefetch(linkUrl)}
-      onFocus={() => router.prefetch(linkUrl)}
-      onClick={() => router.push(linkUrl)}
-    >
-      <Typography component={'div'} fontWeight={'bold'}>
-        {label}
-      </Typography>
-      <Typography component={'div'} textAlign={'right'}>
-        {num.toLocaleString()}
-      </Typography>
-    </Box>
-  );
 
   const path = usePathname();
 
-  const Follows = ({ num }: { num: number }) =>
-    UserCount({
-      label: 'フォロー数',
-      linkUrl: path ? `${path}/following` : '',
-      num,
-    });
-
-  const Followers = ({ num }: { num: number }) =>
-    UserCount({
-      label: 'フォロワー数',
-      linkUrl: path ? `${path}/following` : '',
-      num,
-    });
-
   return (
     <>
-      {/* FIXME テスト用コード削除 */}
-      <div className="test-code" style={{ display: 'block' }}>
-        <div>
-          <label style={{ userSelect: 'none' }}>
-            <input
-              type="checkbox"
-              defaultChecked={getIsSelf}
-              onChange={() => setShowFollowButton(!getIsSelf)}
-            />
-            フォローボタン・DMボタン表示
-          </label>
-        </div>
-      </div>
-
       <UnselectableCard>
         <HeaderImage image={profileHeaderImageUrl} />
 
-        <HFlex gap={4} p={2}>
-          {/* アイコン */}
-          <UserIcon src={profileAvatarImageUrl} />
+        <div style={{ padding: '12px 16px 16px' }}>
+          <HFlex>
+            {/* アイコン */}
+            <UserIcon src={profileAvatarImageUrl} alt={'プロフィール画像'} />
 
-          <FillFlex>
-            <VFlex gap={2} pt={2}>
-              <HFlex gap={1}>
-                {/* 名前・ID */}
-                {/* FIXME デザイン調整 */}
-                <VFlex>
-                  <DisplayName>{displayName}</DisplayName>
-                  <UserName>@{userName}</UserName>
-                </VFlex>
-
-                <FillFlex>
-                  <HFlex gap={2} justifyContent={'end'}>
-                    {/* フォローボタン */}
-                    {!getIsSelf && (
-                      <FollowButton
-                        followStatus={followStatus}
-                        userId={userId}
-                      />
-                    )}
-
-                    {/* DMボタン */}
-                    {!getIsSelf && (
+            <FillFlex>
+              <VFlex gap={2}>
+                <HFlex gap={1}>
+                  <FillFlex>
+                    <HFlex gap={1} justifyContent={'end'}>
+                      {/* ミートボールボタン */}
                       <IconButton
+                        ref={moreMenuRef}
                         color="primary"
                         variant="outlined"
-                        onClick={() => {
-                          /* FIXME */
-                        }}
+                        aria-label="もっと見る"
+                        onClick={() => setShowMoreMenu(!getShowMoreMenu)}
                       >
-                        <Mail />
+                        <MoreHoriz />
+
+                        <MoreMenu
+                          anchorEl={moreMenuRef.current}
+                          open={getShowMoreMenu}
+                        />
                       </IconButton>
-                    )}
+                      {/* DMボタン */}
+                      {!getIsSelf && (
+                        <IconButton
+                          color="primary"
+                          variant="outlined"
+                          aria-label="メッセージ"
+                          onClick={() => {
+                            /* FIXME */
+                          }}
+                        >
+                          <Mail />
+                        </IconButton>
+                      )}
+                      {/* フォローボタン */}
+                      {!getIsSelf && (
+                        <FollowButton
+                          aria-label="フォローする"
+                          followStatus={followStatus}
+                          userId={userId}
+                        />
+                      )}
+                    </HFlex>
+                  </FillFlex>
+                </HFlex>
+              </VFlex>
+            </FillFlex>
+          </HFlex>
 
-                    {/* ミートボールボタン */}
-                    <IconButton
-                      ref={moreMenuRef}
-                      color="primary"
-                      variant="outlined"
-                      onClick={() => setShowMoreMenu(!getShowMoreMenu)}
-                    >
-                      <MoreHoriz />
+          <VFlex style={{ margin: '12px 0' }}>
+            <DisplayName>{displayName}</DisplayName>
+            <UserName>@{userName}</UserName>
+          </VFlex>
+          <Bio>{bio}</Bio>
 
-                      <MoreMenu
-                        anchorEl={moreMenuRef.current}
-                        open={getShowMoreMenu}
-                      />
-                    </IconButton>
-                  </HFlex>
-                </FillFlex>
-              </HFlex>
-
-              <Bio>{bio}</Bio>
-
-              <HFlex gap={2}>
-                <Follows num={followsCount} />
-                <Followers num={followedCount} />
-              </HFlex>
-            </VFlex>
-          </FillFlex>
-        </HFlex>
+          <HFlex gap={2}>
+            <UserCount
+              label={'フォロー'}
+              href={path ? `${path}/following` : ''}
+              num={followsCount}
+              aria-label="フォロー一覧"
+            />
+            <UserCount
+              label={'フォロワー'}
+              href={path ? `${path}/followers` : ''}
+              num={followedCount}
+              aria-label="フォロワー一覧"
+            />
+          </HFlex>
+        </div>
       </UnselectableCard>
     </>
   );
