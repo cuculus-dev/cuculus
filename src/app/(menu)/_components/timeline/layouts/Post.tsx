@@ -36,6 +36,7 @@ const Original = styled('div')`
 
 const Content = styled('div')`
   flex: 1;
+  max-width: 516px;
 `;
 
 const Header = styled('div')`
@@ -71,14 +72,18 @@ const MomentLinks = styled(Link)`
   }
 `;
 
-const NameHidden = styled('span')`
+const HiddenSize = styled('span')`
+  max-width: 80%;
+`;
+
+const NameHidden = styled('div')`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const WhiteSpace = styled('span')`
-  white-space: nowrap;
+  padding-left: 4px;
 `;
 type Props = {
   displayName: string;
@@ -125,34 +130,33 @@ export default function Post({
             <Avatar src={profileImageUrl} alt={'プロフィール画像'} />
             <Content>
               <Header>
-                <NameHidden>
-                  <DisplayName
-                    href={`/${userName}`}
-                    onClick={(event) => event.stopPropagation()}
-                  >
-                    {displayName}
-                  </DisplayName>
-                  <WhiteSpace>
-                    <Typography component="span" color="#8899a6">
-                      @{userName}
-                    </Typography>
-                  </WhiteSpace>
-                </NameHidden>
-
+                <HiddenSize>
+                  <NameHidden>
+                    <DisplayName
+                      href={`/${userName}`}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      {displayName}
+                    </DisplayName>
+                    <WhiteSpace>
+                      <Typography component="span" color="#8899a6">
+                        @{userName}
+                      </Typography>
+                    </WhiteSpace>
+                  </NameHidden>
+                </HiddenSize>
                 <Typography component="span" color="#8899a6">
                   ·
                 </Typography>
-                <WhiteSpace>
-                  <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
-                    <MomentLinks
-                      aria-label="投稿へ"
-                      href={postUrl}
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      <MomentAgo postedAt={postedAt} />
-                    </MomentLinks>
-                  </Tooltip>
-                </WhiteSpace>
+                <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
+                  <MomentLinks
+                    aria-label="投稿へ"
+                    href={postUrl}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <MomentAgo postedAt={postedAt} />
+                  </MomentLinks>
+                </Tooltip>
               </Header>
               <Typography component="div" whiteSpace="pre-wrap">
                 {text}
