@@ -170,7 +170,7 @@ export default function ProfileCard({
           <Bio>{bio}</Bio>
 
           <HFlex gap={2}>
-            {followingCount && (
+            {followingCount != undefined && (
               <UserCount
                 label={'フォロー'}
                 href={path ? `${path}/following` : ''}
@@ -178,7 +178,7 @@ export default function ProfileCard({
                 aria-label="フォロー一覧"
               />
             )}
-            {followersCount && (
+            {followersCount != undefined && (
               <UserCount
                 label={'フォロワー'}
                 href={path ? `${path}/followers` : ''}
