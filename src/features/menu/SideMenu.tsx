@@ -15,6 +15,7 @@ import SideMenuAccountButton from '@/features/menu/elements/SideMenuAccountButto
 import SideMenuPostButton from '@/features/menu/elements/SideMenuPostButton';
 import SideMenuLinkItem from '@/features/menu/elements/SideMenuLinkItem';
 import { useProfile } from '@/swr/client/auth';
+import LogoLink from '@/features/menu/elements/LogoLink';
 
 const Root = styled('div')`
   // Desktop
@@ -61,35 +62,13 @@ const Spacer = styled(Box)<{ size?: number | string }>(({ size }) => {
   };
 });
 
-const Logo = styled('h1')`
-  text-align: center;
-
-  &::after {
-    content: 'Cuculus';
-
-    ${({ theme }) => theme.breakpoints.down('desktop')} {
-      content: 'C';
-    }
-  }
-
-  margin-top: 5px;
-  margin-bottom: 5px;
-`;
-
-const StyledSpacer = styled(Spacer)`
-  ${({ theme }) => theme.breakpoints.down('desktop')} {
-    display: none;
-  }
-`;
-
 const SideMenu = () => {
   const { data: profile } = useProfile();
 
   return (
     <Root>
       <StyledMenu>
-        {profile && <SideMenuPostButton />}
-        <StyledSpacer size={'1rem'} />
+        <LogoLink />
         <SideMenuLinkItem
           href={'/home'}
           icon={<HomeOutlined />}
@@ -118,6 +97,7 @@ const SideMenu = () => {
             />
           </>
         )}
+        {profile && <SideMenuPostButton />}
         <Spacer />
         {profile && (
           <SideMenuAccountButton
@@ -126,8 +106,6 @@ const SideMenu = () => {
             userName={profile.username}
           />
         )}
-
-        <Logo />
       </StyledMenu>
     </Root>
   );

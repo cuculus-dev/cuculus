@@ -6,11 +6,12 @@ import { Box, Dialog, styled } from '@mui/material';
 import { useState } from 'react';
 
 const Wrapper = styled(SideMenuItemStyleBase)`
-  background-color: lightskyblue;
+  color: ${({ theme }) => theme.palette.primary.contrastText};
+  background-color: ${({ theme }) => theme.palette.primary.main};
 
   &:hover,
   &:focus {
-    background-color: skyblue;
+    background-color: ${({ theme }) => theme.palette.primary.dark};
   }
 `;
 
@@ -40,7 +41,7 @@ const SideMenuPostButton = () => {
       <Wrapper onClick={() => setShowPostDialog(true)}>
         <HFlex justifyContent={'center'} alignItems={'center'} gap={1}>
           <Send />
-          <Label>投稿</Label>
+          <Label>ポスト</Label>
         </HFlex>
       </Wrapper>
       <Dialog open={getShowPostDialog} onClose={() => setShowPostDialog(false)}>
