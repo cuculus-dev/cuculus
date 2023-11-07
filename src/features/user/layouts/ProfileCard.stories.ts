@@ -27,8 +27,8 @@ export const NormalProfileCard: Story = {
   args: {
     bio: 'bio\nstring',
     displayName: 'dispName',
-    followedCount: 123456,
-    followsCount: 456789,
+    followersCount: 123456,
+    followingCount: 456789,
     followStatus: FollowStatus.NotFollowing,
     profileAvatarImageUrl: '/mock/profileAvatarImage.png',
     profileHeaderImageUrl: '/mock/profileHeaderImage.png',
