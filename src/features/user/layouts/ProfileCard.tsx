@@ -78,8 +78,8 @@ interface ProfileCardProps {
   bio: string | ReactElement;
   displayName: string;
   followStatus: (typeof FollowStatus)[keyof typeof FollowStatus];
-  followedCount: number;
-  followsCount: number;
+  followersCount?: number;
+  followingCount?: number;
   userId: number;
   profileAvatarImageUrl: string;
   profileHeaderImageUrl: string;
@@ -90,8 +90,8 @@ export default function ProfileCard({
   bio,
   displayName,
   followStatus,
-  followedCount,
-  followsCount,
+  followersCount,
+  followingCount,
   userId,
   profileAvatarImageUrl,
   profileHeaderImageUrl,
@@ -170,18 +170,22 @@ export default function ProfileCard({
           <Bio>{bio}</Bio>
 
           <HFlex gap={2}>
-            <UserCount
-              label={'フォロー'}
-              href={path ? `${path}/following` : ''}
-              num={followsCount}
-              aria-label="フォロー一覧"
-            />
-            <UserCount
-              label={'フォロワー'}
-              href={path ? `${path}/followers` : ''}
-              num={followedCount}
-              aria-label="フォロワー一覧"
-            />
+            {followingCount && (
+              <UserCount
+                label={'フォロー'}
+                href={path ? `${path}/following` : ''}
+                num={followingCount}
+                aria-label="フォロー一覧"
+              />
+            )}
+            {followersCount && (
+              <UserCount
+                label={'フォロワー'}
+                href={path ? `${path}/followers` : ''}
+                num={followersCount}
+                aria-label="フォロワー一覧"
+              />
+            )}
           </HFlex>
         </div>
       </UnselectableCard>

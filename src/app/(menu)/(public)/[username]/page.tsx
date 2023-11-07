@@ -62,8 +62,8 @@ export default async function page({ params }: Params) {
           profileAvatarImageUrl={user.profileImageUrl}
           profileHeaderImageUrl=""
           userName={params.username}
-          followsCount={123456}
-          followedCount={123456}
+          followingCount={user.followingCount}
+          followersCount={user.followersCount}
           userId={user.id}
         />
         <div style={{ height: '2000px' }}>
