@@ -19,7 +19,10 @@ const Menu = styled('nav')`
     display: none;
   }
 
-  height: ${({ theme }) => theme.mixins.bottomMenu.height}px;
+  height: calc(
+    ${({ theme }) => theme.mixins.bottomMenu.height}px +
+      env(safe-area-inset-bottom)
+  );
   background-color: white;
   border-top: solid 1px lightgray;
 
@@ -30,10 +33,14 @@ const Menu = styled('nav')`
 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  padding-bottom: env(safe-area-inset-bottom, 0);
 `;
 
 const Spacer = styled('div')`
-  height: ${({ theme }) => theme.mixins.bottomMenu.height}px;
+  height: calc(
+    ${({ theme }) => theme.mixins.bottomMenu.height}px +
+      env(safe-area-inset-bottom)
+  );
 
   ${({ theme }) => theme.breakpoints.up('tablet')} {
     display: none;

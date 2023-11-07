@@ -7,6 +7,7 @@ import type {
   IconButtonProps as MuiDefaultIconButtonProps,
   ButtonProps,
 } from '@mui/material';
+import { alpha } from '@mui/system';
 
 interface IconButtonProps extends MuiDefaultIconButtonProps {
   variant?: Exclude<NonNullable<ButtonProps['variant']>, 'text'> | 'icon';
@@ -14,7 +15,7 @@ interface IconButtonProps extends MuiDefaultIconButtonProps {
 
 const IconButton = styled(MuiDefaultIconButton, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<IconButtonProps>(({ variant, color }) => {
+})<IconButtonProps>(({ variant, color, theme }) => {
   // FIXME ButtonとIconButtonで高さが異なる問題。ベタ書きで暫定対処。
   const width = 36;
   const height = width;
@@ -23,10 +24,12 @@ const IconButton = styled(MuiDefaultIconButton, {
     case 'outlined':
       return {
         // FIXME 透明度が効いてない
+        '&:hover': {
+          border: `1px solid ${theme.palette.primary.main}`,
+        },
         color,
         height,
-        outlineStyle: 'solid',
-        outlineWidth: 1,
+        border: `1px solid ${alpha(theme.palette.primary.main, 0.5)}`,
         width,
       };
     case 'contained':
