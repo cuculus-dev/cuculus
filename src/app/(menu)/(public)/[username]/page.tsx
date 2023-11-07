@@ -1,8 +1,7 @@
-import ProfileCard from '@/features/user/layouts/ProfileCard';
-import PrimaryColumn from '@/components/layouts/PrimaryColumn';
 import { Metadata } from 'next';
 import { usersApi } from '@/libs/cuculus-client';
 import { notFound } from 'next/navigation';
+import ProfilePage from '@/features/user/ProfilePage';
 
 type Params = { params: { username: string } };
 
@@ -53,23 +52,7 @@ export default async function page({ params }: Params) {
 
   return (
     <main>
-      {/* FIXME mock値 */}
-      <PrimaryColumn columnName={user.name}>
-        <ProfileCard
-          bio={user.description}
-          displayName={user.name}
-          followStatus={0}
-          profileAvatarImageUrl={user.profileImageUrl}
-          profileHeaderImageUrl=""
-          userName={params.username}
-          followingCount={user.followingCount}
-          followersCount={user.followersCount}
-          userId={user.id}
-        />
-        <div style={{ height: '2000px' }}>
-          ここにユーザータイムラインが表示される
-        </div>
-      </PrimaryColumn>
+      <ProfilePage username={user.username} />
     </main>
   );
 }
