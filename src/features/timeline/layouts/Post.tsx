@@ -99,7 +99,7 @@ export default function Post({
   repostCount,
 }: Props) {
   const router = useRouter();
-  const postUrl = `/${userName}/status/${postId}`;
+  const postUrl = `/${userName}/posts/${postId}`;
 
   return (
     <Article>
