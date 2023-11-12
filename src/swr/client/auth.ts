@@ -77,7 +77,7 @@ const fetchMe = async () => {
  * 自身の情報を取得する
  */
 export const useProfile = () => {
-  return useSWR<User | undefined, Error>({ url: 'getMe' }, fetchMe);
+  return useSWR<User | undefined, Error>('useProfile', fetchMe);
 };
 
 const preSignUp = async (
