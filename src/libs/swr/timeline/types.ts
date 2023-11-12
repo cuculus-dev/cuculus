@@ -45,14 +45,9 @@ export interface SWRTimelineResponse<Data = any, Error = any>
   data: Timeline<Data> | undefined;
   isValidating: boolean;
   isLoading: boolean;
-  mutateLatest: (
-    data?: TimelineResult<Data> | Timeline<Data>,
-  ) => Promise<Timeline<Data> | undefined>;
+  mutateLatest: (data?: Timeline<Data>) => Promise<Timeline<Data> | undefined>;
   mutateOlder: (data?: Data[]) => Promise<Timeline<Data> | undefined>;
-  mutateGap: (
-    gap: Gap<Data>,
-    data?: TimelineResult<Data>,
-  ) => Promise<Timeline<Data> | undefined>;
+  mutateGap: (gap: Gap<Data>) => Promise<Timeline<Data> | undefined>;
 }
 
 export type SWRTimelineConfiguration<Data, Error> = Pick<
