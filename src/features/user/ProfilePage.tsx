@@ -16,7 +16,7 @@ export default function ProfilePage({ username }: Props) {
   }
 
   return (
-    <PrimaryColumn columnName={data.name}>
+    <PrimaryColumn columnName={data.name} showBack>
       <ProfileCard
         bio={data.description}
         displayName={data.name}
