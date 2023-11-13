@@ -14,7 +14,6 @@ import {
   SWRTimelineHook,
   SWRTimelineResponse,
   Timeline,
-  TimelineResult,
 } from '@/libs/swr/timeline/types';
 import { useCallback } from 'react';
 import { serializeGap } from '@/libs/swr/timeline/serialize';
@@ -105,9 +104,7 @@ const timeline = (<Data, Error>(useSWRNext: SWRHook<Data>) =>
 
     // mutateLatest
     const mutateLatest = useCallback(
-      async (
-        data?: TimelineResult<Data> | Timeline<Data>,
-      ): Promise<Timeline<Data> | undefined> => {
+      async (data?: Timeline<Data>): Promise<Timeline<Data> | undefined> => {
         const cache = get();
         const cacheData = cache.data;
         if (cacheData && !cache.isValidating) {
@@ -139,17 +136,14 @@ const timeline = (<Data, Error>(useSWRNext: SWRHook<Data>) =>
 
     // mutateGap
     const mutateGap = useCallback(
-      async (
-        gap: Gap<Data>,
-        data?: TimelineResult<Data>,
-      ): Promise<Timeline<Data> | undefined> => {
+      async (gap: Gap<Data>): Promise<Timeline<Data> | undefined> => {
         const cache = get();
         const cacheData = cache.data;
         if (cacheData && !cache.isValidating) {
           const index = findGap<Data>(cacheData, gap);
           if (index >= 0 && fetcher) {
             set({ isValidating: true });
-            const fetched = data ?? (await fetcher(gap.since, gap.max));
+            const fetched = await fetcher(gap.since, gap.max);
             /**
              * パターン
              * [] + true ... 何もしない

@@ -8,6 +8,7 @@ import { useEffect, useRef } from 'react';
 import { UserPost } from '@cuculus/cuculus-api';
 import { Timeline as Result } from '@/libs/swr/timeline/types';
 import Showmore from '@/features/timeline/layouts/Showmore';
+import { WVList } from 'virtua';
 
 // 投稿の件数をカウントする
 const lengthPost = (data: Result<UserPost>) => {
@@ -82,44 +83,53 @@ export default function Timeline() {
   }
 
   return (
-    <div>
-      {data && (
-        <Queue
-          data={data}
-          setLatest={(queue) => {
-            void mutateLatest(queue);
-          }}
-        />
-      )}
-      {data?.map((item) => {
-        if (Array.isArray(item)) {
-          return item.map((post) => {
+    <>
+      <WVList
+        onRangeChange={(_, endIndex) => {
+          const count =
+            data?.reduce((accumulator, item) => {
+              if (Array.isArray(item)) {
+                return accumulator + item.length;
+              }
+              return accumulator + 1;
+            }, 0) ?? 0;
+          if (endIndex >= count) {
+            void mutateOlder();
+          }
+        }}
+      >
+        {data && (
+          <Queue
+            data={data}
+            setLatest={(queue) => {
+              void mutateLatest(queue);
+            }}
+          />
+        )}
+        {data?.map((item) => {
+          if (Array.isArray(item)) {
+            return item.map((post) => {
+              return (
+                <TimelinePost
+                  key={post.id}
+                  postId={post.id}
+                  fallbackData={post}
+                />
+              );
+            });
+          } else {
             return (
-              <TimelinePost
-                key={post.id}
-                postId={post.id}
-                fallbackData={post}
+              <Showmore
+                key={serializeGap(item)}
+                onClick={() => {
+                  void mutateGap(item);
+                }}
+                text="ポストを更に表示"
               />
             );
-          });
-        } else {
-          return (
-            <Showmore
-              key={serializeGap(item)}
-              onClick={() => {
-                void mutateGap(item);
-              }}
-              text="ポストを更に表示"
-            />
-          );
-        }
-      })}
-      <Showmore
-        text={'もっと見る'}
-        onClick={() => {
-          void mutateOlder();
-        }}
-      />
-    </div>
+          }
+        })}
+      </WVList>
+    </>
   );
 }

@@ -2,6 +2,7 @@
 
 import { styled } from '@mui/material';
 import { ReactNode } from 'react';
+import BackButton from '@/components/elements/BackButton';
 
 const Main = styled('div')`
   border-left: 1px solid ${({ theme }) => theme.palette.grey[100]};
@@ -22,26 +23,42 @@ const Header = styled('header')`
   z-index: ${({ theme }) => theme.zIndex.appBar};
 `;
 
-const Title = styled('div')`
+const TitleBar = styled('div')`
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 12px;
+  gap: 12px;
   min-height: 50px;
+`;
+
+const Title = styled('div')`
   font-size: 20px;
   font-weight: bold;
-  padding: 0 16px;
   align-items: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 type Props = {
   columnName: string;
-  tabs?: string[];
   children?: ReactNode;
+  showBack?: boolean;
 };
 
-export default function PrimaryColumn({ columnName, children }: Props) {
+export default function PrimaryColumn({
+  columnName,
+  children,
+  showBack = false,
+}: Props) {
   return (
     <Main>
       <Header>
-        <Title>{columnName}</Title>
+        <TitleBar>
+          {showBack && <BackButton height="100%" />}
+          <Title>{columnName}</Title>
+        </TitleBar>
       </Header>
       {children}
     </Main>
