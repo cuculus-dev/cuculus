@@ -93,8 +93,6 @@ export default function Timeline() {
               }
               return accumulator + 1;
             }, 0) ?? 0;
-          // FIXME
-          console.debug('onRangeChange', endIndex, count);
           if (endIndex >= count) {
             void mutateOlder();
           }
