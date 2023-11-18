@@ -33,7 +33,9 @@ const fetchAuthenticated = async (): Promise<number> => {
  * ログイン状態のみを返す。
  */
 export const useAuth = () => {
-  return useSWR<number, Error>(AUTH_KEY, fetchAuthenticated);
+  return useSWR<number, Error>(AUTH_KEY, fetchAuthenticated, {
+    errorRetryCount: 0,
+  });
 };
 
 const fetchSignIn = async (
