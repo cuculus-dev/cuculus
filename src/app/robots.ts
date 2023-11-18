@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
   // Development robots.txt
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.STAGE !== 'production') {
     return {
       rules: {
         userAgent: '*',
