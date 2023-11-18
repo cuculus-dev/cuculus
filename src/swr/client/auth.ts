@@ -1,5 +1,5 @@
-import useSWR from 'swr';
-import { authMiddleware, usersApi, authApi } from '@/libs/cuculus-client';
+import useSWR, { mutate } from 'swr';
+import { usersApi, authApi } from '@/libs/cuculus-client';
 import {
   LoginRequest,
   PreUserRequest,
@@ -7,17 +7,23 @@ import {
   User,
   VerifyCodeRequest,
 } from '@cuculus/cuculus-api';
-import { AuthJwtPayload, decodeToAuthJwtPayload } from '@/libs/auth-middleware';
 import useSWRMutation from 'swr/mutation';
 import { UserRequest } from '@cuculus/cuculus-api/dist/models';
-import { mutate } from 'swr';
+import {
+  decodeToAuthJwtPayload,
+  fetchAccessToken,
+  getAuthorizationHeader,
+  signIn,
+  signOut,
+  signUp,
+} from '@/libs/auth';
 
 const AUTH_KEY = 'useAuth';
 
-const fetchAuthenticated = async (): Promise<AuthJwtPayload> => {
-  const token = await authMiddleware.fetchAccessToken('bearer');
+const fetchAuthenticated = async (): Promise<number> => {
+  const token = await fetchAccessToken();
   if (token) {
-    return decodeToAuthJwtPayload(token);
+    return decodeToAuthJwtPayload(token).id;
   } else {
     throw new Error('Unauthorized.');
   }
@@ -27,16 +33,16 @@ const fetchAuthenticated = async (): Promise<AuthJwtPayload> => {
  * ログイン状態のみを返す。
  */
 export const useAuth = () => {
-  return useSWR<AuthJwtPayload, Error>(AUTH_KEY, fetchAuthenticated);
+  return useSWR<number, Error>(AUTH_KEY, fetchAuthenticated);
 };
 
-const signIn = async (
-  key: string,
+const fetchSignIn = async (
+  _key: string,
   { arg }: { arg: LoginRequest },
-): Promise<AuthJwtPayload> => {
+): Promise<number> => {
   try {
-    const result = await authMiddleware.fetchSignIn(arg.username, arg.password);
-    return decodeToAuthJwtPayload(result);
+    const result = await signIn(arg.username, arg.password);
+    return result.id;
   } catch (error) {
     // エラー内容の分析
     if (error instanceof ResponseError) {
@@ -52,9 +58,9 @@ const signIn = async (
  * ログイン処理
  */
 export const useSignIn = () => {
-  return useSWRMutation<AuthJwtPayload, Error, typeof AUTH_KEY, LoginRequest>(
+  return useSWRMutation<number, Error, typeof AUTH_KEY, LoginRequest>(
     AUTH_KEY,
-    signIn,
+    fetchSignIn,
     {
       throwOnError: false,
       populateCache: (data) => data,
@@ -63,12 +69,11 @@ export const useSignIn = () => {
   );
 };
 
-const fetchMe = async () => {
+const fetchMe = async ({ authId }: { authId: number }) => {
   try {
-    if (authMiddleware.hasAccessToken()) {
-      return await usersApi.getMe();
-    }
-    return undefined;
+    return await usersApi.getMe({
+      headers: await getAuthorizationHeader(authId),
+    });
   } catch (error) {
     throw error;
   }
@@ -78,11 +83,13 @@ const fetchMe = async () => {
  * 自身の情報を取得する
  */
 export const useProfile = () => {
-  return useSWR<User | undefined, Error>('useProfile', fetchMe);
+  const { data: authId } = useAuth();
+  const swrKey = authId ? { key: 'useProfile', authId } : null;
+  return useSWR<User | undefined, Error>(swrKey, fetchMe);
 };
 
-const preSignUp = async (
-  key: string,
+const fetchPreSignUp = async (
+  _key: string,
   { arg }: { arg: PreUserRequest },
 ): Promise<boolean> => {
   try {
@@ -102,7 +109,7 @@ const preSignUp = async (
 export const usePreSignUp = () => {
   return useSWRMutation<boolean, Error, string, PreUserRequest>(
     'postPreSignUp',
-    preSignUp,
+    fetchPreSignUp,
     {
       throwOnError: false,
     },
@@ -110,7 +117,7 @@ export const usePreSignUp = () => {
 };
 
 const verifyCode = async (
-  key: string,
+  _key: string,
   { arg }: { arg: VerifyCodeRequest },
 ): Promise<boolean> => {
   try {
@@ -145,19 +152,19 @@ export const useVerifyCode = () => {
   );
 };
 
-const signUp = async (
-  key: string,
+const fetchSignUp = async (
+  _key: string,
   { arg }: { arg: UserRequest },
-): Promise<AuthJwtPayload> => {
+): Promise<number> => {
   try {
-    const result = await authMiddleware.fetchSignUp(
+    const result = await signUp(
       arg.username,
       arg.password,
       arg.code,
       arg.email,
       arg.invitationCode,
     );
-    return decodeToAuthJwtPayload(result);
+    return result.id;
   } catch (error) {
     // エラー内容の分析
     if (error instanceof ResponseError) {
@@ -176,9 +183,9 @@ const signUp = async (
  * アカウント登録
  */
 export const useSignUp = () => {
-  return useSWRMutation<AuthJwtPayload, Error, typeof AUTH_KEY, UserRequest>(
+  return useSWRMutation<number, Error, typeof AUTH_KEY, UserRequest>(
     AUTH_KEY,
-    signUp,
+    fetchSignUp,
     {
       throwOnError: false,
       populateCache: (data) => data,
@@ -189,7 +196,7 @@ export const useSignUp = () => {
 
 const fetchSignOut = async () => {
   try {
-    await authMiddleware.fetchSignOut();
+    await signOut();
     await mutate(() => true, undefined, { revalidate: false });
     return;
   } catch {
