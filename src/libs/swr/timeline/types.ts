@@ -1,9 +1,9 @@
 import { Arguments, State, SWRConfiguration, SWRResponse } from 'swr/_internal';
 
-export type SWRTimelineKeyLoader<
-  Data = any,
-  SWRKey extends Arguments = Arguments,
-> = (since: Data | null, max: Data | null) => SWRKey;
+export type SWRTimelineKeyLoader<Data, SWRKey extends Arguments = Arguments> = (
+  since: Data | null,
+  max: Data | null,
+) => SWRKey;
 
 export type Gap<Data> = {
   since: Data;
@@ -33,7 +33,7 @@ export type SWRTimelineFetcher<Data, SWRKey extends Arguments> = (
   arg: SWRKey,
 ) => Promise<FetchResultData<Data> | undefined>;
 
-export interface SWRTimelineResponse<Data = any, Error = never>
+export interface SWRTimelineResponse<Data, Error = never>
   extends Pick<SWRResponse<Data, Error>, 'error'> {
   data: TimelineData<Data> | undefined;
   isValidating: boolean;
@@ -44,18 +44,20 @@ export interface SWRTimelineResponse<Data = any, Error = never>
   queue: TimelineData<Data> | undefined;
 }
 
-export interface SWRTimelineConfiguration<Data = any, Error = any>
+//eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface SWRTimelineConfiguration<Data, Error = any>
   extends Omit<SWRConfiguration<Data, Error>, 'compare'> {
   enableQueue?: boolean;
 }
 
 export interface SWRTimelineHook {
-  <Data = any, Error = any, SWRKey extends Arguments = Arguments>(
+  //eslint-disable-next-line @typescript-eslint/no-explicit-any
+  <Data, Error = any, SWRKey extends Arguments = Arguments>(
     getKey: SWRTimelineKeyLoader<Data, SWRKey>,
     fetcher: SWRTimelineFetcher<Data, SWRKey> | null,
   ): SWRTimelineResponse<Data, Error>;
-
-  <Data = any, Error = any, SWRKey extends Arguments = Arguments>(
+  //eslint-disable-next-line @typescript-eslint/no-explicit-any
+  <Data, Error = any, SWRKey extends Arguments = Arguments>(
     getKey: SWRTimelineKeyLoader<Data, SWRKey>,
     fetcher: SWRTimelineFetcher<Data, SWRKey> | null,
     config: SWRTimelineConfiguration<Data, Error>,
