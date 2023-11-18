@@ -53,12 +53,12 @@ export interface SWRTimelineConfiguration<Data, Error = any>
 export interface SWRTimelineHook {
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
   <Data, Error = any, SWRKey extends Arguments = Arguments>(
-    getKey: SWRTimelineKeyLoader<Data, SWRKey>,
+    getKey: SWRTimelineKeyLoader<Data, SWRKey | null>,
     fetcher: SWRTimelineFetcher<Data, SWRKey> | null,
   ): SWRTimelineResponse<Data, Error>;
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
   <Data, Error = any, SWRKey extends Arguments = Arguments>(
-    getKey: SWRTimelineKeyLoader<Data, SWRKey>,
+    getKey: SWRTimelineKeyLoader<Data, SWRKey | null>,
     fetcher: SWRTimelineFetcher<Data, SWRKey> | null,
     config: SWRTimelineConfiguration<Data, Error>,
   ): SWRTimelineResponse<Data, Error>;
