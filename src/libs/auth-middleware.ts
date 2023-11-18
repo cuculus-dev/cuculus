@@ -1,5 +1,6 @@
 import { AuthApi, Configuration, ResponseError } from '@cuculus/cuculus-api';
 import jwtDecode from 'jwt-decode';
+import { mutate } from 'swr';
 
 const accessToken = {
   set: (token: string) => localStorage.setItem('accessToken', token),
@@ -137,6 +138,7 @@ export class AuthMiddleware {
         // 401の場合はログアウトとする。それ以外はオフライン状態なので放置
         if (error.response.status === 401) {
           accessToken.delete();
+          await mutate(() => true, undefined, { revalidate: false });
         }
       }
     } finally {
