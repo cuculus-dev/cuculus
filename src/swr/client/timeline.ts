@@ -1,19 +1,34 @@
 import { UserPost } from '@cuculus/cuculus-api';
 import { timelinesApi } from '@/libs/cuculus-client';
 import useSWRTimeline from '@/libs/swr/timeline';
-import useSWRQueue from '@/libs/swr/queue';
 
 const LIMIT = 20;
 
-const fetcher = async (since: UserPost | null, max: UserPost | null) => {
+type TimelineKey = {
+  key: string;
+  sinceId: string | null;
+  maxId: string | null;
+};
+
+const getKey =
+  (key: string) =>
+  (since: UserPost | null, max: UserPost | null): TimelineKey => {
+    return {
+      key: key,
+      sinceId: since?.id ?? null,
+      maxId: max?.id ?? null,
+    };
+  };
+
+const fetcher = async (key: TimelineKey) => {
   const posts = await timelinesApi.getHomeTimeline({
-    sinceId: since?.id,
-    maxId: max?.id,
+    sinceId: key.sinceId ?? undefined,
+    maxId: key.maxId ?? undefined,
     limit: LIMIT,
   });
   return {
     data: posts,
-    hasGap: since !== null && posts.length >= LIMIT, //取得し切れなかった時にtrueを返す
+    possiblyHasGap: key.sinceId !== null && posts.length >= LIMIT, //取得し切れなかった時にtrueを返す
   };
 };
 
@@ -21,14 +36,9 @@ const fetcher = async (since: UserPost | null, max: UserPost | null) => {
  * メインとなるタイムライン
  */
 export const useHomeTimeline = () => {
-  return useSWRTimeline<UserPost>('useHomeTimeline', fetcher);
-};
-
-/**
- * キューイング
- */
-export const useHomeQueue = () => {
-  return useSWRQueue<UserPost>('useHomeQueue', fetcher, {
-    refreshInterval: 5000,
-  });
+  return useSWRTimeline<UserPost, Error, TimelineKey>(
+    getKey('useHomeTimeline'),
+    fetcher,
+    { refreshInterval: 5000, enableQueue: true },
+  );
 };

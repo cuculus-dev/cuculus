@@ -1,17 +1,16 @@
 'use client';
 
 import TimelinePost from '@/features/timeline/TimelinePost';
-import { useHomeQueue, useHomeTimeline } from '@/swr/client/timeline';
-import { serializeGap } from '@/libs/swr/timeline/serialize';
+import { useHomeTimeline } from '@/swr/client/timeline';
+import { serializeGap } from '@/libs/swr/timeline/utils';
 import { CircularProgress } from '@mui/material';
-import { useEffect, useRef } from 'react';
 import { UserPost } from '@cuculus/cuculus-api';
-import { Timeline as Result } from '@/libs/swr/timeline/types';
+import { TimelineData } from '@/libs/swr/timeline/types';
 import Showmore from '@/features/timeline/layouts/Showmore';
 import { WVList } from 'virtua';
 
 // 投稿の件数をカウントする
-const lengthPost = (data: Result<UserPost>) => {
+const lengthPost = (data: TimelineData<UserPost>) => {
   return data.reduce((acc, cur) => {
     if (Array.isArray(cur)) {
       return acc + cur.length;
@@ -21,29 +20,8 @@ const lengthPost = (data: Result<UserPost>) => {
   }, 0);
 };
 
-const Queue = ({
-  data,
-  setLatest,
-}: {
-  data: Result<UserPost>;
-  setLatest: (queue: Result<UserPost>) => void;
-}) => {
-  const { data: queue, reset } = useHomeQueue();
-  const prevLatest = useRef<UserPost | undefined>(undefined);
-
-  // キューをリセット
-  useEffect(() => {
-    if (data) {
-      const find = data.find((item) => Array.isArray(item)) as
-        | UserPost[]
-        | undefined;
-      if (find && find.length > 0) {
-        if (!prevLatest.current || find[0]?.id !== prevLatest.current.id) {
-          void reset(find[0]);
-        }
-      }
-    }
-  }, [data, reset]);
+const Queue = () => {
+  const { queue, mutateLatest } = useHomeTimeline();
 
   return (
     queue &&
@@ -51,9 +29,7 @@ const Queue = ({
       <Showmore
         text={`${lengthPost(queue)} 件のポストを表示`}
         onClick={() => {
-          if (queue) {
-            setLatest(queue);
-          }
+          void mutateLatest();
         }}
       />
     )
@@ -65,8 +41,7 @@ const Queue = ({
  * @constructor
  */
 export default function Timeline() {
-  const { data, mutateLatest, mutateGap, mutateOlder, isLoading } =
-    useHomeTimeline();
+  const { data, isLoading, mutateOlder, mutateGap } = useHomeTimeline();
 
   if (isLoading) {
     return (
@@ -98,14 +73,7 @@ export default function Timeline() {
           }
         }}
       >
-        {data && (
-          <Queue
-            data={data}
-            setLatest={(queue) => {
-              void mutateLatest(queue);
-            }}
-          />
-        )}
+        <Queue />
         {data?.map((item) => {
           if (Array.isArray(item)) {
             return item.map((post) => {
