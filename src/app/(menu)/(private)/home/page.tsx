@@ -1,5 +1,16 @@
 import PrimaryColumn from '@/components/layouts/PrimaryColumn';
 import Timeline from '@/features/timeline/Timeline';
+import { Metadata } from 'next';
+
+export function generateMetadata(): Metadata {
+  const title = `ホーム | Cuculus`;
+  return {
+    title,
+    openGraph: {
+      title,
+    },
+  };
+}
 
 export default function page() {
   return (
