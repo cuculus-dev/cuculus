@@ -42,8 +42,10 @@ export default function LoginForm() {
     <StyledForm
       onSubmit={(event) => {
         event.preventDefault();
-        void trigger({ username, password }).then(() => {
-          router.push('/home');
+        void trigger({ username, password }).then((auth) => {
+          if (auth) {
+            router.push('/home');
+          }
         });
       }}
     >
