@@ -138,7 +138,6 @@ export class AuthMiddleware {
         // 401の場合はログアウトとする。それ以外はオフライン状態なので放置
         if (error.response.status === 401) {
           accessToken.delete();
-          await mutate(() => true, undefined, { revalidate: false });
         }
       }
     } finally {
