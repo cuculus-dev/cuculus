@@ -10,6 +10,7 @@ import {
 import { AuthJwtPayload, decodeToAuthJwtPayload } from '@/libs/auth-middleware';
 import useSWRMutation from 'swr/mutation';
 import { UserRequest } from '@cuculus/cuculus-api/dist/models';
+import { mutate } from 'swr';
 
 const AUTH_KEY = 'useAuth';
 
@@ -188,7 +189,9 @@ export const useSignUp = () => {
 
 const fetchSignOut = async () => {
   try {
-    return await authMiddleware.fetchSignOut();
+    await authMiddleware.fetchSignOut();
+    await mutate(() => true, undefined, { revalidate: false });
+    return;
   } catch {
     throw new Error('サーバーとの通信に失敗しました。');
   }
