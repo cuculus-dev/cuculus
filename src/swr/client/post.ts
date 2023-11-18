@@ -3,18 +3,26 @@ import useSWRImmutable from 'swr/immutable';
 import useSWRMutation from 'swr/mutation';
 import { postsApi } from '@/libs/cuculus-client';
 import { UserPost } from '@cuculus/cuculus-api';
+import { useAuth } from '@/swr/client/auth';
+import { getAuthorizationHeader } from '@/libs/auth';
 
 type Key = {
   key: string;
   postId: string;
+  authId?: number;
 };
 
-const getKey = (postId: string): Key => {
-  return { key: 'usePost', postId };
+const getKey = (postId: string, authId?: number): Key => {
+  return { key: 'usePost', postId, authId };
 };
 
-const fetcher = async ({ postId }: { postId: string }): Promise<UserPost> => {
-  return await postsApi.getPost({ id: postId });
+const fetcher = async ({ postId, authId }: Key): Promise<UserPost> => {
+  return await postsApi.getPost(
+    { id: postId },
+    {
+      headers: await getAuthorizationHeader(authId),
+    },
+  );
 };
 
 type UpdateRequest = {
@@ -27,18 +35,22 @@ const update = async (
   { arg }: { arg: UpdateRequest },
 ): Promise<UserPost> => {
   let userPost: UserPost | undefined = undefined;
+  if (key.authId === undefined) {
+    throw new Error('未ログイン状態です。');
+  }
+  const headers = await getAuthorizationHeader(key.authId);
   if (arg.favorited !== undefined) {
     if (arg.favorited) {
-      userPost = await postsApi.createFavorite({ id: key.postId });
+      userPost = await postsApi.createFavorite({ id: key.postId }, { headers });
     } else {
-      userPost = await postsApi.deleteFavorite({ id: key.postId });
+      userPost = await postsApi.deleteFavorite({ id: key.postId }, { headers });
     }
   }
   if (arg.reposted !== undefined) {
     if (arg.reposted) {
-      userPost = await postsApi.createRepost({ id: key.postId });
+      userPost = await postsApi.createRepost({ id: key.postId }, { headers });
     } else {
-      userPost = await postsApi.deleteRepost({ id: key.postId });
+      userPost = await postsApi.deleteRepost({ id: key.postId }, { headers });
     }
   }
   // どちらでもない場合
@@ -55,14 +67,22 @@ const update = async (
  * @param initialData
  */
 export const usePostImmutable = (postId: string, initialData?: UserPost) => {
-  return useSWRImmutable<UserPost>(getKey(postId), fetcher, {
+  const { data: authId } = useAuth();
+  return useSWRImmutable<UserPost>(getKey(postId, authId), fetcher, {
     fallbackData: initialData,
   });
 };
 
+/**
+ * 投稿に対するアクション
+ * ※非ログイン状態だと使えません。
+ * @param postId
+ */
 export const usePostMutation = (postId: string) => {
-  return useSWRMutation<UserPost, Error, Key, UpdateRequest>(
-    getKey(postId),
+  const { data: authId } = useAuth();
+  const swrKey = authId ? getKey(postId, authId) : null;
+  return useSWRMutation<UserPost, Error, Key | null, UpdateRequest>(
+    swrKey,
     update,
     {
       populateCache: true,
@@ -77,5 +97,6 @@ export const usePostMutation = (postId: string) => {
  * @param postId
  */
 export const usePost = (postId: string) => {
-  return useSWR<UserPost>(getKey(postId), fetcher);
+  const { data: authId } = useAuth();
+  return useSWR<UserPost>(getKey(postId, authId), fetcher);
 };
