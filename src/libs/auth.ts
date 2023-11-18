@@ -129,9 +129,11 @@ export async function signUp(
   return setAccessToken(response.accessToken)[1];
 }
 
-export async function signOut(userId: number) {
+export async function signOut() {
   await authApi.postSignOut({ credentials: 'include' });
-  delete CACHE[userId];
+  Object.keys(CACHE).forEach((key) => {
+    delete CACHE[+key];
+  });
 }
 
 export async function getAuthorizationHeader(
