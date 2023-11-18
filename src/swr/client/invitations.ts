@@ -3,7 +3,7 @@ import { InvitationCodeRequest, ResponseError } from '@cuculus/cuculus-api';
 import useSWRMutation from 'swr/mutation';
 
 const postVerifyCode = async (
-  key: string,
+  _key: string,
   { arg }: { arg: InvitationCodeRequest },
 ) => {
   try {
