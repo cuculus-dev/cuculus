@@ -1,6 +1,5 @@
 import { AuthApi, Configuration, ResponseError } from '@cuculus/cuculus-api';
 import jwtDecode from 'jwt-decode';
-import { mutate } from 'swr';
 
 const accessToken = {
   set: (token: string) => localStorage.setItem('accessToken', token),
