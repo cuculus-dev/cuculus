@@ -1,9 +1,9 @@
 'use client';
 
 import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
-import ProfileCard from '@/features/user/layouts/ProfileCard';
+import ProfileCard from '@/app/(menu)/(public)/[username]/_components/layouts/ProfileCard';
 import { useUserImmutable } from '@/swr/client/user';
-import UserTimeline from '@/features/user/UserTimeline';
+import UserTimeline from '@/app/(menu)/(public)/[username]/_components/UserTimeline';
 
 type Props = {
   username: string;

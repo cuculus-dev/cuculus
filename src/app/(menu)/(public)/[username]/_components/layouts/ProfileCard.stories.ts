@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import ProfileCard from './ProfileCard';
-import { FollowStatus } from '@/features/user/elements/FollowButton';
+import { FollowStatus } from '@/app/(menu)/(public)/[username]/_components/elements/FollowButton';
 
 const meta = {
   parameters: {

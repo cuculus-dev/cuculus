@@ -4,8 +4,8 @@ import { UserWithFollows } from '@cuculus/cuculus-api';
 import { useUserPosts } from '@/swr/client/user';
 import { CircularProgress } from '@mui/material';
 import { WVList } from 'virtua';
-import TimelinePost from '@/features/timeline/TimelinePost';
-import Showmore from '@/features/timeline/layouts/Showmore';
+import TimelinePost from '@/app/(menu)/_components/timeline/TimelinePost';
+import Showmore from '@/app/(menu)/_components/timeline/layouts/Showmore';
 import { serializeGap } from '@/libs/swr/timeline/utils';
 
 const Queue = ({ user }: { user: UserWithFollows }) => {

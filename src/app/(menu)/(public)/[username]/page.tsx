@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { usersApi } from '@/libs/cuculus-client';
 import { notFound } from 'next/navigation';
-import ProfilePage from '@/features/user/ProfilePage';
+import ProfilePage from '@/app/(menu)/(public)/[username]/_components/ProfilePage';
 
 type Params = { params: { username: string } };
 

@@ -8,12 +8,12 @@ import {
   Typography,
 } from '@mui/material';
 import Link from 'next/link';
-import FavoriteButton from '@/features/timeline/elements/FavoriteButton';
-import RepostButton from '@/features/timeline/elements/RepostButton';
-import ReplyButton from '@/features/timeline/elements/ReplyButton';
-import ShareButton from '@/features/timeline/elements/ShareButton';
+import FavoriteButton from '@/app/(menu)/_components/timeline/elements/FavoriteButton';
+import RepostButton from '@/app/(menu)/_components/timeline/elements/RepostButton';
+import ReplyButton from '@/app/(menu)/_components/timeline/elements/ReplyButton';
+import ShareButton from '@/app/(menu)/_components/timeline/elements/ShareButton';
 import { useRouter } from 'next/navigation';
-import MomentAgo from '@/features/timeline/elements/MomentAgo';
+import MomentAgo from '@/app/(menu)/_components/timeline/elements/MomentAgo';
 import { format } from 'date-fns';
 
 const Avatar = styled(MuiDefaultAvatar)`

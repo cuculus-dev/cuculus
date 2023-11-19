@@ -1,12 +1,12 @@
 'use client';
 
-import TimelinePost from '@/features/timeline/TimelinePost';
+import TimelinePost from '@/app/(menu)/_components/timeline/TimelinePost';
 import { useHomeTimeline } from '@/swr/client/timeline';
 import { serializeGap } from '@/libs/swr/timeline/utils';
 import { CircularProgress } from '@mui/material';
 import { UserPost } from '@cuculus/cuculus-api';
 import { TimelineData } from '@/libs/swr/timeline/types';
-import Showmore from '@/features/timeline/layouts/Showmore';
+import Showmore from '@/app/(menu)/_components/timeline/layouts/Showmore';
 import { WVList } from 'virtua';
 
 // 投稿の件数をカウントする

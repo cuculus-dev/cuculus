@@ -1,8 +1,8 @@
 'use client';
 
 import { usePostImmutable } from '@/swr/client/post';
-import ViewTrigger from '@/features/timeline/ViewportTrigger';
-import Post from '@/features/timeline/layouts/Post';
+import ViewTrigger from '@/app/(menu)/_components/timeline/ViewportTrigger';
+import Post from '@/app/(menu)/_components/timeline/layouts/Post';
 import { UserPost } from '@cuculus/cuculus-api';
 
 /**

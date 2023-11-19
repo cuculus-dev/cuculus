@@ -7,10 +7,10 @@ import { ReactElement, useRef, useState } from 'react';
 import {
   FollowButton,
   FollowStatus,
-} from '@/features/user/elements/FollowButton';
+} from '@/app/(menu)/(public)/[username]/_components/elements/FollowButton';
 import { IconButton } from '@/components/elements/IconButton';
-import MoreMenu from '@/features/user/elements/MoreMenu';
-import UserCount from '@/features/user/elements/UserCount';
+import MoreMenu from '@/app/(menu)/(public)/[username]/_components/elements/MoreMenu';
+import UserCount from '@/app/(menu)/(public)/[username]/_components/elements/UserCount';
 
 const UnselectableCard = styled('div')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
