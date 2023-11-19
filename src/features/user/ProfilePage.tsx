@@ -3,6 +3,7 @@
 import PrimaryColumn from '@/components/layouts/PrimaryColumn';
 import ProfileCard from '@/features/user/layouts/ProfileCard';
 import { useUserImmutable } from '@/swr/client/user';
+import UserTimeline from '@/features/user/UserTimeline';
 
 type Props = {
   username: string;
@@ -28,9 +29,7 @@ export default function ProfilePage({ username }: Props) {
         followersCount={data.followersCount}
         userId={data.id}
       />
-      <div style={{ height: '2000px' }}>
-        ここにユーザータイムラインが表示される
-      </div>
+      <UserTimeline user={data} />
     </PrimaryColumn>
   );
 }

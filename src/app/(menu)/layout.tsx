@@ -23,11 +23,11 @@ const Layout = styled('div')`
   }
 
   ${({ theme }) => theme.breakpoints.down('laptop')} {
-    grid-template-columns: minmax(75px, 1fr) 5fr;
+    grid-template-columns: minmax(75px, 1fr) minmax(0, 600px) minmax(0, 1fr);
   }
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 600px);
   }
 `;
 

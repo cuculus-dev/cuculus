@@ -52,7 +52,7 @@ export default function MobileBottomMenu() {
 
   return (
     <>
-      <Spacer />
+      {profile && <Spacer />}
       {profile && (
         <Menu>
           <MobileBottomMenuLinkItem

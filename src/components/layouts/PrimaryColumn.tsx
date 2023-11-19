@@ -7,7 +7,6 @@ import BackButton from '@/components/elements/BackButton';
 const Main = styled('div')`
   border-left: 1px solid ${({ theme }) => theme.palette.grey[100]};
   border-right: 1px solid ${({ theme }) => theme.palette.grey[100]};
-  max-width: 640px;
   min-height: 100vh;
 `;
 

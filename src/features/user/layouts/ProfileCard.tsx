@@ -14,7 +14,6 @@ import UserCount from '@/features/user/elements/UserCount';
 
 const UnselectableCard = styled('div')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
-  max-width: 640px;
   background-color: ${({ theme }) => theme.palette.background.paper};
   color: rgba(0, 0, 0, 0.87);
 `;
