@@ -3,7 +3,7 @@
 import CuculusSvg from '@assets/icons/Cuculus.svg';
 import { styled } from '@mui/material';
 import LinkButton from '@/components/elements/LinkButton';
-import Footer from '@/components/layouts/Footer';
+import Footer from '@/app/(plain)/_components/Footer';
 
 const Container = styled('div')`
   display: flex;

@@ -1,8 +1,9 @@
 import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
-import EmotionRegistry from '@/components/providers/Registry';
+import EmotionRegistry from '@/app/_providers/Registry';
 import CssBaseline from '@mui/material/CssBaseline';
+import { ReactNode } from 'react';
 
 const title = 'Cuculus';
 const description = 'Cuculusは新しいけどどこか懐かしい短文投稿サービスです。';
@@ -37,11 +38,7 @@ export const metadata: Metadata = {
   viewport: 'viewport-fit=cover, width=device-width, initial-scale=1',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja" style={{ overflowY: 'scroll' }}>
       <head />
