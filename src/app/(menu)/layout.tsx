@@ -7,7 +7,7 @@ import { ReactNode } from 'react';
 
 const Layout = styled('div')`
   display: grid;
-  grid-template-columns: minmax(275px, 6fr) minmax(600px, 600px) minmax(
+  grid-template-columns: minmax(275px, 6fr) minmax(600px, 640px) minmax(
       275px,
       7fr
     );
@@ -16,18 +16,18 @@ const Layout = styled('div')`
   background-color: ${({ theme }) => theme.palette.background.paper};
 
   ${({ theme }) => theme.breakpoints.down('desktop')} {
-    grid-template-columns: minmax(75px, 75px) minmax(600px, 600px) minmax(
+    grid-template-columns: minmax(75px, 75px) minmax(600px, 640px) minmax(
         275px,
         auto
       );
   }
 
   ${({ theme }) => theme.breakpoints.down('laptop')} {
-    grid-template-columns: minmax(75px, 1fr) minmax(0, 600px) minmax(0, 1fr);
+    grid-template-columns: minmax(75px, 1fr) minmax(0, 640px) minmax(0, 1fr);
   }
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
-    grid-template-columns: minmax(0, 600px);
+    grid-template-columns: minmax(0, 640px);
   }
 `;
 
