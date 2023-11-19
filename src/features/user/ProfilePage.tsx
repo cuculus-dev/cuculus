@@ -1,6 +1,6 @@
 'use client';
 
-import PrimaryColumn from '@/components/layouts/PrimaryColumn';
+import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
 import ProfileCard from '@/features/user/layouts/ProfileCard';
 import { useUserImmutable } from '@/swr/client/user';
 import UserTimeline from '@/features/user/UserTimeline';

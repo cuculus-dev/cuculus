@@ -1,6 +1,6 @@
 'use client';
 
-import MobileBottomMenuItemStyleBase from '@/features/menu/elements/MobileBottomMenuItemStyleBase';
+import MobileBottomMenuItemStyleBase from '@/app/(menu)/_components/menu/elements/MobileBottomMenuItemStyleBase';
 import { styled } from '@mui/material';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';

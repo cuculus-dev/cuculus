@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@mui/material';
-import SignUpForm from '@/features/signup/SignUpForm';
+import SignUpForm from '@/app/(plain)/(guest)/signup/_components/SignUpForm';
 
 const Root = styled('div')`
   display: grid;

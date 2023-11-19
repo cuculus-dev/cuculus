@@ -11,11 +11,11 @@ import {
   Settings,
   SettingsOutlined,
 } from '@mui/icons-material';
-import SideMenuAccountButton from '@/features/menu/elements/SideMenuAccountButton';
-import SideMenuPostButton from '@/features/menu/elements/SideMenuPostButton';
-import SideMenuLinkItem from '@/features/menu/elements/SideMenuLinkItem';
+import SideMenuAccountButton from '@/app/(menu)/_components/menu/elements/SideMenuAccountButton';
+import SideMenuPostButton from '@/app/(menu)/_components/menu/elements/SideMenuPostButton';
+import SideMenuLinkItem from '@/app/(menu)/_components/menu/elements/SideMenuLinkItem';
 import { useProfile } from '@/swr/client/auth';
-import LogoLink from '@/features/menu/elements/LogoLink';
+import LogoLink from '@/app/(menu)/_components/menu/elements/LogoLink';
 
 const Root = styled('div')`
   // Desktop

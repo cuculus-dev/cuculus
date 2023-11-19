@@ -1,8 +1,8 @@
 'use client';
 
 import { styled } from '@mui/material';
-import SideMenu from '@/features/menu/SideMenu';
-import MobileBottomMenu from '@/features/menu/MobileBottomMenu';
+import SideMenu from '@/app/(menu)/_components/menu/SideMenu';
+import BottomMenu from '@/app/(menu)/_components/menu/BottomMenu';
 import { ReactNode } from 'react';
 
 const Layout = styled('div')`
@@ -36,7 +36,7 @@ export default function MenuLayout({ children }: { children: ReactNode }) {
     <Layout>
       <SideMenu />
       {children}
-      <MobileBottomMenu />
+      <BottomMenu />
     </Layout>
   );
 }

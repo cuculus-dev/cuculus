@@ -1,4 +1,4 @@
-import PrimaryColumn from '@/components/layouts/PrimaryColumn';
+import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
 import Timeline from '@/features/timeline/Timeline';
 import { Metadata } from 'next';
 

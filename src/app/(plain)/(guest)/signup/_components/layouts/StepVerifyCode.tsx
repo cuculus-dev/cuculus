@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { OutlinedInput } from '@mui/material';
-import StepTemplate from '@/features/signup/layouts/StepTemplate';
+import StepTemplate from '@/app/(plain)/(guest)/signup/_components/layouts/StepTemplate';
 import { useVerifyCode } from '@/swr/client/auth';
 
 type Props = {

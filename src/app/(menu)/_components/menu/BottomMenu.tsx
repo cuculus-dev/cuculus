@@ -1,6 +1,6 @@
 'use client';
 
-import MobileBottomMenuLinkItem from '@/features/menu/elements/MobileBottomMenuLinkItem';
+import MobileBottomMenuLinkItem from '@/app/(menu)/_components/menu/elements/MobileBottomMenuLinkItem';
 import { useProfile } from '@/swr/client/auth';
 import {
   Home,
@@ -47,7 +47,7 @@ const Spacer = styled('div')`
   }
 `;
 
-export default function MobileBottomMenu() {
+export default function BottomMenu() {
   const { data: profile } = useProfile();
 
   return (

@@ -1,6 +1,6 @@
 'use client';
 
-import SideMenuItemStyleBase from '@/features/menu/elements/SideMenuItemStyleBase';
+import SideMenuItemStyleBase from '@/app/(menu)/_components/menu/elements/SideMenuItemStyleBase';
 import { Send } from '@mui/icons-material';
 import { Box, Dialog, styled } from '@mui/material';
 import { useState } from 'react';
