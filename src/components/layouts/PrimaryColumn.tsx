@@ -37,7 +37,7 @@ const Title = styled('div')`
   align-items: center;
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;
+  //white-space: nowrap;
 `;
 
 type Props = {
