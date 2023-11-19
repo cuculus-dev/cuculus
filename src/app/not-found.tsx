@@ -1,4 +1,4 @@
-import NotFound from '@/components/layouts/NotFound';
+import NotFound from '@/app/_components/NotFound';
 import { Metadata } from 'next';
 export function generateMetadata(): Metadata {
   const title = `ページが見つかりません | Cuculus`;
