@@ -1,4 +1,4 @@
-import Logout from '@/features/signout/Logout';
+import Logout from '@/app/(plain)/(private)/logout/_components/Logout';
 
 export default function page() {
   return (
