@@ -16,9 +16,8 @@ interface IconButtonProps extends MuiDefaultIconButtonProps {
 const IconButton = styled(MuiDefaultIconButton, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<IconButtonProps>(({ variant, color, theme }) => {
-  // FIXME ButtonとIconButtonで高さが異なる問題。ベタ書きで暫定対処。
   const width = 36;
-  const height = width;
+  const height = 36;
 
   switch (variant) {
     case 'outlined':

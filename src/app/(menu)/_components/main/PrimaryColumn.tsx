@@ -2,7 +2,7 @@
 
 import { styled } from '@mui/material';
 import { ReactNode } from 'react';
-import BackButton from '@/components/elements/BackButton';
+import BackButton from '@/app/_components/button/BackButton';
 
 const Main = styled('div')`
   border-left: 1px solid ${({ theme }) => theme.palette.grey[100]};

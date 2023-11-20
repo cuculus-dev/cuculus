@@ -1,6 +1,6 @@
 'use client';
 
-import CapsuleButton from '@/components/elements/CapsuleButton';
+import CapsuleButton from '@/app/_components/button/CapsuleButton';
 import { ButtonTypeMap } from '@mui/material';
 import { MouseEventHandler } from 'react';
 

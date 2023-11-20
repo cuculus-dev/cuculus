@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@mui/material';
-import LinkButton from '@/components/elements/LinkButton';
+import LinkButton from '@/app/_components/button/LinkButton';
 import { MuseoModerno } from 'next/font/google';
 
 const museoModerno = MuseoModerno({ subsets: ['latin'], weight: ['700'] });

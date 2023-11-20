@@ -8,7 +8,7 @@ import {
   FollowButton,
   FollowStatus,
 } from '@/app/(menu)/(public)/[username]/_components/elements/FollowButton';
-import { IconButton } from '@/components/elements/IconButton';
+import { IconButton } from '@/app/_components/button/IconButton';
 import MoreMenu from '@/app/(menu)/(public)/[username]/_components/elements/MoreMenu';
 import UserCount from '@/app/(menu)/(public)/[username]/_components/elements/UserCount';
 
