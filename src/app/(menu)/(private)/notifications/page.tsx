@@ -1,4 +1,4 @@
-import ComingSoon from '@/components/layouts/ComingSoon';
+import ComingSoon from '@/app/(menu)/_components/main/ComingSoon';
 import { Metadata } from 'next';
 
 export function generateMetadata(): Metadata {
