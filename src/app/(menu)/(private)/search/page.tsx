@@ -13,7 +13,7 @@ export function generateMetadata(): Metadata {
 
 export default function page() {
   return (
-    <main style={{ height: '100vh' }}>
+    <main>
       <ComingSoon />
     </main>
   );

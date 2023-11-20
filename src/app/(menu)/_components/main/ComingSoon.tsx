@@ -11,9 +11,17 @@ const Root = styled('div')`
   justify-content: center;
   align-content: center;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  border-left: 1px solid ${({ theme }) => theme.palette.grey[100]};
+  border-right: 1px solid ${({ theme }) => theme.palette.grey[100]};
+  min-height: 100vh;
   color: ${({ theme }) => theme.palette.primary.main};
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    min-height: calc(
+      100vh - ${({ theme }) => theme.mixins.bottomMenu.height}px +
+        env(safe-area-inset-bottom)
+    );
+  }
 `;
 
 const Container = styled('div')`
