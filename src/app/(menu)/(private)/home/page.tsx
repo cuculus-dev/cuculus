@@ -1,6 +1,6 @@
 import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
-import Timeline from '@/app/(menu)/_components/timeline/Timeline';
 import { Metadata } from 'next';
+import HomeTimeline from '@/app/(menu)/(private)/home/_components/HomeTimeline';
 
 export function generateMetadata(): Metadata {
   const title = `ホーム | Cuculus`;
@@ -16,7 +16,7 @@ export default function page() {
   return (
     <main>
       <PrimaryColumn columnName={'ホーム'}>
-        <Timeline />
+        <HomeTimeline />
       </PrimaryColumn>
     </main>
   );

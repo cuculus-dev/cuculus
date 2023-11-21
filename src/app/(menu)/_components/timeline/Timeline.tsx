@@ -1,11 +1,10 @@
 'use client';
 
 import TimelinePost from '@/app/(menu)/_components/timeline/TimelinePost';
-import { useHomeTimeline } from '@/swr/client/timeline';
 import { serializeGap } from '@/libs/swr/timeline/utils';
 import { CircularProgress } from '@mui/material';
 import { UserPost } from '@cuculus/cuculus-api';
-import { TimelineData } from '@/libs/swr/timeline/types';
+import { SWRTimelineResponse, TimelineData } from '@/libs/swr/timeline/types';
 import Showmore from '@/app/(menu)/_components/timeline/layouts/Showmore';
 import { WVList } from 'virtua';
 
@@ -20,8 +19,12 @@ const lengthPost = (data: TimelineData<UserPost>) => {
   }, 0);
 };
 
-const Queue = () => {
-  const { queue, mutateLatest } = useHomeTimeline();
+type Props = {
+  timeline: SWRTimelineResponse<UserPost, Error>;
+};
+
+const Queue = ({ timeline }: Props) => {
+  const { queue, mutateLatest } = timeline;
 
   return (
     queue &&
@@ -40,8 +43,8 @@ const Queue = () => {
  * 再レンダリング起こすタイミングは要調整
  * @constructor
  */
-export default function Timeline() {
-  const { data, isLoading, mutateOlder, mutateGap } = useHomeTimeline();
+export default function Timeline({ timeline }: Props) {
+  const { data, isLoading, mutateOlder, mutateGap } = timeline;
 
   if (isLoading) {
     return (
@@ -73,7 +76,7 @@ export default function Timeline() {
           }
         }}
       >
-        <Queue />
+        <Queue timeline={timeline} />
         {data?.map((item) => {
           if (Array.isArray(item)) {
             return item.map((post) => {

@@ -1,4 +1,4 @@
-import useSWRImmutable from 'swr/immutable';
+import useSWR from 'swr';
 import { usersApi } from '@/libs/cuculus-client';
 import { UserPost, UserWithFollows } from '@cuculus/cuculus-api';
 import { getAuthorizationHeader } from '@/libs/auth';
@@ -20,11 +20,20 @@ const fetcher = async ({
   );
 };
 
-export const useUserImmutable = (username: string) => {
+/**
+ * ユーザー情報取得
+ * @param username
+ * @param fallbackData
+ */
+export const useUser = (username: string, fallbackData?: UserWithFollows) => {
   const { data: authId } = useAuth();
-  return useSWRImmutable<UserWithFollows>(
+  return useSWR<UserWithFollows>(
     { key: 'getUserByUsername', username, authId },
     fetcher,
+    {
+      fallbackData,
+      revalidateIfStale: false,
+    },
   );
 };
 

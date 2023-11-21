@@ -52,7 +52,7 @@ export default async function page({ params }: Params) {
 
   return (
     <main>
-      <ProfilePage username={user.username} />
+      <ProfilePage fallbackData={user} />
     </main>
   );
 }

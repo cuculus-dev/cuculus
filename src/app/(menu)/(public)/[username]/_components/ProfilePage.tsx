@@ -2,14 +2,15 @@
 
 import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
 import ProfileCard from '@/app/(menu)/(public)/[username]/_components/layouts/ProfileCard';
-import { useUserImmutable } from '@/swr/client/user';
+import { useUser } from '@/swr/client/user';
 import UserTimeline from '@/app/(menu)/(public)/[username]/_components/UserTimeline';
+import { UserWithFollows } from '@cuculus/cuculus-api';
 
 type Props = {
-  username: string;
+  fallbackData: UserWithFollows;
 };
-export default function ProfilePage({ username }: Props) {
-  const { data } = useUserImmutable(username);
+export default function ProfilePage({ fallbackData }: Props) {
+  const { data, isLoading } = useUser(fallbackData.username, fallbackData);
 
   if (!data) {
     // FIXME 読み込み中
@@ -29,7 +30,7 @@ export default function ProfilePage({ username }: Props) {
         followersCount={data.followersCount}
         userId={data.id}
       />
-      <UserTimeline user={data} />
+      {!isLoading && <UserTimeline user={data} />}
     </PrimaryColumn>
   );
 }
