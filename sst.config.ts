@@ -21,11 +21,11 @@ export default {
         minTtl: Duration.seconds(1),
         defaultTtl: Duration.seconds(86400),
         headerBehavior: CacheHeaderBehavior.allowList(
-          'next-url',
+          'accept',
           'rsc',
           'next-router-prefetch',
           'next-router-state-tree',
-          'accept',
+          'next-url',
         ),
         enableAcceptEncodingGzip: true,
         enableAcceptEncodingBrotli: true,
