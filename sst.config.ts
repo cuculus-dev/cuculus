@@ -1,6 +1,6 @@
 import { SSTConfig } from 'sst';
 import { NextjsSite } from 'sst/constructs';
-import { CachePolicy } from 'aws-cdk-lib/aws-cloudfront';
+import { CacheHeaderBehavior, CachePolicy } from 'aws-cdk-lib/aws-cloudfront';
 import { Duration } from 'aws-cdk-lib';
 
 export default {
@@ -20,6 +20,15 @@ export default {
       const serverCachePolicy = new CachePolicy(stack, 'ServerCache', {
         minTtl: Duration.seconds(1),
         defaultTtl: Duration.seconds(86400),
+        headerBehavior: CacheHeaderBehavior.allowList(
+          'next-url',
+          'rsc',
+          'next-router-prefetch',
+          'next-router-state-tree',
+          'accept',
+        ),
+        enableAcceptEncodingGzip: true,
+        enableAcceptEncodingBrotli: true,
       });
       const site = new NextjsSite(stack, 'site', {
         customDomain: {
