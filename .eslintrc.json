@@ -1,5 +1,6 @@
 {
   "extends": [
+    "next",
     "plugin:@next/next/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
@@ -7,8 +8,14 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "next/core-web-vitals",
+    "plugin:jsx-a11y/recommended",
     "prettier",
     "plugin:storybook/recommended"
+  ],
+  "ignorePatterns": [
+    "node_modules/*",
+    "next.config.js",
+    "proxy.js"
   ],
   "parserOptions": {
     "project": "./tsconfig.json",
@@ -17,11 +24,6 @@
     },
     "ecmaVersion": "latest"
   },
-  "ignorePatterns": [
-    "node_modules/*",
-    "next.config.js",
-    "proxy.js"
-  ],
   "plugins": [
     "react",
     "react-hooks",
@@ -31,7 +33,9 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["@mui/*/*/*"]
+        "patterns": [
+          "@mui/*/*/*"
+        ]
       }
     ],
     "@typescript-eslint/no-unused-vars": [
