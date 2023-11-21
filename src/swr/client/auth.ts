@@ -25,9 +25,8 @@ const AUTH_KEY = 'useAuth';
 const fetchAuthenticated = async (): Promise<number> => {
   const token = await fetchAccessToken(CACHE ?? undefined);
   if (token) {
-    const userId = decodeToAuthJwtPayload(token).id;
-    CACHE = userId;
-    return userId;
+    CACHE = decodeToAuthJwtPayload(token).id;
+    return CACHE;
   } else {
     CACHE = undefined;
     throw new Error('Unauthorized.');
