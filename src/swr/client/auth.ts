@@ -17,14 +17,19 @@ import {
   signOut,
   signUp,
 } from '@/libs/auth';
+import useSWRImmutable from 'swr/immutable';
 
+let CACHE: number | undefined;
 const AUTH_KEY = 'useAuth';
 
 const fetchAuthenticated = async (): Promise<number> => {
-  const token = await fetchAccessToken();
+  const token = await fetchAccessToken(CACHE ?? undefined);
   if (token) {
-    return decodeToAuthJwtPayload(token).id;
+    const userId = decodeToAuthJwtPayload(token).id;
+    CACHE = userId;
+    return userId;
   } else {
+    CACHE = undefined;
     throw new Error('Unauthorized.');
   }
 };
@@ -33,7 +38,7 @@ const fetchAuthenticated = async (): Promise<number> => {
  * ログイン状態のみを返す。
  */
 export const useAuth = () => {
-  return useSWR<number, Error>(AUTH_KEY, fetchAuthenticated, {
+  return useSWRImmutable<number, Error>(AUTH_KEY, fetchAuthenticated, {
     errorRetryCount: 0,
   });
 };
