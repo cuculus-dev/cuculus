@@ -112,7 +112,7 @@ export default function Post({
         <div style={{ padding: '0 16px' }}>
           {/*<div>〇〇さんがリポストしました。</div>*/}
           <Original>
-            <Avatar src={profileImageUrl} />
+            <Avatar src={profileImageUrl} alt={'プロフィール画像'} />
             <Content>
               <Header>
                 <DisplayName

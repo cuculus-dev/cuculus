@@ -93,7 +93,7 @@ const SideMenuAccountButton = ({
         ref={accountMenuRef}
         onClick={() => setShowAccountMenu(true)}
       >
-        <Avatar src={profileAvatarImageUrl} />
+        <Avatar src={profileAvatarImageUrl} alt={'プロフィール画像'} />
 
         <Grid gridTemplateRows={'repeat(2, 1fr)'} overflow={'hidden'}>
           <DisplayName>{displayName}</DisplayName>
