@@ -1,7 +1,7 @@
 'use client';
 
 import { Mail, MoreHoriz } from '@mui/icons-material';
-import { Avatar, Box, CardMedia, Typography, styled } from '@mui/material';
+import { Avatar, Box, Typography, styled } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { ReactElement, useRef, useState } from 'react';
 import {
@@ -18,9 +18,16 @@ const UnselectableCard = styled('div')`
   color: rgba(0, 0, 0, 0.87);
 `;
 
-const HeaderImage = styled(CardMedia)`
+const HeaderImage = styled('div')<{
+  image?: string;
+}>`
+  display: block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   aspect-ratio: 3 / 1;
   background-color: ${({ theme }) => theme.palette.primary.light};
+  background-image: ${({ image }) => (image ? `url(${image})` : 'none')};
 `;
 
 const Flex = styled(Box)`
@@ -71,9 +78,7 @@ const Bio = styled(Typography)`
   margin-bottom: 12px;
 `;
 
-// TODO 表示項目の内容を引数で受け取るか、userIdだけ受け取ってこっちでAPI叩いて表示するか決める
 interface ProfileCardProps {
-  // TODO stringだけ受けるか、elementも受けるか検討(リンクどうするかとか)
   bio: string | ReactElement;
   displayName: string;
   followStatus: (typeof FollowStatus)[keyof typeof FollowStatus];
@@ -128,7 +133,6 @@ export default function ProfileCard({
                         onClick={() => setShowMoreMenu(!getShowMoreMenu)}
                       >
                         <MoreHoriz />
-
                         <MoreMenu
                           anchorEl={moreMenuRef.current}
                           open={getShowMoreMenu}
