@@ -18,7 +18,7 @@ export default {
         domain = `${stack.stage}.${domain}`;
       }
       const serverCachePolicy = new CachePolicy(stack, 'ServerCache', {
-        minTtl: Duration.seconds(1),
+        minTtl: Duration.seconds(86400),
         defaultTtl: Duration.seconds(86400),
         headerBehavior: CacheHeaderBehavior.allowList(
           'accept',
