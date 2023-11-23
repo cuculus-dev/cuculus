@@ -59,21 +59,25 @@ export default function BottomMenu() {
             icon={<HomeOutlined />}
             activeIcon={<Home />}
             href={'/home'}
+            label={'ホーム'}
           />
           <MobileBottomMenuLinkItem
             icon={<SearchOutlined />}
             activeIcon={<Search />}
             href={'/search'}
+            label={'検索'}
           />
           <MobileBottomMenuLinkItem
             icon={<NotificationsOutlined />}
             activeIcon={<Notifications />}
             href={'/notifications'}
+            label={'通知'}
           />
           <MobileBottomMenuLinkItem
             icon={<SettingsOutlined />}
             activeIcon={<Settings />}
             href={'/settings'}
+            label={'設定'}
           />
         </Menu>
       )}

@@ -29,9 +29,10 @@ interface Props {
   href: string;
   icon: ReactNode;
   activeIcon?: ReactNode;
+  label: string;
 }
 
-const MobileBottomMenuLinkItem = ({ href, icon, activeIcon }: Props) => {
+const MobileBottomMenuLinkItem = ({ href, icon, activeIcon, label }: Props) => {
   const pathname = usePathname();
 
   return (
@@ -39,6 +40,7 @@ const MobileBottomMenuLinkItem = ({ href, icon, activeIcon }: Props) => {
       <StyledLink
         href={href}
         className={href === pathname ? 'active' : undefined}
+        aria-label={label}
       >
         {activeIcon && href === pathname ? activeIcon : icon}
       </StyledLink>
