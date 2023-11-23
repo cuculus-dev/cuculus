@@ -1,7 +1,7 @@
-import ComingSoon from '@/app/(menu)/_components/main/ComingSoon';
 import { Metadata } from 'next';
 import { postsApi } from '@/libs/cuculus-client';
 import { notFound, redirect } from 'next/navigation';
+import { PostPage } from '@/app/(menu)/(public)/[username]/posts/_components/PostPage';
 
 const TITLE_MAX_LENGTH = 70;
 
@@ -21,9 +21,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     return {};
   }
 
-  let title = `${post.author.name} さん:「${post.text ?? ''}」`;
+  let title = `${post.author.name}さん:「${post.text ?? ''}」`;
   if (post.originalPost) {
-    title = `${post.originalPost.author.name} さん:「${
+    title = `${post.originalPost.author.name}さん:「${
       post.originalPost.text ?? ''
     }」`;
   }
@@ -60,8 +60,8 @@ export default async function page({ params }: Params) {
   }
 
   return (
-    <main style={{ height: '100vh' }}>
-      <ComingSoon />
+    <main>
+      <PostPage postId={params.postId} fallbackData={post} />
     </main>
   );
 }
