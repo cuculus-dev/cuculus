@@ -1,6 +1,5 @@
 'use client';
 
-import MobileBottomMenuItemStyleBase from '@/app/(menu)/_components/menu/elements/MobileBottomMenuItemStyleBase';
 import { styled } from '@mui/material';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -13,6 +12,7 @@ const StyledLink = styled(NextLink)`
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
   &.active {
     font-weight: 700;
@@ -36,15 +36,13 @@ const MobileBottomMenuLinkItem = ({ href, icon, activeIcon, label }: Props) => {
   const pathname = usePathname();
 
   return (
-    <MobileBottomMenuItemStyleBase>
-      <StyledLink
-        href={href}
-        className={href === pathname ? 'active' : undefined}
-        aria-label={label}
-      >
-        {activeIcon && href === pathname ? activeIcon : icon}
-      </StyledLink>
-    </MobileBottomMenuItemStyleBase>
+    <StyledLink
+      href={href}
+      className={href === pathname ? 'active' : undefined}
+      aria-label={label}
+    >
+      {activeIcon && href === pathname ? activeIcon : icon}
+    </StyledLink>
   );
 };
 

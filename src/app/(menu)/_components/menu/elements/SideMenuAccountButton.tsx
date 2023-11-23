@@ -112,19 +112,19 @@ const SideMenuAccountButton = ({
         disableRestoreFocus
         disableAutoFocusItem
       >
-        <MenuItem>
-          <StyledNextLink href={`${userName}`}>
+        <StyledNextLink href={`${userName}`}>
+          <MenuItem>
             <Person />
             プロフィール
-          </StyledNextLink>
-        </MenuItem>
+          </MenuItem>
+        </StyledNextLink>
 
-        <MenuItem>
-          <StyledNextLink href="/logout">
+        <StyledNextLink href="/logout">
+          <MenuItem>
             <Logout />
             ログアウト
-          </StyledNextLink>
-        </MenuItem>
+          </MenuItem>
+        </StyledNextLink>
       </Menu>
     </MenuItemStyleBase>
   );
