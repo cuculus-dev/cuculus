@@ -72,6 +72,10 @@ const StyledNextLink = styled(NextLink)`
   width: 100%;
 `;
 
+const StyledItem = styled(MenuItem)`
+  width: 100%;
+`;
+
 interface Props {
   displayName: string;
   userName: string;
@@ -113,17 +117,17 @@ const SideMenuAccountButton = ({
         disableAutoFocusItem
       >
         <StyledNextLink href={`${userName}`}>
-          <MenuItem>
+          <StyledItem>
             <Person />
             プロフィール
-          </MenuItem>
+          </StyledItem>
         </StyledNextLink>
 
         <StyledNextLink href="/logout">
-          <MenuItem>
+          <StyledItem>
             <Logout />
             ログアウト
-          </MenuItem>
+          </StyledItem>
         </StyledNextLink>
       </Menu>
     </MenuItemStyleBase>
