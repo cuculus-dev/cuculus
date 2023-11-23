@@ -1,16 +1,12 @@
 'use client';
 
-import { Mail, MoreHoriz } from '@mui/icons-material';
-import { Avatar, Box, CardMedia, Typography, styled } from '@mui/material';
-import { usePathname } from 'next/navigation';
-import { ReactElement, useRef, useState } from 'react';
+import { Avatar, Box, Typography, styled } from '@mui/material';
 import {
   FollowButton,
   FollowStatus,
 } from '@/app/(menu)/(public)/[username]/_components/elements/FollowButton';
-import { IconButton } from '@/app/_components/button/IconButton';
-import MoreMenu from '@/app/(menu)/(public)/[username]/_components/elements/MoreMenu';
 import UserCount from '@/app/(menu)/(public)/[username]/_components/elements/UserCount';
+import { usePathname } from 'next/navigation';
 
 const UnselectableCard = styled('div')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
@@ -18,9 +14,16 @@ const UnselectableCard = styled('div')`
   color: rgba(0, 0, 0, 0.87);
 `;
 
-const HeaderImage = styled(CardMedia)`
+const HeaderImage = styled('div')<{
+  image?: string;
+}>`
+  display: block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   aspect-ratio: 3 / 1;
   background-color: ${({ theme }) => theme.palette.primary.light};
+  background-image: ${({ image }) => (image ? `url(${image})` : 'none')};
 `;
 
 const Flex = styled(Box)`
@@ -71,48 +74,51 @@ const Bio = styled(Typography)`
   margin-bottom: 12px;
 `;
 
-// TODO 表示項目の内容を引数で受け取るか、userIdだけ受け取ってこっちでAPI叩いて表示するか決める
 interface ProfileCardProps {
-  // TODO stringだけ受けるか、elementも受けるか検討(リンクどうするかとか)
-  bio: string | ReactElement;
-  displayName: string;
-  followStatus: (typeof FollowStatus)[keyof typeof FollowStatus];
+  id: number;
+  name: string;
+  username: string;
+  createdAt: Date;
+  description: string;
+  profileImageUrl: string;
+  protected: boolean;
+  url: string;
+  verified: boolean;
   followersCount?: number;
   followingCount?: number;
-  userId: number;
-  profileAvatarImageUrl: string;
-  profileHeaderImageUrl: string;
-  userName: string;
+  authId: number | undefined;
+  authorizing: boolean;
 }
 
 export default function ProfileCard({
-  bio,
-  displayName,
-  followStatus,
+  id,
+  name,
+  username,
+  description,
+  profileImageUrl,
   followersCount,
   followingCount,
-  userId,
-  profileAvatarImageUrl,
-  profileHeaderImageUrl,
-  userName,
+  authId,
+  authorizing,
 }: ProfileCardProps) {
-  // FIXME setShowFollowButton(globalState.me.id !== userId)
-  const [getIsSelf, setShowFollowButton] = useState(false);
-  const [getShowMoreMenu, setShowMoreMenu] = useState(false);
-
-  const moreMenuRef = useRef(null);
-
   const path = usePathname();
+
+  const getFollowStatus = (): FollowStatus => {
+    if (id === authId) {
+      return 'EditProfile';
+    }
+    return 'NotFollowing';
+  };
 
   return (
     <>
       <UnselectableCard>
-        <HeaderImage image={profileHeaderImageUrl} />
+        <HeaderImage image={''} />
 
         <div style={{ padding: '12px 16px 16px' }}>
           <HFlex>
             {/* アイコン */}
-            <UserIcon src={profileAvatarImageUrl} alt={'プロフィール画像'} />
+            <UserIcon src={profileImageUrl} alt={'プロフィール画像'} />
 
             <FillFlex>
               <VFlex gap={2}>
@@ -120,39 +126,37 @@ export default function ProfileCard({
                   <FillFlex>
                     <HFlex gap={1} justifyContent={'end'}>
                       {/* ミートボールボタン */}
-                      <IconButton
-                        ref={moreMenuRef}
-                        color="primary"
-                        variant="outlined"
-                        aria-label="もっと見る"
-                        onClick={() => setShowMoreMenu(!getShowMoreMenu)}
-                      >
-                        <MoreHoriz />
-
-                        <MoreMenu
-                          anchorEl={moreMenuRef.current}
-                          open={getShowMoreMenu}
-                        />
-                      </IconButton>
+                      {/*<IconButton*/}
+                      {/*  ref={moreMenuRef}*/}
+                      {/*  color="primary"*/}
+                      {/*  variant="outlined"*/}
+                      {/*  aria-label="もっと見る"*/}
+                      {/*  onClick={() => setShowMoreMenu(!getShowMoreMenu)}*/}
+                      {/*>*/}
+                      {/*  <MoreHoriz />*/}
+                      {/*  <MoreMenu*/}
+                      {/*    anchorEl={moreMenuRef.current}*/}
+                      {/*    open={getShowMoreMenu}*/}
+                      {/*  />*/}
+                      {/*</IconButton>*/}
                       {/* DMボタン */}
-                      {!getIsSelf && (
-                        <IconButton
-                          color="primary"
-                          variant="outlined"
-                          aria-label="メッセージ"
-                          onClick={() => {
-                            /* FIXME */
-                          }}
-                        >
-                          <Mail />
-                        </IconButton>
-                      )}
+                      {/*{!isMe && (*/}
+                      {/*  <IconButton*/}
+                      {/*    color="primary"*/}
+                      {/*    variant="outlined"*/}
+                      {/*    aria-label="メッセージ"*/}
+                      {/*    onClick={() => {*/}
+                      {/*     */}
+                      {/*    }}*/}
+                      {/*  >*/}
+                      {/*    <Mail />*/}
+                      {/*  </IconButton>*/}
+                      {/*)}*/}
                       {/* フォローボタン */}
-                      {!getIsSelf && (
+                      {!authorizing && (
                         <FollowButton
-                          aria-label="フォローする"
-                          followStatus={followStatus}
-                          userId={userId}
+                          followStatus={getFollowStatus()}
+                          userId={id}
                         />
                       )}
                     </HFlex>
@@ -163,10 +167,10 @@ export default function ProfileCard({
           </HFlex>
 
           <VFlex style={{ margin: '12px 0' }}>
-            <DisplayName>{displayName}</DisplayName>
-            <UserName>@{userName}</UserName>
+            <DisplayName>{name}</DisplayName>
+            <UserName>@{username}</UserName>
           </VFlex>
-          <Bio>{bio}</Bio>
+          <Bio>{description}</Bio>
 
           <HFlex gap={2}>
             {followingCount != undefined && (

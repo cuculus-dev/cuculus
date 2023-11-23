@@ -3,23 +3,20 @@
 import CapsuleButton from '@/app/_components/button/CapsuleButton';
 import { ButtonTypeMap } from '@mui/material';
 import { MouseEventHandler } from 'react';
+import { OverridableStringUnion } from '@mui/types';
+import { ButtonPropsVariantOverrides } from '@mui/material/Button';
 
 // static class propertyにして文字列で持たせる？(interfaceどうするか)(enum使う？)
-type FollowStatusKeys = 'NotFollowing' | 'Following' | 'Pending' | 'Blocked';
-export const FollowStatus = {
-  /** 未フォロー */
-  NotFollowing: 0,
-  /** フォロー中 */
-  Following: 1,
-  /** フォローリクエスト承認待ち */
-  Pending: 2,
-  /** ブロックされている */
-  Blocked: 3,
-} satisfies Record<FollowStatusKeys, number>;
+export type FollowStatus =
+  | 'NotFollowing'
+  | 'Following'
+  | 'Pending'
+  | 'Blocked'
+  | 'EditProfile';
 
 interface Props {
   userId: number;
-  followStatus: FollowStatusKeys[keyof FollowStatusKeys];
+  followStatus: FollowStatus;
 }
 
 export function FollowButton({ followStatus }: Props) {
@@ -38,32 +35,49 @@ export function FollowButton({ followStatus }: Props) {
     // doCancel(???);
   };
 
-  const [color, enabled, text, onClick] = ((): [
+  const editProfile: MouseEventHandler<HTMLButtonElement> = () => {
+    // editProfile(???);
+  };
+
+  const [color, enabled, text, onClick, variant] = ((): [
     ButtonTypeMap['props']['color'],
     boolean,
-    string | React.JSX.Element,
-    MouseEventHandler<HTMLButtonElement>?,
+    string,
+    MouseEventHandler<HTMLButtonElement> | undefined,
+    OverridableStringUnion<
+      'text' | 'outlined' | 'contained',
+      ButtonPropsVariantOverrides
+    >,
   ] => {
     switch (followStatus) {
-      case FollowStatus.NotFollowing:
-        return ['primary', true, 'フォローする', unfollow];
-      case FollowStatus.Following:
-        return ['success', true, 'フォロー中', follow];
-      case FollowStatus.Pending:
-        return ['secondary', true, '承認待ち', cancelRequest];
-      case FollowStatus.Blocked:
-        return ['warning', false, 'ブロックされています'];
+      case 'NotFollowing':
+        return ['primary', true, 'フォロー', unfollow, 'contained'];
+      case 'Following':
+        return ['primary', true, 'フォロー中', follow, 'outlined'];
+      case 'Pending':
+        return ['secondary', true, '承認待ち', cancelRequest, 'outlined'];
+      case 'Blocked':
+        return [
+          'warning',
+          false,
+          'ブロックされています',
+          undefined,
+          'outlined',
+        ];
+      case 'EditProfile':
+        return ['primary', true, 'プロフィールを編集', editProfile, 'outlined'];
       default:
-        return ['error', false, '(invalid value)'];
+        return ['error', false, '(invalid value)', undefined, 'outlined'];
     }
   })();
 
   return (
     <CapsuleButton
+      aria-label={text}
       color={color}
       disabled={!enabled}
       onClick={onClick}
-      variant="outlined"
+      variant={variant}
     >
       {text}
     </CapsuleButton>
