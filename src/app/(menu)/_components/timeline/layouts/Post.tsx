@@ -118,10 +118,16 @@ export default function Post({
   return (
     <Article>
       <CardActionArea
+        sx={{ userSelect: 'text' }}
         component={'div'}
         onFocus={() => void router.prefetch(postUrl)}
         onMouseEnter={() => void router.prefetch(postUrl)}
-        onClick={() => void router.push(postUrl)}
+        onClick={() => {
+          const selection = window.getSelection();
+          if (!(selection && selection.toString())) {
+            void router.push(postUrl);
+          }
+        }}
         disableRipple
       >
         <div style={{ padding: '0 16px' }}>
