@@ -1,8 +1,9 @@
 'use client';
 
+import PostDialog from '@/app/_components/post/PostDialog';
 import SideMenuItemStyleBase from '@/app/(menu)/_components/menu/elements/SideMenuItemStyleBase';
 import { Send } from '@mui/icons-material';
-import { Box, Dialog, styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import { useState } from 'react';
 
 const Wrapper = styled(SideMenuItemStyleBase)`
@@ -44,9 +45,11 @@ const SideMenuPostButton = () => {
           <Label>ポスト</Label>
         </HFlex>
       </Wrapper>
-      <Dialog open={getShowPostDialog} onClose={() => setShowPostDialog(false)}>
-        <div>FIXME 投稿コンポーネントに差し替え</div>
-      </Dialog>
+
+      <PostDialog
+        open={getShowPostDialog}
+        close={() => setShowPostDialog(false)}
+      />
     </>
   );
 };
