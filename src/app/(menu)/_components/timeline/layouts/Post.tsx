@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Avatar as MuiDefaultAvatar,
-  CardActionArea,
-  styled,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { CardActionArea, styled, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
 import FavoriteButton from '@/app/(menu)/_components/timeline/elements/FavoriteButton';
 import RepostButton from '@/app/(menu)/_components/timeline/elements/RepostButton';
@@ -15,12 +9,7 @@ import ShareButton from '@/app/(menu)/_components/timeline/elements/ShareButton'
 import { useRouter } from 'next/navigation';
 import MomentAgo from '@/app/(menu)/_components/timeline/elements/MomentAgo';
 import { format } from 'date-fns';
-
-const Avatar = styled(MuiDefaultAvatar)`
-  aspect-ratio: 1;
-  height: 40px;
-  width: 40px;
-`;
+import AvatarIcon from '@/app/(menu)/_components/timeline/elements/AvatarIcon';
 
 const Article = styled('article')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
@@ -133,7 +122,7 @@ export default function Post({
         <div style={{ padding: '0 16px' }}>
           {/*<div>〇〇さんがリポストしました。</div>*/}
           <Original>
-            <Avatar src={profileImageUrl} alt={'プロフィール画像'} />
+            <AvatarIcon src={profileImageUrl} href={`/${userName}`} />
             <Content>
               <Header>
                 <HiddenSize>
