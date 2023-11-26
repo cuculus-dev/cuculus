@@ -18,7 +18,7 @@ const Article = styled('article')`
 `;
 
 const Original = styled('div')`
-  padding: 12px 0;
+  padding: 12px 0 6px 0;
   display: flex;
   gap: 10px;
 `;
@@ -34,7 +34,6 @@ const Header = styled('div')`
   align-items: center;
   width: 100%;
   gap: 4px;
-  margin-bottom: 5px;
 `;
 
 const ProfileLink = styled(Link)`

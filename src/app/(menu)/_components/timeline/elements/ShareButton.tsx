@@ -16,7 +16,7 @@ export default function ShareButton() {
         aria-label="共有"
         onClick={(event) => event.stopPropagation()}
       >
-        <IosShare />
+        <IosShare fontSize="small" />
       </StyledButton>
     </div>
   );

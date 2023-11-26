@@ -27,7 +27,7 @@ export default function RepostButton({ postId, reposted, repostCount }: Props) {
   return (
     <div aria-label={`${repostCount}件のリポスト。リポストする`}>
       <IconButton color="repost" aria-label="リポスト" onClick={handleClick}>
-        <Icon active={reposted ? 'true' : 'false'} />
+        <Icon active={reposted ? 'true' : 'false'} fontSize="small" />
       </IconButton>
     </div>
   );
