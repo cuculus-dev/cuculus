@@ -44,20 +44,19 @@ const ProfileLink = styled(Link)`
   flex-grow: 1;
   margin-right: 10px;
   text-decoration: none;
-
-  /* FIXME フォーカス時のスタイルは決めておきたい */
   outline-offset: 0;
   outline: none;
+
+  &:focus > :first-child,
+  &:hover > :first-child {
+    text-decoration: underline;
+  }
 `;
 
 const DisplayName = styled('span')`
   color: ${({ theme }) => theme.palette.text.primary};
   font-weight: bold;
   font-size: 1rem;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 const Footer = styled('div')`
@@ -70,7 +69,10 @@ const MomentLinks = styled(Link)`
   color: #8899a6;
   text-decoration: none;
   flex-shrink: 0;
+  outline-offset: 0;
+  outline: none;
 
+  &:focus,
   &:hover {
     text-decoration: underline;
   }
