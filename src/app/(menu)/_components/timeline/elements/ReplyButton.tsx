@@ -19,7 +19,7 @@ export default function ReplyButton({ count }: Props) {
         aria-label="リプライ"
         onClick={(event) => event.stopPropagation()}
       >
-        <ChatBubbleOutline />
+        <ChatBubbleOutline fontSize="small" />
       </StyledButton>
     </div>
   );

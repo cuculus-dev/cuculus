@@ -37,7 +37,7 @@ export default function FavoriteButton({
         aria-label="お気に入りに追加"
         onClick={handleClick}
       >
-        <Icon active={favorited ? 'true' : 'false'} />
+        <Icon active={favorited ? 'true' : 'false'} fontSize="small" />
       </IconButton>
     </div>
   );

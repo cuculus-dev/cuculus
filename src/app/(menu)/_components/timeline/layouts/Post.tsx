@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Avatar as MuiDefaultAvatar,
-  CardActionArea,
-  styled,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { CardActionArea, styled, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
 import FavoriteButton from '@/app/(menu)/_components/timeline/elements/FavoriteButton';
 import RepostButton from '@/app/(menu)/_components/timeline/elements/RepostButton';
@@ -15,12 +9,7 @@ import ShareButton from '@/app/(menu)/_components/timeline/elements/ShareButton'
 import { useRouter } from 'next/navigation';
 import MomentAgo from '@/app/(menu)/_components/timeline/elements/MomentAgo';
 import { format } from 'date-fns';
-
-const Avatar = styled(MuiDefaultAvatar)`
-  aspect-ratio: 1;
-  height: 40px;
-  width: 40px;
-`;
+import AvatarIcon from '@/app/(menu)/_components/timeline/elements/AvatarIcon';
 
 const Article = styled('article')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
@@ -29,7 +18,7 @@ const Article = styled('article')`
 `;
 
 const Original = styled('div')`
-  padding: 12px 0;
+  padding: 12px 0 6px 0;
   display: flex;
   gap: 10px;
 `;
@@ -41,20 +30,32 @@ const Content = styled('div')`
 
 const Header = styled('div')`
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   gap: 4px;
-  margin-bottom: 5px;
 `;
 
-const DisplayName = styled(Link)`
+const ProfileLink = styled(Link)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  margin-right: 10px;
   text-decoration: none;
+  outline-offset: 0;
+  outline: none;
+
+  &:focus > :first-child,
+  &:hover > :first-child {
+    text-decoration: underline;
+  }
+`;
+
+const DisplayName = styled('span')`
   color: ${({ theme }) => theme.palette.text.primary};
   font-weight: bold;
   font-size: 1rem;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 const Footer = styled('div')`
@@ -66,25 +67,16 @@ const Footer = styled('div')`
 const MomentLinks = styled(Link)`
   color: #8899a6;
   text-decoration: none;
+  flex-shrink: 0;
+  outline-offset: 0;
+  outline: none;
 
+  &:focus,
   &:hover {
     text-decoration: underline;
   }
 `;
 
-const HiddenSize = styled('span')`
-  max-width: 80%;
-`;
-
-const NameHidden = styled('div')`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const WhiteSpace = styled('span')`
-  padding-left: 4px;
-`;
 type Props = {
   displayName: string;
   userName: string;
@@ -118,36 +110,33 @@ export default function Post({
   return (
     <Article>
       <CardActionArea
+        sx={{ userSelect: 'text' }}
         component={'div'}
         onFocus={() => void router.prefetch(postUrl)}
         onMouseEnter={() => void router.prefetch(postUrl)}
-        onClick={() => void router.push(postUrl)}
+        onClick={() => {
+          const selection = window.getSelection();
+          if (!(selection && selection.toString())) {
+            void router.push(postUrl);
+          }
+        }}
         disableRipple
       >
         <div style={{ padding: '0 16px' }}>
           {/*<div>〇〇さんがリポストしました。</div>*/}
           <Original>
-            <Avatar src={profileImageUrl} alt={'プロフィール画像'} />
+            <AvatarIcon src={profileImageUrl} href={`/${userName}`} />
             <Content>
               <Header>
-                <HiddenSize>
-                  <NameHidden>
-                    <DisplayName
-                      href={`/${userName}`}
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      {displayName}
-                    </DisplayName>
-                    <WhiteSpace>
-                      <Typography component="span" color="#8899a6">
-                        @{userName}
-                      </Typography>
-                    </WhiteSpace>
-                  </NameHidden>
-                </HiddenSize>
-                <Typography component="span" color="#8899a6">
-                  ·
-                </Typography>
+                <ProfileLink
+                  href={`/${userName}`}
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <DisplayName>{displayName}</DisplayName>
+                  <span style={{ color: '#8899a6', marginLeft: '4px' }}>
+                    @{userName}
+                  </span>
+                </ProfileLink>
                 <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
                   <MomentLinks
                     aria-label="投稿へ"
