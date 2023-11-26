@@ -30,13 +30,27 @@ const Content = styled('div')`
 
 const Header = styled('div')`
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   gap: 4px;
   margin-bottom: 5px;
 `;
 
-const DisplayName = styled(Link)`
+const ProfileLink = styled(Link)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  margin-right: 10px;
   text-decoration: none;
+
+  /* FIXME フォーカス時のスタイルは決めておきたい */
+  outline-offset: 0;
+  outline: none;
+`;
+
+const DisplayName = styled('span')`
   color: ${({ theme }) => theme.palette.text.primary};
   font-weight: bold;
   font-size: 1rem;
@@ -55,25 +69,13 @@ const Footer = styled('div')`
 const MomentLinks = styled(Link)`
   color: #8899a6;
   text-decoration: none;
+  flex-shrink: 0;
 
   &:hover {
     text-decoration: underline;
   }
 `;
 
-const HiddenSize = styled('span')`
-  max-width: 80%;
-`;
-
-const NameHidden = styled('div')`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const WhiteSpace = styled('span')`
-  padding-left: 4px;
-`;
 type Props = {
   displayName: string;
   userName: string;
@@ -125,24 +127,15 @@ export default function Post({
             <AvatarIcon src={profileImageUrl} href={`/${userName}`} />
             <Content>
               <Header>
-                <HiddenSize>
-                  <NameHidden>
-                    <DisplayName
-                      href={`/${userName}`}
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      {displayName}
-                    </DisplayName>
-                    <WhiteSpace>
-                      <Typography component="span" color="#8899a6">
-                        @{userName}
-                      </Typography>
-                    </WhiteSpace>
-                  </NameHidden>
-                </HiddenSize>
-                <Typography component="span" color="#8899a6">
-                  ·
-                </Typography>
+                <ProfileLink
+                  href={`/${userName}`}
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <DisplayName>{displayName}</DisplayName>
+                  <span style={{ color: '#8899a6', marginLeft: '4px' }}>
+                    @{userName}
+                  </span>
+                </ProfileLink>
                 <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
                   <MomentLinks
                     aria-label="投稿へ"
