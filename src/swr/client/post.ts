@@ -2,7 +2,7 @@ import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import useSWRMutation from 'swr/mutation';
 import { postsApi } from '@/libs/cuculus-client';
-import { UserPost } from '@cuculus/cuculus-api';
+import { CreatePostRequest, UserPost } from '@cuculus/cuculus-api';
 import { useAuth } from '@/swr/client/auth';
 import { getAuthorizationHeader } from '@/libs/auth';
 
@@ -99,4 +99,31 @@ export const usePostMutation = (postId: string) => {
 export const usePost = (postId: string) => {
   const { data: authId } = useAuth();
   return useSWR<UserPost>(getKey(postId, authId), fetcher);
+};
+
+type SendKey = {
+  key: string;
+  authId: number;
+};
+
+const send = async (
+  key: SendKey,
+  { arg }: { arg: CreatePostRequest },
+): Promise<UserPost> => {
+  // FIXME header上書きで消えてるので手動で設定
+  const headers = {
+    ...(await getAuthorizationHeader(key.authId)),
+    accept: 'application/json',
+    'Content-Type': 'application/json',
+  };
+  return await postsApi.createPost(arg, { headers });
+};
+
+export const usePostSend = () => {
+  const { data: authId } = useAuth();
+  const key = authId ? { key: 'usePostSend', authId } : null;
+  return useSWRMutation<UserPost, Error, SendKey | null, CreatePostRequest>(
+    key,
+    send,
+  );
 };
