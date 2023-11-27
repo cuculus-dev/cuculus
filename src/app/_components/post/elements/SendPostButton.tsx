@@ -1,8 +1,8 @@
 'use client';
 
 import CapsuleButton from '@/app/_components/button/CapsuleButton';
-import { postsApi } from '@/libs/cuculus-client';
 import { Send } from '@mui/icons-material';
+import { usePostSend } from '@/swr/client/post';
 
 interface Props {
   disabled: boolean;
@@ -21,24 +21,21 @@ export default function SendPostButton({
   onSucceed,
   onError,
 }: Props) {
-  const sendPost = async () => {
-    try {
-      // TODO: バリデーションが必要なら実装;
-      await postsApi.createPost({
-        createPost: {
-          text: sendData.plainText,
-        },
-      });
+  const { trigger, isMutating } = usePostSend();
 
-      await onSucceed?.();
-    } catch (e) {
-      await onError?.(e);
-    }
+  const sendPost = async () => {
+    await trigger({ createPost: { text: sendData.plainText } })
+      .then(() => {
+        onSucceed?.();
+      })
+      .catch((e) => {
+        onError?.(e);
+      });
   };
 
   return (
     <CapsuleButton
-      disabled={disabled}
+      disabled={disabled || isMutating}
       variant="contained"
       disableElevation
       startIcon={<Send />}
