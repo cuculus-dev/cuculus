@@ -245,13 +245,11 @@ const timeline = (<Data, Error, SWRKey extends Key = Key>(
               } else {
                 setQueue({ _keys: [latestKey] });
               }
-              await swrQueue.mutate();
             } else if (!enableQueue || _trigger === 'latest') {
               // キューのデータを移し替える
               if (hasQueue) {
                 _keys = [...queueKeys, ..._keys];
                 setQueue({ _keys: [] });
-                await swrQueue.mutate();
               }
               // 最新のデータ取得指示
               _keys = [latestKey, ..._keys];
@@ -265,8 +263,11 @@ const timeline = (<Data, Error, SWRKey extends Key = Key>(
         if (_keys) {
           const [keys, data] = await validateKeys(_keys);
           setCache({ _keys: keys });
+          await swrQueue.mutate();
           return data;
         }
+
+        await swrQueue.mutate();
 
         return [];
       },
