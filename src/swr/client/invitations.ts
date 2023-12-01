@@ -1,6 +1,13 @@
 import { invitationsApi } from '@/libs/cuculus-client';
-import { InvitationCodeRequest, ResponseError } from '@cuculus/cuculus-api';
+import {
+  InvitationCodeRequest,
+  ResponseError,
+  UserInvitations,
+} from '@cuculus/cuculus-api';
 import useSWRMutation from 'swr/mutation';
+import useSWR from 'swr';
+import { useAuth } from '@/swr/client/auth';
+import { getAuthorizationHeader } from '@/libs/auth';
 
 const postVerifyCode = async (
   _key: string,
@@ -27,4 +34,24 @@ export const useInvitationVerify = () => {
     postVerifyCode,
     { throwOnError: false },
   );
+};
+
+const fetcher = async ({
+  authId,
+}: {
+  authId: number;
+}): Promise<UserInvitations> => {
+  try {
+    return await invitationsApi.getInvitationsMe({
+      headers: await getAuthorizationHeader(authId),
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const useInvitations = () => {
+  const { data: authId } = useAuth();
+  const swrKey = authId ? { key: 'useInvitations', authId } : null;
+  return useSWR<UserInvitations | undefined, Error>(swrKey, fetcher);
 };
