@@ -4,6 +4,7 @@ import { styled } from '@mui/material';
 import { useInvitations } from '@/swr/client/invitations';
 import { useEffect, useState } from 'react';
 import { Invitation } from '@cuculus/cuculus-api/dist/models/Invitation';
+import Loading from '@/app/(menu)/_components/main/Loading';
 
 const Root = styled('div')`
   display: flex;
@@ -40,10 +41,14 @@ export default function Invitations() {
     }
   }, [data]);
 
+  if (!data) {
+    return <Loading />;
+  }
+
   // TODO 仮実装
   return (
     <Root>
-      {data && <span>あと{data.remainingInvitations}件発行可能</span>}
+      <span>あと{data.remainingInvitations}件発行可能</span>
       {invitations.map((invitation) => (
         <div key={invitation.code}>{JSON.stringify(invitation)}</div>
       ))}
