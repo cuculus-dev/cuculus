@@ -4,7 +4,7 @@ import { styled } from '@mui/material';
 import { ReactNode } from 'react';
 import BackButton from '@/app/_components/button/BackButton';
 
-const Main = styled('div')`
+const Main = styled('main')`
   display: flex;
   flex-direction: column;
   border-left: 1px solid ${({ theme }) => theme.palette.grey[100]};

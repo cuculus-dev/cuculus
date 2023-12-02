@@ -14,10 +14,8 @@ export function generateMetadata(): Metadata {
 
 export default function page() {
   return (
-    <main>
-      <PrimaryColumn columnName={'ホーム'}>
-        <HomeTimeline />
-      </PrimaryColumn>
-    </main>
+    <PrimaryColumn columnName={'ホーム'}>
+      <HomeTimeline />
+    </PrimaryColumn>
   );
 }

@@ -14,10 +14,8 @@ export function generateMetadata(): Metadata {
 
 export default function page() {
   return (
-    <main>
-      <PrimaryColumn hideHeader={true}>
-        <ComingSoon />
-      </PrimaryColumn>
-    </main>
+    <PrimaryColumn hideHeader={true}>
+      <ComingSoon />
+    </PrimaryColumn>
   );
 }
