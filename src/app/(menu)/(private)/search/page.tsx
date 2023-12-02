@@ -1,5 +1,6 @@
 import ComingSoon from '@/app/(menu)/_components/main/ComingSoon';
 import { Metadata } from 'next';
+import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
 
 export function generateMetadata(): Metadata {
   const title = `検索 | Cuculus`;
@@ -14,7 +15,9 @@ export function generateMetadata(): Metadata {
 export default function page() {
   return (
     <main>
-      <ComingSoon />
+      <PrimaryColumn hideHeader={true}>
+        <ComingSoon />
+      </PrimaryColumn>
     </main>
   );
 }
