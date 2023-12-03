@@ -6,6 +6,8 @@ import {
   HomeOutlined,
   Notifications,
   NotificationsOutlined,
+  PersonAddAlt1,
+  PersonAddAlt1Outlined,
   Search,
   SearchOutlined,
   Settings,
@@ -88,6 +90,12 @@ const SideMenu = () => {
               icon={<NotificationsOutlined />}
               activeIcon={<Notifications />}
               label={'通知'}
+            />
+            <SideMenuLinkItem
+              href={'/invitations'}
+              icon={<PersonAddAlt1Outlined />}
+              activeIcon={<PersonAddAlt1 />}
+              label={'招待コード'}
             />
             <SideMenuLinkItem
               href={'/settings'}
