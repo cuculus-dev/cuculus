@@ -64,7 +64,10 @@ export default function Invitations() {
   }
 
   const handleClick = () => {
-    void trigger().then(() => void mutate());
+    void trigger().then(() => {
+      void mutate();
+      setSucceedMessage('発行完了しました！');
+    });
   };
 
   return (
