@@ -8,6 +8,7 @@ import useSWRMutation from 'swr/mutation';
 import useSWR from 'swr';
 import { useAuth } from '@/swr/client/auth';
 import { getAuthorizationHeader } from '@/libs/auth';
+import { Invitation } from '@cuculus/cuculus-api/dist/models/Invitation';
 
 const postVerifyCode = async (
   _key: string,
@@ -54,4 +55,20 @@ export const useInvitations = () => {
   const { data: authId } = useAuth();
   const swrKey = authId ? { key: 'useInvitations', authId } : null;
   return useSWR<UserInvitations | undefined, Error>(swrKey, fetcher);
+};
+
+type Key = { key: string; authId: number };
+
+const create = async (key: Key): Promise<Invitation> => {
+  const headers = await getAuthorizationHeader(key.authId);
+  return await invitationsApi.postInvitationsCreate({ headers });
+};
+
+export const useInvitationCreate = () => {
+  const { data: authId } = useAuth();
+  const swrKey = authId ? { key: 'useInvitationCreate', authId } : null;
+  return useSWRMutation<Invitation | undefined, Error, Key | null>(
+    swrKey,
+    create,
+  );
 };

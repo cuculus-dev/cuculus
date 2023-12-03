@@ -9,12 +9,12 @@ import {
   Snackbar,
   styled,
 } from '@mui/material';
-import { useInvitations } from '@/swr/client/invitations';
+import { useInvitationCreate, useInvitations } from '@/swr/client/invitations';
 import { useEffect, useState } from 'react';
 import { Invitation } from '@cuculus/cuculus-api/dist/models/Invitation';
 import Loading from '@/app/(menu)/_components/main/Loading';
-import Button from '@/app/_components/button/Button';
 import { ContentCopy } from '@mui/icons-material';
+import LoadingButton from '@/app/_components/button/LoadingButton';
 
 const Root = styled('div')`
   display: flex;
@@ -38,7 +38,8 @@ const StyledItem = styled(ListItem)`
 `;
 
 export default function Invitations() {
-  const { data } = useInvitations();
+  const { data, mutate } = useInvitations();
+  const { trigger, isMutating } = useInvitationCreate();
   const [invitations, setInvitations] = useState<Array<Invitation>>([]);
   const [succeedMessage, setSucceedMessage] = useState('');
 
@@ -62,15 +63,23 @@ export default function Invitations() {
     return <Loading />;
   }
 
-  // TODO 発行ボタン未実装
+  const handleClick = () => {
+    void trigger().then(() => void mutate());
+  };
+
   return (
     <Root>
       <Title>招待コード</Title>
       <Text>あと{data.remainingInvitations}件の招待コードが発行可能です。</Text>
       <div style={{ marginBottom: '16px' }}>
-        <Button variant="contained" disabled={data.remainingInvitations <= 0}>
+        <LoadingButton
+          variant="contained"
+          disabled={data.remainingInvitations <= 0}
+          onClick={handleClick}
+          loading={isMutating}
+        >
           発行する
-        </Button>
+        </LoadingButton>
       </div>
       <List>
         {invitations.map((invitation) => (
