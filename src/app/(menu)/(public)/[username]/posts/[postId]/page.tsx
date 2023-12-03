@@ -59,9 +59,5 @@ export default async function page({ params }: Params) {
     redirect(`/${post.author.username}/posts/${post.id}`);
   }
 
-  return (
-    <main>
-      <PostPage postId={params.postId} fallbackData={post} />
-    </main>
-  );
+  return <PostPage postId={params.postId} fallbackData={post} />;
 }

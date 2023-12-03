@@ -50,9 +50,5 @@ export default async function page({ params }: Params) {
     notFound();
   }
 
-  return (
-    <main>
-      <ProfilePage fallbackData={user} />
-    </main>
-  );
+  return <ProfilePage fallbackData={user} />;
 }

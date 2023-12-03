@@ -4,10 +4,19 @@ import { styled } from '@mui/material';
 import { ReactNode } from 'react';
 import BackButton from '@/app/_components/button/BackButton';
 
-const Main = styled('div')`
+const Main = styled('main')`
+  display: flex;
+  flex-direction: column;
   border-left: 1px solid ${({ theme }) => theme.palette.grey[100]};
   border-right: 1px solid ${({ theme }) => theme.palette.grey[100]};
   min-height: 100vh;
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    min-height: calc(
+      100vh - ${({ theme }) => theme.mixins.bottomMenu.height}px +
+        env(safe-area-inset-bottom)
+    );
+  }
 `;
 
 const Header = styled('header')`
@@ -41,24 +50,28 @@ const Title = styled('div')`
 `;
 
 type Props = {
-  columnName: string;
+  columnName?: string;
   children?: ReactNode;
+  hideHeader?: boolean;
   showBack?: boolean;
 };
 
 export default function PrimaryColumn({
-  columnName,
+  columnName = '',
   children,
+  hideHeader = false,
   showBack = false,
 }: Props) {
   return (
     <Main>
-      <Header>
-        <TitleBar>
-          {showBack && <BackButton height="100%" />}
-          <Title>{columnName}</Title>
-        </TitleBar>
-      </Header>
+      {!hideHeader && (
+        <Header>
+          <TitleBar>
+            {showBack && <BackButton height="100%" />}
+            <Title>{columnName}</Title>
+          </TitleBar>
+        </Header>
+      )}
       {children}
     </Main>
   );
