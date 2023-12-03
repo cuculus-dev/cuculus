@@ -1,9 +1,10 @@
 import Invitations from '@/app/(menu)/(private)/invitations/_components/Invitations';
+import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
 
 export default function page() {
   return (
-    <main>
+    <PrimaryColumn hideHeader={true}>
       <Invitations />
-    </main>
+    </PrimaryColumn>
   );
 }

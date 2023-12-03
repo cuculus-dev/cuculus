@@ -1,29 +1,46 @@
 'use client';
 
-import { styled } from '@mui/material';
+import {
+  Alert,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Snackbar,
+  styled,
+} from '@mui/material';
 import { useInvitations } from '@/swr/client/invitations';
 import { useEffect, useState } from 'react';
 import { Invitation } from '@cuculus/cuculus-api/dist/models/Invitation';
 import Loading from '@/app/(menu)/_components/main/Loading';
+import Button from '@/app/_components/button/Button';
+import { ContentCopy } from '@mui/icons-material';
 
 const Root = styled('div')`
   display: flex;
   flex-direction: column;
-  border-left: 1px solid ${({ theme }) => theme.palette.grey[100]};
-  border-right: 1px solid ${({ theme }) => theme.palette.grey[100]};
-  min-height: 100vh;
+  padding: 0 20px;
+`;
 
-  ${({ theme }) => theme.breakpoints.down('tablet')} {
-    min-height: calc(
-      100vh - ${({ theme }) => theme.mixins.bottomMenu.height}px +
-        env(safe-area-inset-bottom)
-    );
-  }
+const Title = styled('h2')`
+  font-size: 20px;
+`;
+
+const Text = styled('div')`
+  color: ${({ theme }) => theme.palette.primary.main};
+  margin-bottom: 16px;
+`;
+
+const StyledItem = styled(ListItem)`
+  padding: 10px 0;
+  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
+  background-color: ${({ theme }) => theme.palette.background.paper};
 `;
 
 export default function Invitations() {
   const { data } = useInvitations();
   const [invitations, setInvitations] = useState<Array<Invitation>>([]);
+  const [succeedMessage, setSucceedMessage] = useState('');
 
   useEffect(() => {
     if (data) {
@@ -45,13 +62,54 @@ export default function Invitations() {
     return <Loading />;
   }
 
-  // TODO 仮実装
+  // TODO 発行ボタン未実装
   return (
     <Root>
-      <span>あと{data.remainingInvitations}件発行可能</span>
-      {invitations.map((invitation) => (
-        <div key={invitation.code}>{JSON.stringify(invitation)}</div>
-      ))}
+      <Title>招待コード</Title>
+      <Text>あと{data.remainingInvitations}件の招待コードが発行可能です。</Text>
+      <div style={{ marginBottom: '16px' }}>
+        <Button variant="contained" disabled={data.remainingInvitations <= 0}>
+          発行する
+        </Button>
+      </div>
+      <List>
+        {invitations.map((invitation) => (
+          <StyledItem
+            key={invitation.code}
+            disablePadding
+            secondaryAction={
+              invitation.usedAt ? undefined : (
+                <IconButton
+                  edge="end"
+                  aria-label="copy"
+                  onClick={() => {
+                    void navigator.clipboard
+                      .writeText(invitation.code)
+                      .then(() => {
+                        setSucceedMessage('コピーしました！');
+                      });
+                  }}
+                >
+                  <ContentCopy />
+                </IconButton>
+              )
+            }
+          >
+            <ListItemText
+              primary={
+                invitation.usedAt ? <s>{invitation.code}</s> : invitation.code
+              }
+            />
+          </StyledItem>
+        ))}
+      </List>
+      <Snackbar
+        open={succeedMessage.length > 0}
+        onClose={() => setSucceedMessage('')}
+        autoHideDuration={2_000}
+      >
+        <Alert severity="success">{succeedMessage}</Alert>
+      </Snackbar>
     </Root>
   );
 }
