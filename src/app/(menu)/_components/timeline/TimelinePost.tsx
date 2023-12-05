@@ -1,6 +1,6 @@
 'use client';
 
-import { usePostImmutable } from '@/swr/client/post';
+import { usePost } from '@/swr/client/post';
 import ViewTrigger from '@/app/(menu)/_components/timeline/ViewportTrigger';
 import Post from '@/app/(menu)/_components/timeline/layouts/Post';
 import { UserPost } from '@cuculus/cuculus-api';
@@ -21,7 +21,7 @@ function TimelinePost({
 }) {
   // FIXME 個別取得APIが出来たらmutateで更新するようにする
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data, mutate } = usePostImmutable(postId, fallbackData);
+  const { data, mutate } = usePost(postId, fallbackData);
 
   return data ? (
     <ViewTrigger

@@ -2,7 +2,7 @@
 
 import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
 import { UserPost } from '@cuculus/cuculus-api';
-import { usePostImmutable } from '@/swr/client/post';
+import { usePost } from '@/swr/client/post';
 import Post from '@/app/(menu)/_components/timeline/layouts/Post';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 
 // FIXME 仮作成。一旦タイムラインのコンポーネントと同じものを使用する
 export function PostPage({ postId, fallbackData }: Props) {
-  const { data } = usePostImmutable(postId, fallbackData);
+  const { data } = usePost(postId, fallbackData);
 
   if (!data) {
     // FIXME 読み込み中

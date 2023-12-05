@@ -1,5 +1,4 @@
 import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
 import useSWRMutation from 'swr/mutation';
 import { postsApi } from '@/libs/cuculus-client';
 import { CreatePostRequest, UserPost } from '@cuculus/cuculus-api';
@@ -61,19 +60,6 @@ const update = async (
 };
 
 /**
- * ポスト取得
- * 自動検証されないので、一覧ページで使うのが望ましい
- * @param postId
- * @param initialData
- */
-export const usePostImmutable = (postId: string, initialData?: UserPost) => {
-  const { data: authId } = useAuth();
-  return useSWRImmutable<UserPost>(getKey(postId, authId), fetcher, {
-    fallbackData: initialData,
-  });
-};
-
-/**
  * 投稿に対するアクション
  * ※非ログイン状態だと使えません。
  * @param postId
@@ -95,10 +81,13 @@ export const usePostMutation = (postId: string) => {
  * ポスト取得
  * 自動再検証されるので、詳細ページで使うのが望ましい
  * @param postId
+ * @param initialData
  */
-export const usePost = (postId: string) => {
+export const usePost = (postId: string, initialData?: UserPost) => {
   const { data: authId } = useAuth();
-  return useSWR<UserPost>(getKey(postId, authId), fetcher);
+  return useSWR<UserPost>(getKey(postId, authId), fetcher, {
+    fallbackData: initialData,
+  });
 };
 
 type SendKey = {
