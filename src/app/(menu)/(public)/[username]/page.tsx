@@ -21,8 +21,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   const title = `${user.name} (@${user.username}) さん | Cuculus`;
   const description =
-    user.description.length > 0
-      ? user.description
+    user.bio.length > 0
+      ? user.bio
       : `${user.name} さんはCuculusを利用しています。`;
 
   return {
