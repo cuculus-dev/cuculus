@@ -32,7 +32,6 @@ export const useUser = (username: string, fallbackData?: UserWithFollows) => {
     fetcher,
     {
       fallbackData,
-      revalidateIfStale: false,
     },
   );
 };
