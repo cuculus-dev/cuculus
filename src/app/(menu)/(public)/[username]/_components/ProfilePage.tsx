@@ -28,7 +28,7 @@ export default function ProfilePage({ fallbackData }: Props) {
         followingCount={data.followingCount}
         followersCount={data.followersCount}
         createdAt={data.createdAt}
-        description={data.description}
+        bio={data.bio}
         profileImageUrl={data.profileImageUrl}
         url={data.url}
         verified={data.verified}

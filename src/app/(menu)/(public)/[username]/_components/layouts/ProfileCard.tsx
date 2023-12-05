@@ -79,7 +79,7 @@ interface ProfileCardProps {
   name: string;
   username: string;
   createdAt: Date;
-  description: string;
+  bio: string;
   profileImageUrl: string;
   protected: boolean;
   url: string;
@@ -94,7 +94,7 @@ export default function ProfileCard({
   id,
   name,
   username,
-  description,
+  bio,
   profileImageUrl,
   followersCount,
   followingCount,
@@ -170,7 +170,7 @@ export default function ProfileCard({
             <DisplayName>{name}</DisplayName>
             <UserName>@{username}</UserName>
           </VFlex>
-          <Bio>{description}</Bio>
+          <Bio>{bio}</Bio>
 
           <HFlex gap={2}>
             {followingCount != undefined && (
