@@ -24,7 +24,7 @@ export const NormalProfileCard: Story = {
     profileImageUrl: '/mock/profileAvatarImage.png',
     protected: false,
     verified: false,
-    description: 'こんにちは。',
+    bio: 'こんにちは。',
     url: '',
     followersCount: 2,
     followingCount: 1,
