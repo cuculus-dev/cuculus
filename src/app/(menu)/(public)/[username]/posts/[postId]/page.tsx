@@ -9,7 +9,14 @@ type Params = { params: { username: string; postId: string } };
 
 async function fetchPost(postId: string) {
   try {
-    return await postsApi.getPost({ id: postId });
+    return await postsApi.getPost(
+      { id: postId },
+      {
+        next: {
+          revalidate: 86400,
+        },
+      },
+    );
   } catch {
     return undefined;
   }

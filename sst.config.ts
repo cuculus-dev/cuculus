@@ -17,7 +17,8 @@ export default {
       if (stack.stage !== 'production') {
         domain = `${stack.stage}.${domain}`;
       }
-      const serverCachePolicy = new CachePolicy(stack, 'ServerCache', {
+      // CloudFrontでキャッシュさせたい場合に使用すること
+      const _serverCachePolicy = new CachePolicy(stack, 'ServerCache', {
         minTtl: Duration.seconds(86400),
         defaultTtl: Duration.seconds(86400),
         headerBehavior: CacheHeaderBehavior.allowList(
@@ -41,9 +42,9 @@ export default {
           NODE_ENV: stack.stage,
           STAGE: stack.stage,
         },
-        cdk: {
-          serverCachePolicy,
-        },
+        // cdk: {
+        //   serverCachePolicy,
+        // },
       });
 
       stack.addOutputs({
