@@ -51,6 +51,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function page({ params }: Params) {
   const post = await fetchPost(params.postId);
+
+  // TODO 権限エラーの場合はそのままPostPageにundefinedを投げる
   if (!post) {
     notFound();
   }
