@@ -7,7 +7,14 @@ type Params = { params: { username: string } };
 
 async function fetchUser(username: string) {
   try {
-    return await usersApi.getUserByUsername({ username });
+    return await usersApi.getUserByUsername(
+      { username },
+      {
+        next: {
+          revalidate: 86400,
+        },
+      },
+    );
   } catch {
     return undefined;
   }
