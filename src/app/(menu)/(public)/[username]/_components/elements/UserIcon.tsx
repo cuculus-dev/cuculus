@@ -11,9 +11,9 @@ const UserIcon = styled(Avatar)`
   border-style: solid;
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
-    width: 80px;
-    height: 80px;
-    margin-top: -48px;
+    width: 92px;
+    height: 92px;
+    margin-top: -61px;
   }
 `;
 
