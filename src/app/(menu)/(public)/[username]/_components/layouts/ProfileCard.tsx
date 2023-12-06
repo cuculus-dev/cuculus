@@ -1,29 +1,19 @@
 'use client';
 
-import { Avatar, Box, Typography, styled } from '@mui/material';
+import { Box, Typography, styled } from '@mui/material';
 import {
   FollowButton,
   FollowStatus,
 } from '@/app/(menu)/(public)/[username]/_components/elements/FollowButton';
 import UserCount from '@/app/(menu)/(public)/[username]/_components/elements/UserCount';
 import { usePathname } from 'next/navigation';
+import HeaderImage from '@/app/(menu)/(public)/[username]/_components/elements/HeaderImage';
+import UserIcon from '@/app/(menu)/(public)/[username]/_components/elements/UserIcon';
 
 const UnselectableCard = styled('div')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
   background-color: ${({ theme }) => theme.palette.background.paper};
   color: rgba(0, 0, 0, 0.87);
-`;
-
-const HeaderImage = styled('div')<{
-  image?: string;
-}>`
-  display: block;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  aspect-ratio: 3 / 1;
-  background-color: ${({ theme }) => theme.palette.primary.light};
-  background-image: ${({ image }) => (image ? `url(${image})` : 'none')};
 `;
 
 const Flex = styled(Box)`
@@ -41,21 +31,6 @@ const HFlex = styled(Flex)`
 
 const FillFlex = styled(Box)`
   flex-grow: 1;
-`;
-
-const UserIcon = styled(Avatar)`
-  width: 120px;
-  height: 120px;
-
-  margin-top: -80px;
-  border-color: ${({ theme }) => theme.palette.background.paper};
-  border-style: solid;
-
-  ${({ theme }) => theme.breakpoints.down('tablet')} {
-    width: 80px;
-    height: 80px;
-    margin-top: -48px;
-  }
 `;
 
 const DisplayName = styled(Typography)`
