@@ -35,7 +35,7 @@ const TitleBar = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 8px;
   gap: 12px;
   min-height: 50px;
 `;
