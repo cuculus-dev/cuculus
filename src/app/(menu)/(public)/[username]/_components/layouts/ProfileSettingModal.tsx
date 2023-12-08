@@ -6,6 +6,7 @@ import { AddAPhoto, Close, ArrowBack } from '@mui/icons-material';
 import { IconButton } from '@/app/_components/button/IconButton';
 import HeaderImage from '@/app/(menu)/(public)/[username]/_components/elements/HeaderImage';
 import UserIcon from '@/app/(menu)/(public)/[username]/_components/elements/UserIcon';
+import Cropper, { Point } from 'react-easy-crop';
 
 const Dialog = styled(MuiDialog)`
   .MuiDialog-paper {
@@ -45,8 +46,17 @@ const Header = styled('div')`
 
 const Content = styled('div')`
   max-width: 598px;
-  //width: 630px;
   width: 100vw;
+`;
+
+const CropContainer = styled('div')`
+  position: relative;
+
+  height: calc(100vh - 50px);
+
+  ${({ theme }) => theme.breakpoints.up('tablet')} {
+    max-height: 600px;
+  }
 `;
 
 const Flex = styled(Box)`
@@ -65,6 +75,9 @@ function ProfileImageCrop({
   src: string | undefined;
   onClose: () => void;
 }) {
+  const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+
   return (
     <Dialog open={src != undefined}>
       <Container>
@@ -76,7 +89,17 @@ function ProfileImageCrop({
         </Header>
         <Content>
           {/* TODO ここでCrop出来るようにする */}
-          <img alt="Crop me" src={src} style={{ maxWidth: '100%' }} />
+          <CropContainer>
+            <Cropper
+              image={src}
+              crop={crop}
+              zoom={zoom}
+              aspect={1 / 1}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              showGrid={false}
+            />
+          </CropContainer>
         </Content>
       </Container>
     </Dialog>
