@@ -78,6 +78,7 @@ const CropContainer = styled('div')`
   }
 
   .crop-area {
+    border-radius: 9999px;
     border: 3px solid #00a0ff;
   }
 `;
