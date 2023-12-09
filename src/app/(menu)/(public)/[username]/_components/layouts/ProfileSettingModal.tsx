@@ -234,7 +234,7 @@ export default function ProfileSettingModal({ open: init }: { open: boolean }) {
                     <input
                       id="icon-upload-button"
                       type="file"
-                      accept="image/png, image/gif, image/jpeg"
+                      accept="image/png, image/jpeg"
                       onChange={handleFileChange}
                       style={{ display: 'none' }}
                     />
