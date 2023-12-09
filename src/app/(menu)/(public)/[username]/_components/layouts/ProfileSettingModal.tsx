@@ -12,7 +12,9 @@ import {
 import { IconButton } from '@/app/_components/button/IconButton';
 import HeaderImage from '@/app/(menu)/(public)/[username]/_components/elements/HeaderImage';
 import UserIcon from '@/app/(menu)/(public)/[username]/_components/elements/UserIcon';
-import Cropper, { Point } from 'react-easy-crop';
+import Cropper, { Area, Point } from 'react-easy-crop';
+import CapsuleButton from '@/app/_components/button/CapsuleButton';
+import { getCroppedImg } from '@/app/(menu)/(public)/[username]/_utils/cropImage';
 
 const HEADER_HEIGHT = '50px';
 const SLIDER_HEIGHT = '50px';
@@ -88,15 +90,30 @@ const Flex = styled(Box)`
 const HFlex = styled(Flex)`
   flex-direction: row;
 `;
+
 function ProfileImageCrop({
   src,
   onClose,
+  onComplete,
 }: {
   src: string | undefined;
   onClose: () => void;
+  onComplete: (blob: Blob) => void;
 }) {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>();
+
+  const handleSave = useCallback(async () => {
+    if (!croppedAreaPixels || !src) return;
+
+    try {
+      const croppedImage = await getCroppedImg(src, croppedAreaPixels, 400);
+      onComplete(croppedImage);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [croppedAreaPixels]);
 
   return (
     <Dialog open={src != undefined}>
@@ -106,6 +123,17 @@ function ProfileImageCrop({
             <ArrowBack />
           </IconButton>
           <span style={{ fontWeight: 'bold' }}>メディアを編集</span>
+          <div style={{ marginLeft: 'auto' }} />
+          <CapsuleButton
+            variant="contained"
+            aria-label="保存"
+            onClick={() => {
+              // FIXME 可能ならここは非同期で投げっぱなしではなく、ちゃんと処理を待機させたい
+              void handleSave();
+            }}
+          >
+            保存
+          </CapsuleButton>
         </Header>
         <Content>
           {/* TODO ここでCrop出来るようにする */}
@@ -114,11 +142,14 @@ function ProfileImageCrop({
               image={src}
               crop={crop}
               zoom={zoom}
-              aspect={1 / 1}
+              aspect={1}
               onCropChange={setCrop}
               onZoomChange={setZoom}
               classes={{
                 cropAreaClassName: 'crop-area',
+              }}
+              onCropComplete={(_, area) => {
+                setCroppedAreaPixels(area);
               }}
               showGrid={false}
             />
@@ -126,7 +157,7 @@ function ProfileImageCrop({
           <SliderContainer>
             <ZoomOut />
             <Slider
-              aria-label="Zoom"
+              aria-label="ズーム"
               value={zoom}
               onChange={(_, newValue) => {
                 setZoom(newValue as number);
@@ -146,6 +177,9 @@ function ProfileImageCrop({
 export default function ProfileSettingModal({ open: init }: { open: boolean }) {
   const [open, setOpen] = useState(init);
 
+  const [src, setSrc] = useState(
+    'https://media.develop.cuculus.jp/profile_images/d691e7ec-5622-42a1-92c6-1f89bff87acd.png',
+  );
   const [iconSrc, setIconSrc] = useState<string | undefined>(undefined);
 
   function handleClose() {
@@ -170,6 +204,11 @@ export default function ProfileSettingModal({ open: init }: { open: boolean }) {
           setOpen(true);
           setIconSrc(undefined);
         }}
+        onComplete={(blob) => {
+          const croppedImageUrl = URL.createObjectURL(blob);
+          setSrc(croppedImageUrl);
+          setIconSrc(undefined);
+        }}
       />
       <Dialog open={open && !iconSrc}>
         <Container>
@@ -184,12 +223,7 @@ export default function ProfileSettingModal({ open: init }: { open: boolean }) {
             <div style={{ padding: '12px 16px 16px' }}>
               <HFlex>
                 {/* TODO アイコン */}
-                <UserIcon
-                  src={
-                    'https://media.develop.cuculus.jp/profile_images/d691e7ec-5622-42a1-92c6-1f89bff87acd.png'
-                  }
-                  alt={'プロフィール画像'}
-                />
+                <UserIcon src={src} alt={'プロフィール画像'} />
                 <UserIcon
                   sx={{
                     position: 'absolute',
