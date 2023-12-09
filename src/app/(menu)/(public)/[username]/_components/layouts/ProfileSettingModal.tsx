@@ -1,12 +1,21 @@
 'use client';
 
-import { Box, Dialog as MuiDialog, styled } from '@mui/material';
+import { Box, Dialog as MuiDialog, Slider, styled } from '@mui/material';
 import { ChangeEvent, useCallback, useState } from 'react';
-import { AddAPhoto, Close, ArrowBack } from '@mui/icons-material';
+import {
+  AddAPhoto,
+  Close,
+  ArrowBack,
+  ZoomIn,
+  ZoomOut,
+} from '@mui/icons-material';
 import { IconButton } from '@/app/_components/button/IconButton';
 import HeaderImage from '@/app/(menu)/(public)/[username]/_components/elements/HeaderImage';
 import UserIcon from '@/app/(menu)/(public)/[username]/_components/elements/UserIcon';
 import Cropper, { Point } from 'react-easy-crop';
+
+const HEADER_HEIGHT = '50px';
+const SLIDER_HEIGHT = '50px';
 
 const Dialog = styled(MuiDialog)`
   .MuiDialog-paper {
@@ -39,7 +48,7 @@ const Header = styled('div')`
   border-width: 0;
   border-bottom-width: 1px;
   color: ${({ theme }) => theme.palette.grey[800]};
-  min-height: 50px;
+  height: ${HEADER_HEIGHT};
   padding: 0 8px;
   gap: 12px;
 `;
@@ -49,13 +58,25 @@ const Content = styled('div')`
   width: 100vw;
 `;
 
+const SliderContainer = styled('div')`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: ${SLIDER_HEIGHT};
+  padding: 0 30px;
+  gap: 10px;
+`;
+
 const CropContainer = styled('div')`
   position: relative;
-
-  height: calc(100vh - 50px);
+  height: calc(100vh - ${HEADER_HEIGHT} - ${SLIDER_HEIGHT});
 
   ${({ theme }) => theme.breakpoints.up('tablet')} {
     max-height: 600px;
+  }
+
+  .crop-area {
+    border: 3px solid #00a0ff;
   }
 `;
 
@@ -67,7 +88,6 @@ const Flex = styled(Box)`
 const HFlex = styled(Flex)`
   flex-direction: row;
 `;
-
 function ProfileImageCrop({
   src,
   onClose,
@@ -97,9 +117,26 @@ function ProfileImageCrop({
               aspect={1 / 1}
               onCropChange={setCrop}
               onZoomChange={setZoom}
+              classes={{
+                cropAreaClassName: 'crop-area',
+              }}
               showGrid={false}
             />
           </CropContainer>
+          <SliderContainer>
+            <ZoomOut />
+            <Slider
+              aria-label="Zoom"
+              value={zoom}
+              onChange={(_, newValue) => {
+                setZoom(newValue as number);
+              }}
+              min={1}
+              max={3}
+              step={0.1}
+            />
+            <ZoomIn />
+          </SliderContainer>
         </Content>
       </Container>
     </Dialog>
