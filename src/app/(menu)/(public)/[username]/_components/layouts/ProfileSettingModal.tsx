@@ -1,6 +1,12 @@
 'use client';
 
-import { Box, Dialog as MuiDialog, Slider, styled } from '@mui/material';
+import {
+  Box,
+  Dialog as MuiDialog,
+  Slider,
+  styled,
+  TextField,
+} from '@mui/material';
 import { ChangeEvent, useCallback, useState } from 'react';
 import {
   AddAPhoto,
@@ -92,6 +98,17 @@ const HFlex = styled(Flex)`
   flex-direction: row;
 `;
 
+const VFlex = styled(Flex)`
+  flex-direction: column;
+`;
+
+/**
+ * アイコンを編集するモーダル
+ * @param src
+ * @param onClose
+ * @param onComplete
+ * @constructor
+ */
 function ProfileImageCrop({
   src,
   onClose,
@@ -104,17 +121,21 @@ function ProfileImageCrop({
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>();
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
-  const handleSave = useCallback(async () => {
+  // 適用処理
+  const handleApply = useCallback(async () => {
     if (!croppedAreaPixels || !src) return;
-
+    setIsProcessing(true);
     try {
       const croppedImage = await getCroppedImg(src, croppedAreaPixels, 400);
       onComplete(croppedImage);
     } catch (e) {
       console.error(e);
+    } finally {
+      setIsProcessing(false);
     }
-  }, [croppedAreaPixels]);
+  }, [croppedAreaPixels, onComplete, src]);
 
   return (
     <Dialog open={src != undefined}>
@@ -127,13 +148,13 @@ function ProfileImageCrop({
           <div style={{ marginLeft: 'auto' }} />
           <CapsuleButton
             variant="contained"
-            aria-label="保存"
+            aria-label="適用"
+            disabled={isProcessing}
             onClick={() => {
-              // FIXME 可能ならここは非同期で投げっぱなしではなく、ちゃんと処理を待機させたい
-              void handleSave();
+              void handleApply();
             }}
           >
-            保存
+            適用
           </CapsuleButton>
         </Header>
         <Content>
@@ -175,12 +196,27 @@ function ProfileImageCrop({
   );
 }
 
-export default function ProfileSettingModal({ open: init }: { open: boolean }) {
-  const [open, setOpen] = useState(init);
+/**
+ * プロフィールを編集するモーダル
+ * @param init
+ * @constructor
+ */
+export default function ProfileSettingModal({
+  open: initOpen,
+  src: initSrc,
+  displayName: initDisplayName,
+  bio: initBio,
+}: {
+  open: boolean;
+  src?: string;
+  displayName: string;
+  bio: string;
+}) {
+  const [open, setOpen] = useState(initOpen);
+  const [src, setSrc] = useState<string | undefined>(initSrc);
+  const [displayName, setDisplayName] = useState<string>(initDisplayName);
+  const [bio, setBio] = useState<string>(initBio);
 
-  const [src, setSrc] = useState(
-    'https://media.develop.cuculus.jp/profile_images/d691e7ec-5622-42a1-92c6-1f89bff87acd.png',
-  );
   const [iconSrc, setIconSrc] = useState<string | undefined>(undefined);
 
   function handleClose() {
@@ -218,12 +254,21 @@ export default function ProfileSettingModal({ open: init }: { open: boolean }) {
               <Close />
             </IconButton>
             <span style={{ fontWeight: 'bold' }}>プロフィールを編集</span>
+            <div style={{ marginLeft: 'auto' }} />
+            <CapsuleButton
+              variant="contained"
+              aria-label="保存"
+              onClick={() => {
+                // TODO 保存処理
+              }}
+            >
+              保存
+            </CapsuleButton>
           </Header>
           <Content>
             <HeaderImage />
             <div style={{ padding: '12px 16px 16px' }}>
               <HFlex>
-                {/* TODO アイコン */}
                 <UserIcon src={src} alt={'プロフィール画像'} />
                 <UserIcon
                   sx={{
@@ -249,6 +294,32 @@ export default function ProfileSettingModal({ open: init }: { open: boolean }) {
                   </label>
                 </UserIcon>
               </HFlex>
+              <VFlex sx={{ padding: '12px 16px', gap: '24px' }}>
+                <TextField
+                  label="名前"
+                  variant="outlined"
+                  aria-label="表示名"
+                  name="displayName"
+                  size="small"
+                  value={displayName}
+                  onChange={(event) => {
+                    setDisplayName(event.target.value);
+                  }}
+                />
+                <TextField
+                  label="自己紹介"
+                  variant="outlined"
+                  aria-label="自己紹介"
+                  name="bio"
+                  multiline
+                  rows={4}
+                  size="small"
+                  value={bio}
+                  onChange={(event) => {
+                    setBio(event.target.value);
+                  }}
+                />
+              </VFlex>
             </div>
           </Content>
         </Container>
