@@ -13,6 +13,6 @@ type Story = StoryObj<typeof meta>;
 export const NormalFollowButton: Story = {
   args: {
     userId: 123,
-    followStatus: 'NotFollowing',
+    isFollowing: true,
   },
 };
