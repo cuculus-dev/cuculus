@@ -1,14 +1,13 @@
 'use client';
 
 import { Box, Typography, styled } from '@mui/material';
-import {
-  FollowButton,
-  FollowStatus,
-} from '@/app/(menu)/(public)/[username]/_components/elements/FollowButton';
+import { FollowButton } from '@/app/(menu)/(public)/[username]/_components/elements/FollowButton';
 import UserCount from '@/app/(menu)/(public)/[username]/_components/elements/UserCount';
 import { usePathname } from 'next/navigation';
 import HeaderImage from '@/app/(menu)/(public)/[username]/_components/elements/HeaderImage';
 import UserIcon from '@/app/(menu)/(public)/[username]/_components/elements/UserIcon';
+import { UserWithFollows } from '@cuculus/cuculus-api';
+import { EditProfileButton } from '@/app/(menu)/(public)/[username]/_components/layouts/EditProfileButton';
 
 const UnselectableCard = styled('div')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
@@ -49,21 +48,9 @@ const Bio = styled(Typography)`
   margin-bottom: 12px;
 `;
 
-interface ProfileCardProps {
-  id: number;
-  name: string;
-  username: string;
-  createdAt: Date;
-  bio: string;
-  profileImageUrl: string;
-  protected: boolean;
-  url: string;
-  verified: boolean;
-  followersCount?: number;
-  followingCount?: number;
+type ProfileCardProps = {
   authId: number | undefined;
-  authorizing: boolean;
-}
+} & UserWithFollows;
 
 export default function ProfileCard({
   id,
@@ -74,16 +61,10 @@ export default function ProfileCard({
   followersCount,
   followingCount,
   authId,
-  authorizing,
 }: ProfileCardProps) {
   const path = usePathname();
 
-  const getFollowStatus = (): FollowStatus => {
-    if (id === authId) {
-      return 'EditProfile';
-    }
-    return 'NotFollowing';
-  };
+  const isMe = id === authId;
 
   return (
     <>
@@ -128,10 +109,14 @@ export default function ProfileCard({
                       {/*  </IconButton>*/}
                       {/*)}*/}
                       {/* フォローボタン */}
-                      {!authorizing && (
-                        <FollowButton
-                          followStatus={getFollowStatus()}
-                          userId={id}
+                      {authId && !isMe && (
+                        <FollowButton isFollowing={false} userId={id} />
+                      )}
+                      {authId && isMe && (
+                        <EditProfileButton
+                          src={profileImageUrl}
+                          displayName={name}
+                          bio={bio}
                         />
                       )}
                     </HFlex>

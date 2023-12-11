@@ -202,26 +202,26 @@ function ProfileImageCrop({
  * @constructor
  */
 export default function ProfileSettingModal({
-  open: initOpen,
+  open,
+  onClose,
   src: initSrc,
   displayName: initDisplayName,
   bio: initBio,
 }: {
   open: boolean;
+  onClose: () => void;
   src?: string;
   displayName: string;
   bio: string;
 }) {
-  const [open, setOpen] = useState(initOpen);
   const [src, setSrc] = useState<string | undefined>(initSrc);
   const [displayName, setDisplayName] = useState<string>(initDisplayName);
   const [bio, setBio] = useState<string>(initBio);
-
   const [iconSrc, setIconSrc] = useState<string | undefined>(undefined);
 
-  function handleClose() {
-    setOpen(false);
-  }
+  const handleClose = () => {
+    onClose();
+  };
 
   const handleFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -238,7 +238,6 @@ export default function ProfileSettingModal({
       <ProfileImageCrop
         src={iconSrc}
         onClose={() => {
-          setOpen(true);
           setIconSrc(undefined);
         }}
         onComplete={(blob) => {
@@ -247,7 +246,7 @@ export default function ProfileSettingModal({
           setIconSrc(undefined);
         }}
       />
-      <Dialog open={open && !iconSrc}>
+      <Dialog open={open && !iconSrc} onClose={handleClose}>
         <Container>
           <Header>
             <IconButton aria-label="閉じる" onClick={handleClose}>
