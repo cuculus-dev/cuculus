@@ -1,9 +1,11 @@
 'use client';
 
 import {
+  Alert,
   Box,
   Dialog as MuiDialog,
   Slider,
+  Snackbar,
   styled,
   TextField,
 } from '@mui/material';
@@ -21,6 +23,8 @@ import UserIcon from '@/app/(menu)/(public)/[username]/_components/elements/User
 import Cropper, { Area, Point } from 'react-easy-crop';
 import CapsuleButton from '@/app/_components/button/CapsuleButton';
 import { getCroppedImg } from '@/app/(menu)/(public)/[username]/_utils/cropImage';
+import { useProfileMutation } from '@/swr/client/profile';
+import CapsuleLoadingButton from '@/app/_components/button/CapsuleLoadingButton';
 
 const HEADER_HEIGHT = '50px';
 const SLIDER_HEIGHT = '50px';
@@ -215,9 +219,14 @@ export default function ProfileSettingModal({
   bio: string;
 }) {
   const [src, setSrc] = useState<string | undefined>(initSrc);
+  const [blob, setBlob] = useState<Blob | undefined>(undefined);
   const [displayName, setDisplayName] = useState<string>(initDisplayName);
   const [bio, setBio] = useState<string>(initBio);
   const [iconSrc, setIconSrc] = useState<string | undefined>(undefined);
+  const { trigger, isMutating } = useProfileMutation();
+
+  const [errorMessage, setErrorMesssage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleClose = () => {
     onClose();
@@ -243,6 +252,7 @@ export default function ProfileSettingModal({
         onComplete={(blob) => {
           const croppedImageUrl = URL.createObjectURL(blob);
           setSrc(croppedImageUrl);
+          setBlob(blob);
           setIconSrc(undefined);
         }}
       />
@@ -254,15 +264,36 @@ export default function ProfileSettingModal({
             </IconButton>
             <span style={{ fontWeight: 'bold' }}>プロフィールを編集</span>
             <div style={{ marginLeft: 'auto' }} />
-            <CapsuleButton
+            <CapsuleLoadingButton
               variant="contained"
               aria-label="保存"
               onClick={() => {
-                // TODO 保存処理
+                const request = {
+                  bio: initBio !== bio ? bio : undefined,
+                  name:
+                    initDisplayName !== displayName ? displayName : undefined,
+                  profileImage: blob,
+                };
+                const isAllUndefined = Object.values(request).every(
+                  (value) => value === undefined,
+                );
+                if (isAllUndefined) {
+                  handleClose();
+                } else {
+                  void trigger(request)
+                    .then(() => {
+                      setSuccessMessage('プロフィールを更新しました。');
+                      handleClose();
+                    })
+                    .catch(() => {
+                      setErrorMesssage('プロフィールの更新に失敗しました。');
+                    });
+                }
               }}
+              loading={isMutating}
             >
               保存
-            </CapsuleButton>
+            </CapsuleLoadingButton>
           </Header>
           <Content>
             <HeaderImage />
@@ -323,6 +354,21 @@ export default function ProfileSettingModal({
           </Content>
         </Container>
       </Dialog>
+
+      <Snackbar
+        open={!!errorMessage.length}
+        onClose={() => setErrorMesssage('')}
+        autoHideDuration={2_000}
+      >
+        <Alert severity="error">{errorMessage}</Alert>
+      </Snackbar>
+      <Snackbar
+        open={!!successMessage.length}
+        onClose={() => setSuccessMessage('')}
+        autoHideDuration={2_000}
+      >
+        <Alert severity="success">{successMessage}</Alert>
+      </Snackbar>
     </>
   );
 }
