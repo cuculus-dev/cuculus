@@ -19,25 +19,26 @@ const update = async (
   key: SWRKey,
   { arg }: { arg: Arg },
 ): Promise<UserWithFollows> => {
-  const headers = {
-    ...(await getAuthorizationHeader(key.authId)),
-    // 'Content-Type': 'application/json',
-  };
+  const headers = await getAuthorizationHeader(key.authId);
 
   let user: UserWithFollows | undefined = undefined;
 
+  if (arg.bio || arg.name) {
+    user = await accountsApi.updateProfile(
+      {
+        updateProfile: { name: arg.name, bio: arg.bio },
+      },
+      {
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  }
   if (arg.profileImage) {
     user = await accountsApi.updateProfileImage(
       { file: arg.profileImage },
-      { headers },
-    );
-  }
-  if (arg.bio || arg.name) {
-    // TODO SDKの更新待ち
-    user = await accountsApi.updateProfile(
-      {
-        updateProfile: { name: arg.name, bio: arg.bio as unknown as object },
-      },
       { headers },
     );
   }
