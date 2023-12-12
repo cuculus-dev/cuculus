@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/react';
-import theme from '@/theme/theme';
+import theme from '../src/theme/theme';
 import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
