@@ -112,13 +112,7 @@ export default function ProfileCard({
                       {authId && !isMe && (
                         <FollowButton isFollowing={false} userId={id} />
                       )}
-                      {authId && isMe && (
-                        <EditProfileButton
-                          src={profileImageUrl}
-                          displayName={name}
-                          bio={bio}
-                        />
-                      )}
+                      {authId && isMe && <EditProfileButton />}
                     </HFlex>
                   </FillFlex>
                 </HFlex>

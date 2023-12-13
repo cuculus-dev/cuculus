@@ -3,16 +3,16 @@
 import CapsuleButton from '@/app/_components/button/CapsuleButton';
 import ProfileSettingModal from '@/app/(menu)/(public)/[username]/_components/layouts/ProfileSettingModal';
 import { useState } from 'react';
+import { useProfile } from '@/swr/client/auth';
 
-type Props = {
-  src: string;
-  displayName: string;
-  bio: string;
-};
-
-export function EditProfileButton({ src, displayName, bio }: Props) {
+export function EditProfileButton() {
   const text = 'プロフィールを編集';
   const [open, setOpen] = useState<boolean>(false);
+  const { data } = useProfile();
+
+  if (!data) {
+    return <></>;
+  }
 
   return (
     <>
@@ -28,9 +28,9 @@ export function EditProfileButton({ src, displayName, bio }: Props) {
       </CapsuleButton>
       <ProfileSettingModal
         open={open}
-        bio={bio}
-        displayName={displayName}
-        src={src}
+        bio={data.bio}
+        displayName={data.name}
+        src={data.profileImageUrl}
         onClose={() => setOpen(false)}
       />
     </>
