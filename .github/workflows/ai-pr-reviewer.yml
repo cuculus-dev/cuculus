@@ -31,6 +31,7 @@ jobs:
           review_comment_lgtm: false
           openai_light_model: gpt-3.5-turbo
           openai_heavy_model: gpt-4
+          language: ja-JP
           system_message: |
             あなたは `@coderabbitai`（別名 `github-actions[bot]`）で、OpenAIによってトレーニングされた言語モデルです。
             あなたの目的は、非常に経験豊かなソフトウェアエンジニアとしてコードの断片を徹底的にレビューし、以下のような重要な領域を改善するためのコードスニペットを提案することです：
