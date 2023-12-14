@@ -1,7 +1,17 @@
 'use client';
 
-import { Input, InputProps } from '@mui/material';
+import { Input, InputProps, styled } from '@mui/material';
 import { useEffect, useRef } from 'react';
+
+const StyledInput = styled(Input)`
+  height: 100%;
+
+  textarea {
+    // inputPropsのminRowsに応じてタグに直接スタイル設定される
+    height: 100% !important;
+    vertical-align: top;
+  }
+`;
 
 type OmitKeys = 'multilne' | 'placeholder' | 'value' | 'onChange' | 'fullWidth';
 
@@ -27,7 +37,7 @@ const Editor = ({
   }, [inputRef, focusEditor]);
 
   return (
-    <Input
+    <StyledInput
       inputRef={inputRef}
       multiline
       placeholder="いまどうしてる？"

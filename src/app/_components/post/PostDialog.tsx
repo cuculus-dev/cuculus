@@ -40,11 +40,12 @@ const StyledDialogActions = styled(DialogActions)`
 `;
 
 interface Props {
+  fullScreen?: boolean;
   open: boolean;
   close: () => void;
 }
 
-export default function PostDialog({ open, close }: Props) {
+export default function PostDialog({ fullScreen, open, close }: Props) {
   const [getContent, setContent] = useState('');
   const [getShowConfirmCloseDialog, setShowConfirmCloseDialog] =
     useState(false);
@@ -59,6 +60,7 @@ export default function PostDialog({ open, close }: Props) {
   return (
     <Box>
       <Dialog
+        fullScreen={fullScreen}
         open={open}
         onClose={() => (getContent.length ? confirmAndClose() : close())}
       >

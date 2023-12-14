@@ -16,18 +16,23 @@ const VFlex = styled(Flex)`
 `;
 
 const Wrapper = styled(VFlex)`
-  height: auto;
+  height: 100%;
   min-height: auto;
 
   width: 600px;
 
-  ${({ theme }) => theme.breakpoints.down('laptop')} {
+  ${({ theme }) => theme.breakpoints.down('desktop')} {
     width: 450px;
+  }
+
+  ${({ theme }) => theme.breakpoints.down('laptop')} {
+    width: 100%;
   }
 `;
 
 const HFlex = styled(Flex)`
   flex-direction: row;
+  height: 100%;
 `;
 
 const Spacer = styled(Box)<{ size?: number | string }>(({ size }) => {
