@@ -21,8 +21,17 @@ export async function getCroppedImg(
   const cropHeight = area.height * scaleY;
 
   // キャンバスのサイズを設定
-  canvas.width = Math.min(cropWidth, maxSize);
-  canvas.height = Math.min(cropHeight, maxSize);
+  const aspectRatio = cropWidth / cropHeight;
+  if (cropWidth > maxSize) {
+    canvas.width = maxSize;
+    canvas.height = maxSize / aspectRatio;
+  } else if (cropHeight > maxSize) {
+    canvas.height = maxSize;
+    canvas.width = maxSize * aspectRatio;
+  } else {
+    canvas.width = cropWidth;
+    canvas.height = cropHeight;
+  }
 
   // トリミングされた画像をキャンバスに描画
   if (ctx) {
