@@ -30,6 +30,8 @@ const HEADER_HEIGHT = '50px';
 const SLIDER_HEIGHT = '50px';
 
 const Dialog = styled(MuiDialog)`
+  top: env(safe-area-inset-top, 0);
+
   .MuiDialog-paper {
     margin: 0;
     max-width: 100vw;
