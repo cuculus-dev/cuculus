@@ -33,7 +33,9 @@ const Dialog = styled(MuiDialog)`
   .MuiDialog-paper {
     margin: 0;
     max-width: 100vw;
-    max-height: 100vh;
+    max-height: calc(
+      100vh - env(safe-area-inset-bottom, 0) - env(safe-area-inset-top, 0)
+    );
 
     ${({ theme }) => theme.breakpoints.down('tablet')} {
       border-radius: 0;
