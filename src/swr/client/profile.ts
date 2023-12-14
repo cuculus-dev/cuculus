@@ -23,7 +23,7 @@ const update = async (
 
   let user: UserWithFollows | undefined = undefined;
 
-  if (arg.bio || arg.name) {
+  if (arg.bio != undefined || arg.name) {
     user = await accountsApi.updateProfile(
       {
         updateProfile: { name: arg.name, bio: arg.bio },
