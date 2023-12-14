@@ -20,7 +20,7 @@
     }
   },
   "dependencies": {
-    "@cuculus/cuculus-api": "^0.4.0",
+    "@cuculus/cuculus-api": "^0.4.1",
     "@ducanh2912/next-pwa": "^9.7.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -32,6 +32,7 @@
     "next": "^13.5.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-easy-crop": "^5.0.2",
     "swr": "^2.2.1",
     "virtua": "^0.17.4"
   },

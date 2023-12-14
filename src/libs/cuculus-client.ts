@@ -1,4 +1,5 @@
 import {
+  AccountsApi,
   AuthApi,
   Configuration,
   DefaultApi,
@@ -18,6 +19,7 @@ const defaultApi = new DefaultApi(config);
 const invitationsApi = new InvitationsApi(config);
 const timelinesApi = new TimelinesApi(config);
 const postsApi = new PostsApi(config);
+const accountsApi = new AccountsApi(config);
 
 export {
   authApi,
@@ -26,4 +28,5 @@ export {
   invitationsApi,
   timelinesApi,
   postsApi,
+  accountsApi,
 };

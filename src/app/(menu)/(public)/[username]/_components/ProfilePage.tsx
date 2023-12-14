@@ -12,7 +12,7 @@ type Props = {
 };
 export default function ProfilePage({ fallbackData }: Props) {
   const { data, isLoading } = useUser(fallbackData.username, fallbackData);
-  const { data: authId, isLoading: authorizing } = useAuth();
+  const { data: authId } = useAuth();
   if (!data) {
     // FIXME 読み込み中
     return <></>;
@@ -20,21 +20,7 @@ export default function ProfilePage({ fallbackData }: Props) {
 
   return (
     <PrimaryColumn columnName={data.name} showBack>
-      <ProfileCard
-        name={data.name}
-        username={data.username}
-        id={data.id}
-        protected={data._protected}
-        followingCount={data.followingCount}
-        followersCount={data.followersCount}
-        createdAt={data.createdAt}
-        bio={data.bio}
-        profileImageUrl={data.profileImageUrl}
-        url={data.url}
-        verified={data.verified}
-        authId={authId}
-        authorizing={authorizing}
-      />
+      <ProfileCard authId={authId} {...data} />
       {!isLoading && <UserTimeline user={data} />}
     </PrimaryColumn>
   );
