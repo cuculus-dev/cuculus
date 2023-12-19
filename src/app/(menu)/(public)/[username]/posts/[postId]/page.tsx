@@ -13,7 +13,7 @@ async function fetchPost(postId: string) {
       { id: postId },
       {
         next: {
-          revalidate: 86400,
+          revalidate: 300,
         },
       },
     );

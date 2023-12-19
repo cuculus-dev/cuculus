@@ -11,7 +11,7 @@ async function fetchUser(username: string) {
       { username },
       {
         next: {
-          revalidate: 86400,
+          revalidate: 300,
         },
       },
     );
