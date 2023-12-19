@@ -43,6 +43,7 @@ export default {
           STAGE: stack.stage,
         },
         warm: 100,
+        logging: 'combined',
         // cdk: {
         //   serverCachePolicy,
         // },
