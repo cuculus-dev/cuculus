@@ -64,7 +64,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.0",
-    "sst": "^2.34.7",
+    "sst": "^2.35.1",
     "storybook": "^7.5.3",
     "typescript": "^5.1.6",
     "webpack": "^5.88.2"
