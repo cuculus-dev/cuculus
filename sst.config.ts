@@ -42,6 +42,7 @@ export default {
           NODE_ENV: stack.stage,
           STAGE: stack.stage,
         },
+        warm: 100,
         // cdk: {
         //   serverCachePolicy,
         // },
