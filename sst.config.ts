@@ -1,7 +1,5 @@
 import { SSTConfig } from 'sst';
 import { NextjsSite } from 'sst/constructs';
-import { CacheHeaderBehavior, CachePolicy } from 'aws-cdk-lib/aws-cloudfront';
-import { Duration } from 'aws-cdk-lib';
 
 export default {
   config(_input) {
@@ -17,20 +15,6 @@ export default {
       if (stack.stage !== 'production') {
         domain = `${stack.stage}.${domain}`;
       }
-      // CloudFrontでキャッシュさせたい場合に使用すること
-      const _serverCachePolicy = new CachePolicy(stack, 'ServerCache', {
-        minTtl: Duration.seconds(86400),
-        defaultTtl: Duration.seconds(86400),
-        headerBehavior: CacheHeaderBehavior.allowList(
-          'accept',
-          'rsc',
-          'next-router-prefetch',
-          'next-router-state-tree',
-          'next-url',
-        ),
-        enableAcceptEncodingGzip: true,
-        enableAcceptEncodingBrotli: true,
-      });
       const site = new NextjsSite(stack, 'site', {
         customDomain: {
           domainName: domain,
@@ -44,9 +28,6 @@ export default {
         },
         warm: 100,
         logging: 'combined',
-        // cdk: {
-        //   serverCachePolicy,
-        // },
       });
 
       stack.addOutputs({
