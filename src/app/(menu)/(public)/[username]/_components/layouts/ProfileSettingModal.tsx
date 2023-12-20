@@ -30,17 +30,18 @@ const HEADER_HEIGHT = '50px';
 const SLIDER_HEIGHT = '50px';
 
 const Dialog = styled(MuiDialog)`
-  top: env(safe-area-inset-top, 0);
-
   .MuiDialog-paper {
+    width: 100vw;
+    max-height: 100vh;
     margin: 0;
-    max-width: 100vw;
-    max-height: calc(
-      100vh - env(safe-area-inset-bottom, 0) - env(safe-area-inset-top, 0)
-    );
+
+    ${({ theme }) => theme.breakpoints.up('tablet')} {
+      max-width: 598px;
+    }
 
     ${({ theme }) => theme.breakpoints.down('tablet')} {
       border-radius: 0;
+      height: 100vh;
     }
   }
 `;
@@ -49,11 +50,6 @@ const Container = styled('div')`
   display: flex;
   flex-direction: column;
   text-align: center;
-
-  ${({ theme }) => theme.breakpoints.down('tablet')} {
-    width: 100vw;
-    height: 100vh;
-  }
 `;
 
 const Header = styled('div')`
@@ -67,11 +63,6 @@ const Header = styled('div')`
   height: ${HEADER_HEIGHT};
   padding: 0 8px;
   gap: 12px;
-`;
-
-const Content = styled('div')`
-  max-width: 598px;
-  width: 100vw;
 `;
 
 const SliderContainer = styled('div')`
@@ -165,7 +156,7 @@ function ProfileImageCrop({
             適用
           </CapsuleButton>
         </Header>
-        <Content>
+        <div>
           {/* TODO ここでCrop出来るようにする */}
           <CropContainer>
             <Cropper
@@ -198,7 +189,7 @@ function ProfileImageCrop({
             />
             <ZoomIn />
           </SliderContainer>
-        </Content>
+        </div>
       </Container>
     </Dialog>
   );
@@ -299,7 +290,7 @@ export default function ProfileSettingModal({
               保存
             </CapsuleLoadingButton>
           </Header>
-          <Content>
+          <div>
             <HeaderImage />
             <div style={{ padding: '12px 16px 16px' }}>
               <HFlex>
@@ -355,7 +346,7 @@ export default function ProfileSettingModal({
                 />
               </VFlex>
             </div>
-          </Content>
+          </div>
         </Container>
       </Dialog>
 
