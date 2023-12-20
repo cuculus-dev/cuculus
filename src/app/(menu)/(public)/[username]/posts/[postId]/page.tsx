@@ -50,7 +50,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       type: 'profile',
     },
     twitter: {
-      title,
       card: 'summary',
     },
   };

@@ -30,10 +30,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   twitter: {
-    title,
-    description,
-    site: '@cuculus_jp',
-    creator: '@CureDotTyphoon',
+    card: 'summary',
   },
   viewport: 'viewport-fit=cover, width=device-width, initial-scale=1',
 };

@@ -44,9 +44,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       images: [user.profileImageUrl],
     },
     twitter: {
-      title,
       card: 'summary',
-      images: [user.profileImageUrl],
     },
   };
 }
