@@ -47,11 +47,10 @@ interface Props {
 }
 
 export default function PostDialog({ fullScreen, open, close }: Props) {
-  const [getContent, setContent] = useState('');
-  const [getShowConfirmCloseDialog, setShowConfirmCloseDialog] =
-    useState(false);
-  const [getErrorMessage, setErrorMesssage] = useState('');
-  const [getSucceedMessage, setSucceedMessage] = useState('');
+  const [content, setContent] = useState('');
+  const [showConfirmCloseDialog, setShowConfirmCloseDialog] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const { mutateLatest } = useHomeTimelineImmutable();
 
   // NOTE: 閉じきる前に微妙に空になるのが見えるので
@@ -64,12 +63,12 @@ export default function PostDialog({ fullScreen, open, close }: Props) {
       <Dialog
         fullScreen={fullScreen}
         open={open}
-        onClose={() => (getContent.length ? confirmAndClose() : close())}
+        onClose={() => (content.length ? confirmAndClose() : close())}
       >
         <StyledDialogTitle>
           <HFlex>
             <IconButton
-              onClick={() => (getContent.length ? confirmAndClose() : close())}
+              onClick={() => (content.length ? confirmAndClose() : close())}
             >
               <Close />
             </IconButton>
@@ -77,19 +76,15 @@ export default function PostDialog({ fullScreen, open, close }: Props) {
         </StyledDialogTitle>
 
         <StyledDialogContent>
-          <PostForm
-            getContent={getContent}
-            setContent={setContent}
-            focusEditor
-          />
+          <PostForm getContent={content} setContent={setContent} focusEditor />
         </StyledDialogContent>
 
         <StyledDialogActions>
           <SendPostButton
-            disabled={!getContent.length}
-            sendData={{ plainText: getContent }}
+            disabled={!content.length}
+            sendData={{ plainText: content }}
             onSucceed={() => {
-              setSucceedMessage('送信しました。');
+              setSuccessMessage('送信しました。');
               clearContent();
               void mutateLatest();
               close();
@@ -97,22 +92,22 @@ export default function PostDialog({ fullScreen, open, close }: Props) {
             onError={(e) => {
               // TODO: リリース前に消す？
               console.error(e);
-              setErrorMesssage('送信に失敗しました。');
+              setErrorMessage('送信に失敗しました。');
             }}
           />
         </StyledDialogActions>
 
         <Snackbar
-          open={!!getErrorMessage.length}
-          onClose={() => setErrorMesssage('')}
+          open={!!errorMessage.length}
+          onClose={() => setErrorMessage('')}
           autoHideDuration={2_000}
         >
-          <Alert severity="error">{getErrorMessage}</Alert>
+          <Alert severity="error">{errorMessage}</Alert>
         </Snackbar>
       </Dialog>
 
       <ConfirmClosePostDialogDialog
-        open={getShowConfirmCloseDialog}
+        open={showConfirmCloseDialog}
         close={() => setShowConfirmCloseDialog(false)}
         actions={[
           {
@@ -127,11 +122,11 @@ export default function PostDialog({ fullScreen, open, close }: Props) {
       />
 
       <Snackbar
-        open={!!getSucceedMessage.length}
-        onClose={() => setSucceedMessage('')}
+        open={!!successMessage.length}
+        onClose={() => setSuccessMessage('')}
         autoHideDuration={2_000}
       >
-        <Alert severity="success">{getSucceedMessage}</Alert>
+        <Alert severity="success">{successMessage}</Alert>
       </Snackbar>
     </Box>
   );

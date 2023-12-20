@@ -39,7 +39,7 @@ const StyledButton = styled(IconButton)`
 `;
 
 export default function MobileOpenPostDialogButton() {
-  const [getOpenDialog, setOpenDialog] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const renderablePaths = ['/home', '/search', '/notifications'];
   const renderable = renderablePaths.includes(usePathname() as string);
@@ -59,7 +59,7 @@ export default function MobileOpenPostDialogButton() {
 
           <PostDialog
             fullScreen
-            open={getOpenDialog}
+            open={openDialog}
             close={() => setOpenDialog(false)}
           />
         </Box>
