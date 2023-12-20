@@ -5,11 +5,11 @@ import EmotionRegistry from '@/app/_providers/Registry';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ReactNode } from 'react';
 
-const title = 'Cuculus';
+const siteName = 'Cuculus';
 const description = 'Cuculusは新しいけどどこか懐かしい短文投稿サービスです。';
 
 export const metadata: Metadata = {
-  applicationName: title,
+  applicationName: siteName,
   icons: {
     shortcut: { url: '/icon.png', type: 'image/png' },
     apple: { url: '/apple-icon.png', type: 'image/png' },
@@ -18,16 +18,22 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title,
+    title: siteName,
   },
-  title,
+  title: {
+    template: `%s | ${siteName}`,
+    default: siteName,
+  },
   description,
   openGraph: {
-    title,
+    title: {
+      template: `%s | ${siteName}`,
+      default: siteName,
+    },
     description,
-    siteName: title,
+    siteName: siteName,
     locale: 'ja_JP',
-    type: 'website',
+    type: 'article',
     images: ['/icon.png'],
   },
   twitter: {
