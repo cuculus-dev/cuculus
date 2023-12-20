@@ -9,6 +9,7 @@ const siteName = 'Cuculus';
 const description = 'Cuculusは新しいけどどこか懐かしい短文投稿サービスです。';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.SITE_URL),
   applicationName: siteName,
   icons: {
     shortcut: { url: '/icon.png', type: 'image/png' },
