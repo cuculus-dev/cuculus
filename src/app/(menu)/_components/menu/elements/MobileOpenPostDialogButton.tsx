@@ -2,9 +2,9 @@
 
 import { IconButton } from '@/app/_components/button/IconButton';
 import PostDialog from '@/app/_components/post/PostDialog';
-import { useProfile } from '@/swr/client/auth';
+import { useAuth } from '@/swr/client/auth';
 import { Send } from '@mui/icons-material';
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -33,6 +33,7 @@ const StyledButton = styled(IconButton)`
   /* FIXME: IconButtonのvariant=containedで色つかない問題が解消したら消す */
   color: white;
   background-color: #007bbb;
+
   :hover {
     background-color: #007bbb;
   }
@@ -40,30 +41,30 @@ const StyledButton = styled(IconButton)`
 
 export default function MobileOpenPostDialogButton() {
   const [openDialog, setOpenDialog] = useState(false);
+  const { data: auth } = useAuth();
 
-  const renderablePaths = ['/home', '/search', '/notifications'];
-  const renderable = renderablePaths.includes(usePathname() as string);
-  const { data: profile } = useProfile();
+  const excludePaths = ['/settings', '/invitations', '/messages'];
+  const pathname = usePathname();
+
+  if (!auth || (pathname && excludePaths.includes(pathname))) {
+    return null;
+  }
 
   return (
     <>
-      {profile && renderable && (
-        <Box>
-          <StyledButton
-            variant="contained"
-            color="primary"
-            onClick={() => setOpenDialog(true)}
-          >
-            <Send />
-          </StyledButton>
+      <StyledButton
+        variant="contained"
+        color="primary"
+        onClick={() => setOpenDialog(true)}
+      >
+        <Send />
+      </StyledButton>
 
-          <PostDialog
-            fullScreen
-            open={openDialog}
-            close={() => setOpenDialog(false)}
-          />
-        </Box>
-      )}
+      <PostDialog
+        fullScreen
+        open={openDialog}
+        close={() => setOpenDialog(false)}
+      />
     </>
   );
 }
