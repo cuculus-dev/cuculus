@@ -28,6 +28,7 @@ export const metadata: Metadata = {
     siteName: title,
     locale: 'ja_JP',
     type: 'website',
+    images: ['/icon.png'],
   },
   twitter: {
     card: 'summary',
