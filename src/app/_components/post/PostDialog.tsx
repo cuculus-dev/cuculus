@@ -16,6 +16,7 @@ import {
   styled,
 } from '@mui/material';
 import { useState } from 'react';
+import { useHomeTimelineImmutable } from '@/swr/client/timeline';
 
 const Flex = styled('div')`
   display: flex;
@@ -50,6 +51,7 @@ export default function PostDialog({ open, close }: Props) {
     useState(false);
   const [getErrorMessage, setErrorMesssage] = useState('');
   const [getSucceedMessage, setSucceedMessage] = useState('');
+  const { mutateLatest } = useHomeTimelineImmutable();
 
   // NOTE: 閉じきる前に微妙に空になるのが見えるので
   // それが嫌ならsetTimeout(unmount時にcb呼ぶ方法あるならそっち)で包む
@@ -87,6 +89,7 @@ export default function PostDialog({ open, close }: Props) {
             onSucceed={() => {
               setSucceedMessage('送信しました。');
               clearContent();
+              void mutateLatest();
               close();
             }}
             onError={(e) => {

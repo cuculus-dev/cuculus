@@ -52,3 +52,15 @@ export const useHomeTimeline = () => {
     enableQueue: true,
   });
 };
+
+/**
+ * メインとなるタイムライン
+ * 自動更新OFF
+ */
+export const useHomeTimelineImmutable = () => {
+  const { data: authId } = useAuth();
+  const swrKey = authId ? getKey('useHomeTimeline', authId) : () => null;
+  return useSWRTimeline<UserPost, Error, TimelineKey>(swrKey, fetcher, {
+    enableQueue: true,
+  });
+};
