@@ -59,9 +59,8 @@ const DisplayName = styled('span')`
 `;
 
 const Footer = styled('div')`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
 
 const MomentLinks = styled(Link)`
