@@ -6,5 +6,6 @@
   "timezone": "Asia/Tokyo",
   "dependencyDashboard": false,
   "automerge": true,
+  "platformAutomerge": true,
   "branchConcurrentLimit": 0
 }
