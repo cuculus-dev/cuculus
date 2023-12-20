@@ -4,8 +4,6 @@ import { CardActionArea, styled, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
 import FavoriteButton from '@/app/(menu)/_components/timeline/elements/FavoriteButton';
 import RepostButton from '@/app/(menu)/_components/timeline/elements/RepostButton';
-import ReplyButton from '@/app/(menu)/_components/timeline/elements/ReplyButton';
-import ShareButton from '@/app/(menu)/_components/timeline/elements/ShareButton';
 import { useRouter } from 'next/navigation';
 import MomentAgo from '@/app/(menu)/_components/timeline/elements/MomentAgo';
 import { format } from 'date-fns';
@@ -97,7 +95,6 @@ export default function Post({
   text,
   postId,
   postedAt,
-  replyCount,
   favorited,
   favoriteCount,
   reposted,
@@ -150,7 +147,7 @@ export default function Post({
                 {text}
               </Typography>
               <Footer>
-                <ReplyButton count={replyCount} />
+                <div>{/*リプライボタン*/}</div>
                 <RepostButton
                   postId={postId}
                   reposted={reposted}
@@ -161,7 +158,7 @@ export default function Post({
                   favorited={favorited}
                   favoriteCount={favoriteCount}
                 />
-                <ShareButton />
+                <div>{/*シェアボタン*/}</div>
               </Footer>
             </Content>
           </Original>
