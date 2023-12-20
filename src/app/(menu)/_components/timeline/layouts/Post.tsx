@@ -143,7 +143,11 @@ export default function Post({
                   </MomentLinks>
                 </Tooltip>
               </Header>
-              <Typography component="div" whiteSpace="pre-wrap">
+              <Typography
+                component="div"
+                whiteSpace="pre-wrap"
+                sx={{ wordWrap: 'break-word' }}
+              >
                 {text}
               </Typography>
               <Footer>
