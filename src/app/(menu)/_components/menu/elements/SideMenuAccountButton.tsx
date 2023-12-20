@@ -87,7 +87,7 @@ const SideMenuAccountButton = ({
   userName,
   profileAvatarImageUrl,
 }: Props) => {
-  const [getShowAccountMenu, setShowAccountMenu] = useState(false);
+  const [showAccountMenu, setShowAccountMenu] = useState(false);
   const accountMenuRef = useRef(null);
 
   return (
@@ -106,7 +106,7 @@ const SideMenuAccountButton = ({
       </HFlex>
 
       <Menu
-        open={getShowAccountMenu}
+        open={showAccountMenu}
         onClose={() => setShowAccountMenu(false)}
         anchorEl={accountMenuRef.current}
         anchorOrigin={{

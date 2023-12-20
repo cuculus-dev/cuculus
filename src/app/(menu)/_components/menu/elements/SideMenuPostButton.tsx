@@ -35,7 +35,7 @@ const Label = styled(`span`)`
   }
 `;
 const SideMenuPostButton = () => {
-  const [getShowPostDialog, setShowPostDialog] = useState(false);
+  const [showPostDialog, setShowPostDialog] = useState(false);
 
   return (
     <>
@@ -47,7 +47,7 @@ const SideMenuPostButton = () => {
       </Wrapper>
 
       <PostDialog
-        open={getShowPostDialog}
+        open={showPostDialog}
         close={() => setShowPostDialog(false)}
       />
     </>
