@@ -30,10 +30,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   let originalUser = post.author.name;
   let originalPost = post.text ?? '';
+  let originalImage = post.author.profileImageUrl;
 
   if (post.originalPost) {
     originalUser = post.originalPost.author.name;
     originalPost = post.originalPost.text ?? '';
+    originalImage = post.originalPost.author.profileImageUrl;
   }
 
   let title = `${originalUser}さん:「${originalPost}」`;
@@ -51,6 +53,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       siteName: 'Cuculus',
       locale: 'ja_JP',
       type: 'article',
+      images: [originalImage],
     },
     twitter: {
       card: 'summary',
