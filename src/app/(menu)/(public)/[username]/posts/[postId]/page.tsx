@@ -28,26 +28,29 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     return {};
   }
 
-  let title = `${post.author.name}さん:「${post.text ?? ''}」`;
+  let originalUser = post.author.name;
+  let originalPost = post.text ?? '';
+
   if (post.originalPost) {
-    title = `${post.originalPost.author.name}さん:「${
-      post.originalPost.text ?? ''
-    }」`;
+    originalUser = post.originalPost.author.name;
+    originalPost = post.originalPost.text ?? '';
   }
+
+  let title = `${originalUser}さん:「${originalPost}」`;
 
   // 最大長を超える場合は省略
   if (title.length > TITLE_MAX_LENGTH) {
     title = title.substring(0, TITLE_MAX_LENGTH - 3) + '...';
   }
-  title = title + ' | Cuculus';
 
   return {
     title,
     openGraph: {
-      title,
-      siteName: title,
+      title: `${originalUser} さんの投稿`,
+      description: `「${originalPost}」`,
+      siteName: 'Cuculus',
       locale: 'ja_JP',
-      type: 'profile',
+      type: 'article',
     },
     twitter: {
       card: 'summary',

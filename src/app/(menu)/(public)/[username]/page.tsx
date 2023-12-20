@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     return {};
   }
 
-  const title = `${user.name} (@${user.username}) さん | Cuculus`;
+  const title = `${user.name} (@${user.username}) さん`;
   const description =
     user.bio.length > 0
       ? user.bio
@@ -38,9 +38,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      siteName: title,
+      siteName: 'Cuculus',
       locale: 'ja_JP',
-      type: 'profile',
+      type: 'article',
       images: [user.profileImageUrl],
     },
     twitter: {
