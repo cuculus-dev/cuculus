@@ -4,6 +4,7 @@ import { styled } from '@mui/material';
 import SideMenu from '@/app/(menu)/_components/menu/SideMenu';
 import BottomMenu from '@/app/(menu)/_components/menu/BottomMenu';
 import { ReactNode } from 'react';
+import MobileOpenPostDialogButton from '@/app/(menu)/_components/menu/elements/MobileOpenPostDialogButton';
 
 const Layout = styled('div')`
   display: grid;
@@ -37,6 +38,8 @@ export default function MenuLayout({ children }: { children: ReactNode }) {
       <SideMenu />
       {children}
       <BottomMenu />
+
+      <MobileOpenPostDialogButton />
     </Layout>
   );
 }
