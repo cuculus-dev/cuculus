@@ -1,12 +1,20 @@
 import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
+import { Viewport } from 'next';
 import EmotionRegistry from '@/app/_providers/Registry';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ReactNode } from 'react';
 
 const siteName = 'Cuculus';
 const description = 'Cuculusは新しいけどどこか懐かしい短文投稿サービスです。';
+
+export const viewport: Viewport = {
+  viewportFit: 'cover',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL),
@@ -40,7 +48,6 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary',
   },
-  viewport: 'viewport-fit=cover, width=device-width, initial-scale=1',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
