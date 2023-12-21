@@ -1,7 +1,7 @@
 name: Deployment Develop
-on:
-  push:
-    branches: [ develop ]
+#on:
+#  push:
+#    branches: [ develop ]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
