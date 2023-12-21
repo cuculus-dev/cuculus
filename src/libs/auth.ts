@@ -1,6 +1,6 @@
 import { ResponseError } from '@cuculus/cuculus-api';
 import { authApi } from '@/libs/cuculus-client';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const CACHE: Record<number, [string, AuthJwtPayload]> = {};
 const PROCESS: Record<number, Promise<string | undefined>> = {};
