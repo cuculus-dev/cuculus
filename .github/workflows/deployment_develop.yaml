@@ -1,8 +1,9 @@
 name: Deployment Develop
 on:
   push:
-    branches: [ ]
 #    branches: [ develop ]
+    branches-ignore:
+      - "**"
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
