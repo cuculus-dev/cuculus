@@ -1,6 +1,7 @@
 name: Deployment Develop
-#on:
-#  push:
+on:
+  push:
+    branches: [ ]
 #    branches: [ develop ]
 jobs:
   build-and-deploy:
