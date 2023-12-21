@@ -8,6 +8,8 @@
   "automerge": true,
   "platformAutomerge": true,
   "branchConcurrentLimit": 0,
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 0,
   "rangeStrategy": "replace",
   "packageRules": [
     {
