@@ -54,7 +54,7 @@ const fetcher = async ({
 export const useInvitations = () => {
   const { data: authId } = useAuth();
   const swrKey = authId ? { key: 'useInvitations', authId } : null;
-  return useSWR<UserInvitations | undefined, Error>(swrKey, fetcher);
+  return useSWR<UserInvitations | undefined, Error>(swrKey, fetcher, undefined);
 };
 
 type Key = { key: string; authId: number };
