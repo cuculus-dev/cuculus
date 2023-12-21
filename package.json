@@ -58,7 +58,7 @@
     "eslint": "8.56.0",
     "eslint-config-next": "13.4.12",
     "eslint-config-prettier": "8.10.0",
-    "eslint-import-resolver-typescript": "3.5.5",
+    "eslint-import-resolver-typescript": "3.6.1",
     "eslint-plugin-storybook": "0.6.15",
     "http-proxy-middleware": "2.0.6",
     "husky": "8.0.3",
