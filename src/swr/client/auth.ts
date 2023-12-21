@@ -91,7 +91,7 @@ const fetchMe = async ({ authId }: { authId: number }) => {
 export const useProfile = () => {
   const { data: authId } = useAuth();
   const swrKey = authId ? { key: 'useProfile', authId } : null;
-  return useSWR<User | undefined, Error>(swrKey, fetchMe);
+  return useSWR<User | undefined, Error>(swrKey, fetchMe, undefined);
 };
 
 const fetchPreSignUp = async (
