@@ -7,5 +7,14 @@
   "dependencyDashboard": false,
   "automerge": true,
   "platformAutomerge": true,
-  "branchConcurrentLimit": 0
+  "branchConcurrentLimit": 0,
+  "rangeStrategy": "replace",
+  "packageRules": [
+    {
+      "packagePatterns": [
+        "*"
+      ],
+      "rangeStrategy": "replace"
+    }
+  ]
 }
