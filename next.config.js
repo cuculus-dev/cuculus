@@ -13,6 +13,11 @@ const nextConfig = {
   },
   reactStrictMode: true,
   swcMinify: true,
+  modularizeImports: {
+    '@mui/lab': {
+      transform: '@mui/lab/{{member}}',
+    },
+  },
 };
 
 module.exports = withPWA(nextConfig);
