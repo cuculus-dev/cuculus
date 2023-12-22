@@ -27,7 +27,7 @@ export default {
           STAGE: stack.stage,
         },
         warm: 100,
-        memorySize: '2048 MB',
+        memorySize: '10 GB',
         logging: 'combined',
       });
 
