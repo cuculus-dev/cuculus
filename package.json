@@ -12,6 +12,7 @@
     "prepare": "husky install",
     "lint-staged": "lint-staged",
     "storybook": "storybook dev -p 6006",
+    "test-storybook": "test-storybook",
     "build-storybook": "storybook build"
   },
   "husky": {
@@ -47,7 +48,8 @@
     "@storybook/blocks": "7.6.6",
     "@storybook/nextjs": "7.6.6",
     "@storybook/react": "7.6.6",
-    "@storybook/testing-library": "0.2.2",
+    "@storybook/test": "7.6.6",
+    "@storybook/test-runner": "0.16.0",
     "@svgr/webpack": "8.1.0",
     "@types/node": "20.4.5",
     "@types/react": "18.2.45",
