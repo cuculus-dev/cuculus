@@ -23,11 +23,13 @@
   "dependencies": {
     "@cuculus/cuculus-api": "0.4.1",
     "@ducanh2912/next-pwa": "10.2.2",
+    "@emotion/cache": "11.11.0",
     "@emotion/react": "11.11.3",
     "@emotion/styled": "11.11.0",
     "@mui/icons-material": "5.15.4",
     "@mui/lab": "5.0.0-alpha.160",
     "@mui/material": "5.15.4",
+    "@mui/material-nextjs": "5.15.3",
     "date-fns": "3.2.0",
     "jwt-decode": "4.0.0",
     "next": "14.0.4",
