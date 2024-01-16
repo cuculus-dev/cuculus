@@ -2,9 +2,11 @@ import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
 import { Viewport } from 'next';
-import EmotionRegistry from '@/app/_providers/Registry';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ReactNode } from 'react';
+import theme from '@/theme/theme';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { ThemeProvider } from '@mui/material';
 
 const siteName = 'Cuculus';
 const description = 'Cuculusは新しいけどどこか懐かしい短文投稿サービスです。';
@@ -54,9 +56,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja" style={{ overflowY: 'scroll' }}>
       <head />
-      <CssBaseline />
       <body>
-        <EmotionRegistry>{children}</EmotionRegistry>
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {children}
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
