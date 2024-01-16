@@ -6,7 +6,7 @@ import { CircularProgress } from '@mui/material';
 import { UserPost } from '@cuculus/cuculus-api';
 import { SWRTimelineResponse, TimelineData } from '@/libs/swr/timeline/types';
 import Showmore from '@/app/(menu)/_components/timeline/layouts/Showmore';
-import { WVList } from 'virtua';
+import { WindowVirtualizer } from 'virtua';
 
 // 投稿の件数をカウントする
 const lengthPost = (data: TimelineData<UserPost>) => {
@@ -62,7 +62,7 @@ export default function Timeline({ timeline }: Props) {
 
   return (
     <>
-      <WVList
+      <WindowVirtualizer
         onRangeChange={(_, endIndex) => {
           const count =
             data?.reduce((accumulator, item) => {
@@ -100,7 +100,7 @@ export default function Timeline({ timeline }: Props) {
             );
           }
         })}
-      </WVList>
+      </WindowVirtualizer>
     </>
   );
 }
