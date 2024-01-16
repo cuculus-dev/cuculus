@@ -108,8 +108,6 @@ export default function Post({
       <CardActionArea
         sx={{ userSelect: 'text' }}
         component={'div'}
-        onFocus={() => void router.prefetch(postUrl)}
-        onMouseEnter={() => void router.prefetch(postUrl)}
         onClick={() => {
           const selection = window.getSelection();
           if (!(selection && selection.toString())) {
@@ -125,6 +123,7 @@ export default function Post({
             <Content>
               <Header>
                 <ProfileLink
+                  prefetch={false}
                   href={`/${userName}`}
                   onClick={(event) => event.stopPropagation()}
                 >
@@ -135,6 +134,7 @@ export default function Post({
                 </ProfileLink>
                 <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
                   <MomentLinks
+                    prefetch={false}
                     aria-label="投稿へ"
                     href={postUrl}
                     onClick={(event) => event.stopPropagation()}
