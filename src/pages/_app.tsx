@@ -35,7 +35,7 @@ export default function App(props: AppPropsWithLayout) {
   const { Component, pageProps } = props;
   const getLayout = Component.getLayout || ((page) => page);
   const accessLevel = Component.accessLevel ?? 'public';
-  const showLoadingScreen = Component.getLayout !== undefined;
+  const showLoadingScreen = Component.getLayout === undefined;
   return (
     <AppCacheProvider {...props}>
       <ThemeProvider theme={theme}>
