@@ -25,7 +25,11 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 's-maxage=31536000, stale-while-revalidate=2592000',
+            value: 's-maxage=86400, stale-while-revalidate=86400',
+          },
+          {
+            key: 'X-DEBUG',
+            value: 'all',
           },
         ],
       },
@@ -36,6 +40,10 @@ const nextConfig = {
             key: 'Cache-Control',
             value: 's-maxage=86400, stale-while-revalidate=86400',
           },
+          {
+            key: 'X-DEBUG',
+            value: 'username',
+          },
         ],
       },
       {
@@ -44,6 +52,10 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 's-maxage=86400, stale-while-revalidate=86400',
+          },
+          {
+            key: 'X-DEBUG',
+            value: 'post',
           },
         ],
       },
