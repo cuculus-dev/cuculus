@@ -6,6 +6,7 @@ import { AppPropsWithLayout } from 'next/app';
 import { ReactElement } from 'react';
 import PrivateRoute from '@/app/_components/auth/PrivateRoute';
 import GuestRoute from '@/app/_components/auth/GuestRoute';
+import MetaHead from './_meta';
 
 function getAccessLevelRoute(
   children: ReactElement,
@@ -31,23 +32,25 @@ function getAccessLevelRoute(
 }
 
 export default function App(props: AppPropsWithLayout) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { Component, pageProps } = props;
   const getLayout = Component.getLayout || ((page) => page);
   const accessLevel = Component.accessLevel ?? 'public';
   const showLoadingScreen = Component.getLayout === undefined;
   return (
-    <AppCacheProvider {...props}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {getLayout(
-          getAccessLevelRoute(
-            <Component {...pageProps} />,
-            accessLevel,
-            showLoadingScreen,
-          ),
-        )}
-      </ThemeProvider>
-    </AppCacheProvider>
+    <>
+      <MetaHead metadata={pageProps.metadata} />
+      <AppCacheProvider {...props}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {getLayout(
+            getAccessLevelRoute(
+              <Component {...pageProps} />,
+              accessLevel,
+              showLoadingScreen,
+            ),
+          )}
+        </ThemeProvider>
+      </AppCacheProvider>
+    </>
   );
 }
