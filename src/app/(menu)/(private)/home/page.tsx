@@ -1,15 +1,22 @@
 import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
-import { Metadata } from 'next';
 import HomeTimeline from '@/app/(menu)/(private)/home/_components/HomeTimeline';
+import { NextPageWithLayout } from 'next';
+import MenuLayout from '@/app/(menu)/layout';
 
-export const metadata: Metadata = {
-  title: 'ホーム',
-};
+// export const metadata: Metadata = {
+//   title: 'ホーム',
+// };
 
-export default function page() {
+const Page: NextPageWithLayout = () => {
   return (
     <PrimaryColumn columnName={'ホーム'}>
       <HomeTimeline />
     </PrimaryColumn>
   );
-}
+};
+
+Page.getLayout = (children) => <MenuLayout>{children}</MenuLayout>;
+
+Page.accessLevel = 'private';
+
+export default Page;
