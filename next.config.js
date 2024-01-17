@@ -18,6 +18,19 @@ const nextConfig = {
       transform: '@mui/lab/{{member}}',
     },
   },
+  headers: async () => {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 's-maxage=31536000, stale-while-revalidate=2592000',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = withPWA(nextConfig);
