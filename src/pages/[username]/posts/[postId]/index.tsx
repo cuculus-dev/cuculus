@@ -26,45 +26,6 @@ async function fetchPost(postId: string) {
   }
 }
 
-// export async function generateMetadata({ params }: Params): Promise<Metadata> {
-//   const post = await fetchPost(params.postId);
-//   if (!post) {
-//     return {};
-//   }
-//
-//   let originalUser = post.author.name;
-//   let originalPost = post.text ?? '';
-//   let originalImage = post.author.profileImageUrl;
-//
-//   if (post.originalPost) {
-//     originalUser = post.originalPost.author.name;
-//     originalPost = post.originalPost.text ?? '';
-//     originalImage = post.originalPost.author.profileImageUrl;
-//   }
-//
-//   let title = `${originalUser}さん:「${originalPost}」`;
-//
-//   // 最大長を超える場合は省略
-//   if (title.length > TITLE_MAX_LENGTH) {
-//     title = title.substring(0, TITLE_MAX_LENGTH - 3) + '...';
-//   }
-//
-//   return {
-//     title,
-//     openGraph: {
-//       title: `${originalUser} さんの投稿`,
-//       description: `「${originalPost}」`,
-//       siteName: 'Cuculus',
-//       locale: 'ja_JP',
-//       type: 'article',
-//       images: [originalImage],
-//     },
-//     twitter: {
-//       card: 'summary',
-//     },
-//   };
-// }
-
 export const getServerSideProps = (async (context) => {
   const postId = String(context.query.postId);
   const post = await fetchPost(postId);
@@ -89,12 +50,12 @@ export const getServerSideProps = (async (context) => {
 
   let originalUser = post.author.name;
   let originalPost = post.text ?? '';
-  // let originalImage = post.author.profileImageUrl;
+  let originalImage = post.author.profileImageUrl;
 
   if (post.originalPost) {
     originalUser = post.originalPost.author.name;
     originalPost = post.originalPost.text ?? '';
-    // originalImage = post.originalPost.author.profileImageUrl;
+    originalImage = post.originalPost.author.profileImageUrl;
   }
 
   let title = `${originalUser}さん:「${originalPost}」`;
@@ -108,6 +69,7 @@ export const getServerSideProps = (async (context) => {
     props: {
       postJson: JSON.stringify(post),
       metadata: { title, description: `「${originalPost}」` },
+      images: [originalImage],
     },
   };
 }) satisfies GetServerSideProps<{ postJson: string } & PageProps>;

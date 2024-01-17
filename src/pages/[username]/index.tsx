@@ -24,35 +24,6 @@ async function fetchUser(username: string) {
   }
 }
 
-// export async function generateMetadata({ params }: Params): Promise<Metadata> {
-//   const user = await fetchUser(params.username);
-//   if (!user) {
-//     return {};
-//   }
-//
-//   const title = `${user.name} (@${user.username}) さん`;
-//   const description =
-//     user.bio.length > 0
-//       ? user.bio
-//       : `${user.name} さんはCuculusを利用しています。`;
-//
-//   return {
-//     title,
-//     description,
-//     openGraph: {
-//       title,
-//       description,
-//       siteName: 'Cuculus',
-//       locale: 'ja_JP',
-//       type: 'article',
-//       images: [user.profileImageUrl],
-//     },
-//     twitter: {
-//       card: 'summary',
-//     },
-//   };
-// }
-
 export const getServerSideProps = (async (context) => {
   const username = String(context.query.username);
   const user = await fetchUser(username);
@@ -69,7 +40,10 @@ export const getServerSideProps = (async (context) => {
       : `${user.name} さんはCuculusを利用しています。`;
 
   return {
-    props: { userJson: JSON.stringify(user), metadata: { title, description } },
+    props: {
+      userJson: JSON.stringify(user),
+      metadata: { title, description, images: [user.profileImageUrl] },
+    },
   };
 }) satisfies GetServerSideProps<{ userJson: string } & PageProps>;
 

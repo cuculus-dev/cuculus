@@ -7,6 +7,7 @@ declare module 'next' {
     metadata?: {
       title?: string;
       description?: string;
+      images?: Array<string>;
     };
   };
 
