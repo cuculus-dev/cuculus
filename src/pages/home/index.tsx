@@ -1,7 +1,7 @@
-import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
-import HomeTimeline from '@/app/(menu)/(private)/home/_components/HomeTimeline';
+import PrimaryColumn from '@/_app/(menu)/_components/main/PrimaryColumn';
+import HomeTimeline from '@/_app/(menu)/(private)/home/_components/HomeTimeline';
 import { GetStaticProps, NextPageWithLayout, PageProps } from 'next';
-import MenuLayout from '@/app/(menu)/layout';
+import MenuLayout from '@/_app/(menu)/layout';
 
 export const getStaticProps = (() => {
   return {

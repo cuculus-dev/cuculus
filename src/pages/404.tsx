@@ -1,4 +1,4 @@
-import NotFound from '@/app/_components/NotFound';
+import NotFound from '@/_app/_components/NotFound';
 
 // export const metadata: Metadata = {
 //   title: 'ページが見つかりません',

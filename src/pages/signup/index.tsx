@@ -1,5 +1,5 @@
 import { styled } from '@mui/material';
-import SignUpForm from '@/app/(plain)/(guest)/signup/_components/SignUpForm';
+import SignUpForm from '@/_app/(plain)/(guest)/signup/_components/SignUpForm';
 import { NextPageWithLayout } from 'next';
 
 const Root = styled('div')`

@@ -1,6 +1,6 @@
-import ComingSoon from '@/app/(menu)/_components/main/ComingSoon';
-import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
-import MenuLayout from '@/app/(menu)/layout';
+import ComingSoon from '@/_app/(menu)/_components/main/ComingSoon';
+import PrimaryColumn from '@/_app/(menu)/_components/main/PrimaryColumn';
+import MenuLayout from '@/_app/(menu)/layout';
 import { NextPageWithLayout } from 'next';
 
 const Page: NextPageWithLayout = () => {

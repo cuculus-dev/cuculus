@@ -5,9 +5,9 @@ import {
   PageProps,
 } from 'next';
 import { postsApi } from '@/libs/cuculus-client';
-import { PostPage } from '@/app/(menu)/(public)/[username]/posts/_components/PostPage';
+import { PostPage } from '@/_app/(menu)/(public)/[username]/posts/_components/PostPage';
 import { UserPost } from '@cuculus/cuculus-api';
-import MenuLayout from '@/app/(menu)/layout';
+import MenuLayout from '@/_app/(menu)/layout';
 
 const TITLE_MAX_LENGTH = 70;
 

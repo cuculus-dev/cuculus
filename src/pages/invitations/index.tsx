@@ -1,7 +1,7 @@
-import Invitations from '@/app/(menu)/(private)/invitations/_components/Invitations';
-import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
+import Invitations from '@/_app/(menu)/(private)/invitations/_components/Invitations';
+import PrimaryColumn from '@/_app/(menu)/_components/main/PrimaryColumn';
 import { GetStaticProps, NextPageWithLayout, PageProps } from 'next';
-import MenuLayout from '@/app/(menu)/layout';
+import MenuLayout from '@/_app/(menu)/layout';
 
 export const getStaticProps = (() => {
   return {

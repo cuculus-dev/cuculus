@@ -1,5 +1,5 @@
 import { styled } from '@mui/material';
-import LoginForm from '@/app/(plain)/(guest)/login/_components/LoginForm';
+import LoginForm from '@/_app/(plain)/(guest)/login/_components/LoginForm';
 import { NextPageWithLayout } from 'next';
 
 const StyledLogin = styled('div')`
