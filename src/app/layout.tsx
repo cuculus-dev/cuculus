@@ -1,5 +1,3 @@
-import '@/styles/globals.css';
-
 import type { Metadata } from 'next';
 import { Viewport } from 'next';
 import CssBaseline from '@mui/material/CssBaseline';
