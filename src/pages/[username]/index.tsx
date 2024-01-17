@@ -61,11 +61,6 @@ export const getServerSideProps = (async (context) => {
     };
   }
 
-  context.res.setHeader(
-    'Cache-Control',
-    's-maxage=86400, stale-while-revalidate=86400',
-  );
-
   return { props: { userJson: JSON.stringify(user) } };
 }) satisfies GetServerSideProps<{ userJson: string }>;
 

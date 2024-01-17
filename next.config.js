@@ -29,6 +29,24 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/:username',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 's-maxage=86400, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
+        source: '/:username/posts/:postId',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 's-maxage=86400, stale-while-revalidate=86400',
+          },
+        ],
+      },
     ];
   },
 };
