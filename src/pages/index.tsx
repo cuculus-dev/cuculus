@@ -1,9 +1,8 @@
-'use client';
-
 import CuculusSvg from '@assets/icons/Cuculus.svg';
 import { styled } from '@mui/material';
 import LinkButton from '@/app/_components/button/LinkButton';
 import Footer from '@/app/(plain)/_components/Footer';
+import { NextPageWithLayout } from 'next';
 
 const Container = styled('div')`
   display: flex;
@@ -50,7 +49,7 @@ const StyledLinkButton = styled(LinkButton)`
   font-weight: bold;
 `;
 
-export default function toppage() {
+const Page: NextPageWithLayout = () => {
   return (
     <main>
       <Background>
@@ -72,4 +71,8 @@ export default function toppage() {
       </Background>
     </main>
   );
-}
+};
+
+Page.accessLevel = 'guest';
+
+export default Page;
