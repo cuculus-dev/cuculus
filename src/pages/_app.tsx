@@ -14,9 +14,17 @@ function getAccessLevelRoute(
 ) {
   switch (accessLevel) {
     case 'private':
-      return <PrivateRoute showLoadingScreen>{children}</PrivateRoute>;
+      return (
+        <PrivateRoute showLoadingScreen={showLoadingScreen}>
+          {children}
+        </PrivateRoute>
+      );
     case 'guest':
-      return <GuestRoute showLoadingScreen>{children}</GuestRoute>;
+      return (
+        <GuestRoute showLoadingScreen={showLoadingScreen}>
+          {children}
+        </GuestRoute>
+      );
     default:
       return <>{children}</>;
   }
