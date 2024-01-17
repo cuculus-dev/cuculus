@@ -1,11 +1,17 @@
 import ComingSoon from '@/app/(menu)/_components/main/ComingSoon';
-import { NextPageWithLayout } from 'next';
+import { GetStaticProps, NextPageWithLayout, PageProps } from 'next';
 import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
 import MenuLayout from '@/app/(menu)/layout';
 
-// export const metadata: Metadata = {
-//   title: '設定',
-// };
+export const getStaticProps = (() => {
+  return {
+    props: {
+      metadata: {
+        title: '設定',
+      },
+    },
+  };
+}) satisfies GetStaticProps<PageProps>;
 
 const Page: NextPageWithLayout = () => {
   return (

@@ -2,6 +2,7 @@ import {
   GetServerSideProps,
   InferGetServerSidePropsType,
   NextPageWithLayout,
+  PageProps,
 } from 'next';
 import { usersApi } from '@/libs/cuculus-client';
 import ProfilePage from '@/app/(menu)/(public)/[username]/_components/ProfilePage';
@@ -61,8 +62,16 @@ export const getServerSideProps = (async (context) => {
     };
   }
 
-  return { props: { userJson: JSON.stringify(user) } };
-}) satisfies GetServerSideProps<{ userJson: string }>;
+  const title = `${user.name} (@${user.username}) さん`;
+  const description =
+    user.bio.length > 0
+      ? user.bio
+      : `${user.name} さんはCuculusを利用しています。`;
+
+  return {
+    props: { userJson: JSON.stringify(user), metadata: { title, description } },
+  };
+}) satisfies GetServerSideProps<{ userJson: string } & PageProps>;
 
 const Page: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>

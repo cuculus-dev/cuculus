@@ -2,13 +2,14 @@ import {
   GetServerSideProps,
   InferGetServerSidePropsType,
   NextPageWithLayout,
+  PageProps,
 } from 'next';
 import { postsApi } from '@/libs/cuculus-client';
 import { PostPage } from '@/app/(menu)/(public)/[username]/posts/_components/PostPage';
 import { UserPost } from '@cuculus/cuculus-api';
 import MenuLayout from '@/app/(menu)/layout';
 
-// const TITLE_MAX_LENGTH = 70;
+const TITLE_MAX_LENGTH = 70;
 
 async function fetchPost(postId: string) {
   try {
@@ -86,8 +87,30 @@ export const getServerSideProps = (async (context) => {
     };
   }
 
-  return { props: { postJson: JSON.stringify(post) } };
-}) satisfies GetServerSideProps<{ postJson: string }>;
+  let originalUser = post.author.name;
+  let originalPost = post.text ?? '';
+  // let originalImage = post.author.profileImageUrl;
+
+  if (post.originalPost) {
+    originalUser = post.originalPost.author.name;
+    originalPost = post.originalPost.text ?? '';
+    // originalImage = post.originalPost.author.profileImageUrl;
+  }
+
+  let title = `${originalUser}さん:「${originalPost}」`;
+
+  // 最大長を超える場合は省略
+  if (title.length > TITLE_MAX_LENGTH) {
+    title = title.substring(0, TITLE_MAX_LENGTH - 3) + '...';
+  }
+
+  return {
+    props: {
+      postJson: JSON.stringify(post),
+      metadata: { title, description: `「${originalPost}」` },
+    },
+  };
+}) satisfies GetServerSideProps<{ postJson: string } & PageProps>;
 
 const Page: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>

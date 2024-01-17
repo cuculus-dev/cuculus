@@ -1,12 +1,17 @@
 import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
 import HomeTimeline from '@/app/(menu)/(private)/home/_components/HomeTimeline';
-import { NextPageWithLayout } from 'next';
+import { GetStaticProps, NextPageWithLayout, PageProps } from 'next';
 import MenuLayout from '@/app/(menu)/layout';
 
-// export const metadata: Metadata = {
-//   title: 'ホーム',
-// };
-
+export const getStaticProps = (() => {
+  return {
+    props: {
+      metadata: {
+        title: 'ホーム',
+      },
+    },
+  };
+}) satisfies GetStaticProps<PageProps>;
 const Page: NextPageWithLayout = () => {
   return (
     <PrimaryColumn columnName={'ホーム'}>
