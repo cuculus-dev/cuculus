@@ -1,6 +1,6 @@
 'use client';
 
-import MobileBottomMenuLinkItem from '@/_app/(menu)/_components/menu/elements/MobileBottomMenuLinkItem';
+import MobileBottomMenuLinkItem from '@/pages/_components/menu/elements/MobileBottomMenuLinkItem';
 import { useProfile } from '@/swr/client/auth';
 import {
   Home,

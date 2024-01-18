@@ -13,11 +13,11 @@ import {
   Settings,
   SettingsOutlined,
 } from '@mui/icons-material';
-import SideMenuAccountButton from '@/_app/(menu)/_components/menu/elements/SideMenuAccountButton';
-import SideMenuPostButton from '@/_app/(menu)/_components/menu/elements/SideMenuPostButton';
-import SideMenuLinkItem from '@/_app/(menu)/_components/menu/elements/SideMenuLinkItem';
+import SideMenuAccountButton from '@/pages/_components/menu/elements/SideMenuAccountButton';
+import SideMenuPostButton from '@/pages/_components/menu/elements/SideMenuPostButton';
+import SideMenuLinkItem from '@/pages/_components/menu/elements/SideMenuLinkItem';
 import { useProfile } from '@/swr/client/auth';
-import LogoLink from '@/_app/(menu)/_components/menu/elements/LogoLink';
+import LogoLink from '@/pages/_components/menu/elements/LogoLink';
 
 const Root = styled('div')`
   // Desktop

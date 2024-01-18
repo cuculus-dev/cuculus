@@ -1,6 +1,6 @@
 'use client';
 
-import SideMenuItemStyleBase from '@/_app/(menu)/_components/menu/elements/SideMenuItemStyleBase';
+import SideMenuItemStyleBase from '@/pages/_components/menu/elements/SideMenuItemStyleBase';
 import { Box, styled } from '@mui/material';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';

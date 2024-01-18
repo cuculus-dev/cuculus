@@ -1,9 +1,9 @@
 'use client';
 
-import PrimaryColumn from '@/_app/(menu)/_components/main/PrimaryColumn';
+import PrimaryColumn from '@/pages/_components/main/PrimaryColumn';
 import { UserPost } from '@cuculus/cuculus-api';
 import { usePost } from '@/swr/client/post';
-import Post from '@/_app/(menu)/_components/timeline/layouts/Post';
+import Post from '@/pages/_components/timeline/layouts/Post';
 
 type Props = {
   postId: string;

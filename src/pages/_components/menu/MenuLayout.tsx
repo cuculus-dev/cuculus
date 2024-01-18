@@ -1,10 +1,10 @@
 'use client';
 
 import { styled } from '@mui/material';
-import SideMenu from '@/_app/(menu)/_components/menu/SideMenu';
-import BottomMenu from '@/_app/(menu)/_components/menu/BottomMenu';
+import SideMenu from '@/pages/_components/menu/SideMenu';
+import BottomMenu from '@/pages/_components/menu/BottomMenu';
 import { ReactNode } from 'react';
-import MobileOpenPostDialogButton from '@/_app/(menu)/_components/menu/elements/MobileOpenPostDialogButton';
+import MobileOpenPostDialogButton from '@/pages/_components/menu/elements/MobileOpenPostDialogButton';
 
 const Layout = styled('div')`
   display: grid;

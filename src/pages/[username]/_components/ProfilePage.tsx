@@ -1,6 +1,6 @@
 'use client';
 
-import PrimaryColumn from '@/_app/(menu)/_components/main/PrimaryColumn';
+import PrimaryColumn from '@/pages/_components/main/PrimaryColumn';
 import ProfileCard from '@/pages/[username]/_components/layouts/ProfileCard';
 import { useUser } from '@/swr/client/user';
 import UserTimeline from '@/pages/[username]/_components/UserTimeline';

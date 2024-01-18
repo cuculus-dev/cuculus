@@ -1,8 +1,8 @@
 'use client';
 
 import { usePost } from '@/swr/client/post';
-import ViewTrigger from '@/_app/(menu)/_components/timeline/ViewportTrigger';
-import Post from '@/_app/(menu)/_components/timeline/layouts/Post';
+import ViewTrigger from '@/pages/_components/timeline/ViewportTrigger';
+import Post from '@/pages/_components/timeline/layouts/Post';
 import { UserPost } from '@cuculus/cuculus-api';
 
 /**

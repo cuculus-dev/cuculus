@@ -7,7 +7,7 @@ import {
 import { usersApi } from '@/libs/cuculus-client';
 import ProfilePage from '@/pages/[username]/_components/ProfilePage';
 import { UserWithFollows } from '@cuculus/cuculus-api';
-import MenuLayout from '@/_app/(menu)/layout';
+import MenuLayout from '@/pages/_components/menu/layout';
 
 async function fetchUser(username: string) {
   try {

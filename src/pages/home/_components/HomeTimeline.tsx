@@ -1,7 +1,7 @@
 'use client';
 
 import { useHomeTimeline } from '@/swr/client/timeline';
-import Timeline from '@/_app/(menu)/_components/timeline/Timeline';
+import Timeline from '@/pages/_components/timeline/Timeline';
 
 /**
  * ホームタイムライン

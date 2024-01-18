@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import PrimaryColumn from '@/_app/(menu)/_components/main/PrimaryColumn';
+import PrimaryColumn from '@/pages/_components/main/PrimaryColumn';
 
 const meta: Meta<typeof PrimaryColumn> = {
   component: PrimaryColumn,

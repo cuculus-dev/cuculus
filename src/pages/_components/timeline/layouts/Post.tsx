@@ -2,12 +2,12 @@
 
 import { CardActionArea, styled, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
-import FavoriteButton from '@/_app/(menu)/_components/timeline/elements/FavoriteButton';
-import RepostButton from '@/_app/(menu)/_components/timeline/elements/RepostButton';
+import FavoriteButton from '@/pages/_components/timeline/elements/FavoriteButton';
+import RepostButton from '@/pages/_components/timeline/elements/RepostButton';
 import { useRouter } from 'next/navigation';
-import MomentAgo from '@/_app/(menu)/_components/timeline/elements/MomentAgo';
+import MomentAgo from '@/pages/_components/timeline/elements/MomentAgo';
 import { format } from 'date-fns';
-import AvatarIcon from '@/_app/(menu)/_components/timeline/elements/AvatarIcon';
+import AvatarIcon from '@/pages/_components/timeline/elements/AvatarIcon';
 
 const Article = styled('article')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};

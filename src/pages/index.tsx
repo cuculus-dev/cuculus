@@ -1,7 +1,7 @@
 import CuculusSvg from '@assets/icons/Cuculus.svg';
 import { styled } from '@mui/material';
 import LinkButton from '@/pages/_components/button/LinkButton';
-import Footer from '@/_app/(plain)/_components/Footer';
+import Footer from '@/pages/_components/plain/Footer';
 import { NextPageWithLayout } from 'next';
 
 const Container = styled('div')`

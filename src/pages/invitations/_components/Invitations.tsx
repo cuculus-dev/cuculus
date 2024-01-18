@@ -12,7 +12,7 @@ import {
 import { useInvitationCreate, useInvitations } from '@/swr/client/invitations';
 import { useEffect, useState } from 'react';
 import { Invitation } from '@cuculus/cuculus-api/dist/models/Invitation';
-import Loading from '@/_app/(menu)/_components/main/Loading';
+import Loading from '@/pages/_components/main/Loading';
 import { ContentCopy } from '@mui/icons-material';
 import LoadingButton from '@/pages/_components/button/LoadingButton';
 
