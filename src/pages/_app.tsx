@@ -4,8 +4,8 @@ import theme from '@/theme/theme';
 import { ThemeProvider } from '@mui/material';
 import { AppPropsWithLayout } from 'next/app';
 import { ReactElement } from 'react';
-import PrivateRoute from '@/_app/_components/auth/PrivateRoute';
-import GuestRoute from '@/_app/_components/auth/GuestRoute';
+import PrivateRoute from '@/pages/_components/auth/PrivateRoute';
+import GuestRoute from '@/pages/_components/auth/GuestRoute';
 import MetaHead from './_meta';
 
 function getAccessLevelRoute(

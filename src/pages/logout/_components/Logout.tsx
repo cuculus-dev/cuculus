@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Dialog, styled } from '@mui/material';
-import CapsuleButton from '@/_app/_components/button/CapsuleButton';
+import CapsuleButton from '@/pages/_components/button/CapsuleButton';
 import { useRouter } from 'next/navigation';
 import { useSignOut } from '@/swr/client/auth';
 

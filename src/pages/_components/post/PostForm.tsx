@@ -1,6 +1,6 @@
 'use client';
 
-import Editor from '@/_app/_components/post/elements/Editor';
+import Editor from '@/pages/_components/post/elements/Editor';
 import { useProfile } from '@/swr/client/auth';
 import { Avatar, Box, styled } from '@mui/material';
 

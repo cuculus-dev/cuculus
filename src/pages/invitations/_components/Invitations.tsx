@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { Invitation } from '@cuculus/cuculus-api/dist/models/Invitation';
 import Loading from '@/_app/(menu)/_components/main/Loading';
 import { ContentCopy } from '@mui/icons-material';
-import LoadingButton from '@/_app/_components/button/LoadingButton';
+import LoadingButton from '@/pages/_components/button/LoadingButton';
 
 const Root = styled('div')`
   display: flex;

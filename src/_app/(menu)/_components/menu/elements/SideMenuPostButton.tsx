@@ -1,6 +1,6 @@
 'use client';
 
-import PostDialog from '@/_app/_components/post/PostDialog';
+import PostDialog from '@/pages/_components/post/PostDialog';
 import SideMenuItemStyleBase from '@/_app/(menu)/_components/menu/elements/SideMenuItemStyleBase';
 import { Send } from '@mui/icons-material';
 import { Box, styled } from '@mui/material';

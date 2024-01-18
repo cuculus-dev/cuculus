@@ -1,4 +1,4 @@
-import Logout from '@/_app/(plain)/(private)/logout/_components/Logout';
+import Logout from '@/pages/logout/_components/Logout';
 import { NextPageWithLayout } from 'next';
 
 const Page: NextPageWithLayout = () => {

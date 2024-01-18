@@ -5,7 +5,7 @@ import {
   PageProps,
 } from 'next';
 import { postsApi } from '@/libs/cuculus-client';
-import { PostPage } from '@/_app/(menu)/(public)/[username]/posts/_components/PostPage';
+import { PostPage } from '@/pages/[username]/posts/_components/PostPage';
 import { UserPost } from '@cuculus/cuculus-api';
 import MenuLayout from '@/_app/(menu)/layout';
 

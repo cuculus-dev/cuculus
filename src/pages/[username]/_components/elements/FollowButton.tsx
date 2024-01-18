@@ -1,6 +1,6 @@
 'use client';
 
-import CapsuleButton from '@/_app/_components/button/CapsuleButton';
+import CapsuleButton from '@/pages/_components/button/CapsuleButton';
 
 type Props = {
   userId: number;

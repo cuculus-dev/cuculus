@@ -5,7 +5,7 @@ import {
   PageProps,
 } from 'next';
 import { usersApi } from '@/libs/cuculus-client';
-import ProfilePage from '@/_app/(menu)/(public)/[username]/_components/ProfilePage';
+import ProfilePage from '@/pages/[username]/_components/ProfilePage';
 import { UserWithFollows } from '@cuculus/cuculus-api';
 import MenuLayout from '@/_app/(menu)/layout';
 

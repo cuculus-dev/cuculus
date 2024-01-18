@@ -2,7 +2,7 @@
 
 import { styled } from '@mui/material';
 import { ReactNode } from 'react';
-import BackButton from '@/_app/_components/button/BackButton';
+import BackButton from '@/pages/_components/button/BackButton';
 
 const Main = styled('main')`
   display: flex;

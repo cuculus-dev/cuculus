@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { useSystem } from '@/swr/client/system';
-import StepInvitationCode from '@/_app/(plain)/(guest)/signup/_components/layouts/StepInvitationCode';
-import StepEmail from '@/_app/(plain)/(guest)/signup/_components/layouts/StepEmail';
-import StepVerifyCode from '@/_app/(plain)/(guest)/signup/_components/layouts/StepVerifyCode';
-import StepSignup from '@/_app/(plain)/(guest)/signup/_components/layouts/StepSignup';
+import StepInvitationCode from '@/pages/signup/_components/layouts/StepInvitationCode';
+import StepEmail from '@/pages/signup/_components/layouts/StepEmail';
+import StepVerifyCode from '@/pages/signup/_components/layouts/StepVerifyCode';
+import StepSignup from '@/pages/signup/_components/layouts/StepSignup';
 import { useRouter } from 'next/navigation';
 
 export default function SignUpForm() {

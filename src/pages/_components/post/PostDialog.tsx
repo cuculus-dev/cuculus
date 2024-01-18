@@ -1,8 +1,8 @@
 'use client';
 
-import ConfirmClosePostDialogDialog from '@/_app/_components/post/ConfirmClosePostDialogDialog';
-import PostForm from '@/_app/_components/post/PostForm';
-import SendPostButton from '@/_app/_components/post/elements/SendPostButton';
+import ConfirmClosePostDialogDialog from '@/pages/_components/post/ConfirmClosePostDialogDialog';
+import PostForm from '@/pages/_components/post/PostForm';
+import SendPostButton from '@/pages/_components/post/elements/SendPostButton';
 import { Close } from '@mui/icons-material';
 import {
   Alert,

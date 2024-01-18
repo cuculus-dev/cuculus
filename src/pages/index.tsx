@@ -1,6 +1,6 @@
 import CuculusSvg from '@assets/icons/Cuculus.svg';
 import { styled } from '@mui/material';
-import LinkButton from '@/_app/_components/button/LinkButton';
+import LinkButton from '@/pages/_components/button/LinkButton';
 import Footer from '@/_app/(plain)/_components/Footer';
 import { NextPageWithLayout } from 'next';
 

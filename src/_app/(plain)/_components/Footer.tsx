@@ -1,7 +1,7 @@
 'use client';
 
-import GitHubLink from '@/_app/_components/button/GitHubLink';
-import LinkButton from '@/_app/_components/button/LinkButton';
+import GitHubLink from '@/pages/_components/button/GitHubLink';
+import LinkButton from '@/pages/_components/button/LinkButton';
 import { styled } from '@mui/material';
 
 const StyledFooter = styled('footer')`

@@ -17,14 +17,14 @@ import {
   ZoomIn,
   ZoomOut,
 } from '@mui/icons-material';
-import { IconButton } from '@/_app/_components/button/IconButton';
-import HeaderImage from '@/_app/(menu)/(public)/[username]/_components/elements/HeaderImage';
-import UserIcon from '@/_app/(menu)/(public)/[username]/_components/elements/UserIcon';
+import { IconButton } from '@/pages/_components/button/IconButton';
+import HeaderImage from '@/pages/[username]/_components/elements/HeaderImage';
+import UserIcon from '@/pages/[username]/_components/elements/UserIcon';
 import Cropper, { Area, Point } from 'react-easy-crop';
-import CapsuleButton from '@/_app/_components/button/CapsuleButton';
-import { getCroppedImg } from '@/_app/(menu)/(public)/[username]/_utils/cropImage';
+import CapsuleButton from '@/pages/_components/button/CapsuleButton';
+import { getCroppedImg } from '@/pages/[username]/_utils/cropImage';
 import { useProfileMutation } from '@/swr/client/profile';
-import CapsuleLoadingButton from '@/_app/_components/button/CapsuleLoadingButton';
+import CapsuleLoadingButton from '@/pages/_components/button/CapsuleLoadingButton';
 
 const HEADER_HEIGHT = '50px';
 const SLIDER_HEIGHT = '50px';

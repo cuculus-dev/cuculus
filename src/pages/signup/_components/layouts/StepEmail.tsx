@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { OutlinedInput } from '@mui/material';
-import StepTemplate from '@/_app/(plain)/(guest)/signup/_components/layouts/StepTemplate';
+import StepTemplate from '@/pages/signup/_components/layouts/StepTemplate';
 import { usePreSignUp } from '@/swr/client/auth';
 
 type Props = {

@@ -1,9 +1,9 @@
 'use client';
 
 import PrimaryColumn from '@/_app/(menu)/_components/main/PrimaryColumn';
-import ProfileCard from '@/_app/(menu)/(public)/[username]/_components/layouts/ProfileCard';
+import ProfileCard from '@/pages/[username]/_components/layouts/ProfileCard';
 import { useUser } from '@/swr/client/user';
-import UserTimeline from '@/_app/(menu)/(public)/[username]/_components/UserTimeline';
+import UserTimeline from '@/pages/[username]/_components/UserTimeline';
 import { UserWithFollows } from '@cuculus/cuculus-api';
 import { useAuth } from '@/swr/client/auth';
 

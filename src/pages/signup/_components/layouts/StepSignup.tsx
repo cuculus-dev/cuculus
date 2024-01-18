@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
-import StepTemplate from '@/_app/(plain)/(guest)/signup/_components/layouts/StepTemplate';
+import StepTemplate from '@/pages/signup/_components/layouts/StepTemplate';
 import { useSignUp } from '@/swr/client/auth';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 

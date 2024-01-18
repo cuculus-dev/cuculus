@@ -1,13 +1,13 @@
 'use client';
 
 import { Box, Typography, styled } from '@mui/material';
-import { FollowButton } from '@/_app/(menu)/(public)/[username]/_components/elements/FollowButton';
-import UserCount from '@/_app/(menu)/(public)/[username]/_components/elements/UserCount';
+import { FollowButton } from '@/pages/[username]/_components/elements/FollowButton';
+import UserCount from '@/pages/[username]/_components/elements/UserCount';
 import { usePathname } from 'next/navigation';
-import HeaderImage from '@/_app/(menu)/(public)/[username]/_components/elements/HeaderImage';
-import UserIcon from '@/_app/(menu)/(public)/[username]/_components/elements/UserIcon';
+import HeaderImage from '@/pages/[username]/_components/elements/HeaderImage';
+import UserIcon from '@/pages/[username]/_components/elements/UserIcon';
 import { UserWithFollows } from '@cuculus/cuculus-api';
-import { EditProfileButton } from '@/_app/(menu)/(public)/[username]/_components/layouts/EditProfileButton';
+import { EditProfileButton } from '@/pages/[username]/_components/layouts/EditProfileButton';
 
 const UnselectableCard = styled('div')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};

@@ -1,7 +1,7 @@
 'use client';
 
-import CapsuleButton from '@/_app/_components/button/CapsuleButton';
-import ProfileSettingModal from '@/_app/(menu)/(public)/[username]/_components/layouts/ProfileSettingModal';
+import CapsuleButton from '@/pages/_components/button/CapsuleButton';
+import ProfileSettingModal from '@/pages/[username]/_components/layouts/ProfileSettingModal';
 import { useState } from 'react';
 import { useProfile } from '@/swr/client/auth';
 

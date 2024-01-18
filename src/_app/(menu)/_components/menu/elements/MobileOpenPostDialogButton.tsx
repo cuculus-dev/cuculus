@@ -1,7 +1,7 @@
 'use client';
 
-import { IconButton } from '@/_app/_components/button/IconButton';
-import PostDialog from '@/_app/_components/post/PostDialog';
+import { IconButton } from '@/pages/_components/button/IconButton';
+import PostDialog from '@/pages/_components/post/PostDialog';
 import { useAuth } from '@/swr/client/auth';
 import { Send } from '@mui/icons-material';
 import { styled } from '@mui/material';
