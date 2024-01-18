@@ -7,7 +7,7 @@ import {
 import { postsApi } from '@/libs/cuculus-client';
 import { PostPage } from '@/pages/[username]/posts/_components/PostPage';
 import { UserPost } from '@cuculus/cuculus-api';
-import MenuLayout from '@/pages/_components/menu/layout';
+import MenuLayout from '@/pages/_components/menu/MenuLayout';
 
 const TITLE_MAX_LENGTH = 70;
 

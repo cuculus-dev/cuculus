@@ -1,7 +1,7 @@
 import Invitations from '@/pages/invitations/_components/Invitations';
 import PrimaryColumn from '@/pages/_components/main/PrimaryColumn';
 import { GetStaticProps, NextPageWithLayout, PageProps } from 'next';
-import MenuLayout from '@/pages/_components/menu/layout';
+import MenuLayout from '@/pages/_components/menu/MenuLayout';
 
 export const getStaticProps = (() => {
   return {

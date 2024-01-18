@@ -1,7 +1,7 @@
 import ComingSoon from '@/pages/_components/main/ComingSoon';
 import { GetStaticProps, NextPageWithLayout, PageProps } from 'next';
 import PrimaryColumn from '@/pages/_components/main/PrimaryColumn';
-import MenuLayout from '@/pages/_components/menu/layout';
+import MenuLayout from '@/pages/_components/menu/MenuLayout';
 
 export const getStaticProps = (() => {
   return {
