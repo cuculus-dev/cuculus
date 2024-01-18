@@ -20,7 +20,7 @@ export default function GuestRoute({
       // redirect('/home');
       router.replace('/home');
     }
-  }, [data]);
+  }, [router, data]);
 
   if (showLoadingScreen && isLoading) {
     return <LoadingScreen />;

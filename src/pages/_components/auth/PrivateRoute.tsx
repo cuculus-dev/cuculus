@@ -20,7 +20,7 @@ export default function PrivateRoute({
       // redirect('/');
       router.replace('/');
     }
-  }, [data, isLoading]);
+  }, [router, data, isLoading]);
 
   if (showLoadingScreen && isLoading) {
     return <LoadingScreen />;
