@@ -30,6 +30,11 @@ const Root = styled('div')`
     margin-left: 0.25rem;
     width: 72px;
   }
+
+  ${({ theme }) => theme.breakpoints.down('tablet')} {
+    // モバイル
+    display: none;
+  }
 `;
 
 const StyledMenu = styled('nav')`
@@ -46,15 +51,6 @@ const StyledMenu = styled('nav')`
   ${({ theme }) => theme.breakpoints.down('desktop')} {
     // ラップトップ
     width: 56px;
-  }
-
-  ${({ theme }) => theme.breakpoints.down('laptop')} {
-    // タブレット
-  }
-
-  ${({ theme }) => theme.breakpoints.down('tablet')} {
-    // モバイル
-    display: none;
   }
 `;
 
