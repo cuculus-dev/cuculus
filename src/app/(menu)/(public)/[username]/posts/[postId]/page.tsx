@@ -2,12 +2,13 @@ import { Metadata } from 'next';
 import { postsApi } from '@/libs/cuculus-client';
 import { notFound, redirect } from 'next/navigation';
 import { PostPage } from '@/app/(menu)/(public)/[username]/posts/_components/PostPage';
+import { cache } from 'react';
 
 const TITLE_MAX_LENGTH = 70;
 
 type Params = { params: { username: string; postId: string } };
 
-async function fetchPost(postId: string) {
+const getPost = cache(async (postId: string) => {
   try {
     return await postsApi.getPost(
       { id: postId },
@@ -20,10 +21,10 @@ async function fetchPost(postId: string) {
   } catch {
     return undefined;
   }
-}
+});
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const post = await fetchPost(params.postId);
+  const post = await getPost(params.postId);
   if (!post) {
     return {};
   }
@@ -62,7 +63,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function page({ params }: Params) {
-  const post = await fetchPost(params.postId);
+  const post = await getPost(params.postId);
 
   // TODO 権限エラーの場合はそのままPostPageにundefinedを投げる
   if (!post) {
