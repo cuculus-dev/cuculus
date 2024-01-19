@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { Metadata } from 'next';
 import { usersApi } from '@/libs/cuculus-client';
 import { notFound } from 'next/navigation';
@@ -5,7 +6,7 @@ import ProfilePage from '@/app/(menu)/(public)/[username]/_components/ProfilePag
 
 type Params = { params: { username: string } };
 
-async function fetchUser(username: string) {
+const getUser = cache(async (username: string) => {
   try {
     return await usersApi.getUserByUsername(
       { username },
@@ -18,10 +19,10 @@ async function fetchUser(username: string) {
   } catch {
     return undefined;
   }
-}
+});
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const user = await fetchUser(params.username);
+  const user = await getUser(params.username);
   if (!user) {
     return {};
   }
@@ -50,7 +51,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function page({ params }: Params) {
-  const user = await fetchUser(params.username);
+  const user = await getUser(params.username);
   if (!user) {
     notFound();
   }

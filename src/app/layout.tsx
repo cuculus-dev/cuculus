@@ -1,5 +1,3 @@
-import '@/styles/globals.css';
-
 import type { Metadata } from 'next';
 import { Viewport } from 'next';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -55,7 +53,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja" style={{ overflowY: 'scroll' }}>
-      <head />
+      <head>
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_CUCULUS_API_URL} />
+      </head>
       <body>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
