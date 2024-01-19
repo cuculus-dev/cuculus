@@ -44,6 +44,7 @@ export default function MetaHead({ metadata }: PageProps) {
       ))}
       <link rel="shortcut icon" href="/icon.png" type="image/png" />
       <link rel="apple-touch-icon" href="/apple-icon.png" type="image/png" />
+      <link rel="preconnect" href={process.env.NEXT_PUBLIC_CUCULUS_API_URL} />
     </Head>
   );
 }
