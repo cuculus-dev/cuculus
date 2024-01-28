@@ -37,7 +37,7 @@
     "react-dom": "18.2.0",
     "react-easy-crop": "5.0.4",
     "swr": "2.2.4",
-    "virtua": "0.21.0"
+    "virtua": "0.23.0"
   },
   "devDependencies": {
     "@fontsource/material-icons": "5.0.11",
