@@ -71,7 +71,7 @@
     "sst": "2.40.1",
     "storybook": "7.6.10",
     "typescript": "5.3.3",
-    "webpack": "5.89.0"
+    "webpack": "5.90.0"
   },
   "volta": {
     "node": "18.17.0",
