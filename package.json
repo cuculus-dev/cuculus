@@ -57,7 +57,7 @@
     "@types/react": "18.2.51",
     "@types/react-dom": "18.2.18",
     "@typescript-eslint/eslint-plugin": "6.16.0",
-    "aws-cdk-lib": "2.124.0",
+    "aws-cdk-lib": "2.126.0",
     "constructs": "10.3.0",
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
