@@ -66,7 +66,7 @@
     "eslint-plugin-storybook": "0.6.15",
     "http-proxy-middleware": "2.0.6",
     "husky": "9.0.10",
-    "lint-staged": "15.2.1",
+    "lint-staged": "15.2.2",
     "prettier": "3.2.5",
     "sst": "2.40.1",
     "storybook": "7.6.12",
