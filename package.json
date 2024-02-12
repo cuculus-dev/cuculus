@@ -40,7 +40,7 @@
     "virtua": "0.25.0"
   },
   "devDependencies": {
-    "@fontsource/material-icons": "5.0.11",
+    "@fontsource/material-icons": "5.0.12",
     "@fontsource/roboto": "5.0.8",
     "@storybook/addon-essentials": "7.6.14",
     "@storybook/addon-interactions": "7.6.14",
