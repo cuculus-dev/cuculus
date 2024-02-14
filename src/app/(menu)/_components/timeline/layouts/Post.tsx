@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import MomentAgo from '@/app/(menu)/_components/timeline/elements/MomentAgo';
 import { format } from 'date-fns';
 import AvatarIcon from '@/app/(menu)/_components/timeline/elements/AvatarIcon';
+import { isRepost as checkRepost } from '@/app/(menu)/_utils/post.utils';
 
 const Article = styled('article')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
@@ -16,7 +17,6 @@ const Article = styled('article')`
 `;
 
 const Original = styled('div')`
-  padding: 12px 0 6px 0;
   display: flex;
   gap: 10px;
 `;
@@ -97,17 +97,19 @@ type Props = {
   originalPost?: PostProps;
 } & PostProps;
 
-export default function Post({
-  text,
-  id,
-  postedAt,
-  favorited,
-  favoriteCount,
-  reposted,
-  repostCount,
-  author,
-}: Props) {
+export default function Post(props: Props) {
   const router = useRouter();
+
+  const isRepost = checkRepost(props);
+  const originalPost = props.originalPost ?? props;
+
+  const { favorited, favoriteCount, reposted, repostCount } = props;
+  const id = isRepost ? originalPost.id : props.id;
+  const text = isRepost ? originalPost.text : props.text;
+  const postedAt = isRepost ? originalPost.postedAt : props.postedAt;
+  const author = isRepost ? originalPost.author : props.author;
+  const repostedBy = isRepost ? props.author : undefined;
+
   const postUrl = `/${author.username}/posts/${id}`;
 
   return (
@@ -126,56 +128,66 @@ export default function Post({
         disableRipple
       >
         <div style={{ padding: '0 16px' }}>
-          {/*<div>〇〇さんがリポストしました。</div>*/}
-          <Original>
-            <AvatarIcon
-              src={author.profileImageUrl}
-              href={`/${author.username}`}
-            />
-            <Content>
-              <Header>
-                <ProfileLink
-                  href={`/${author.username}`}
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  <DisplayName>{author.name}</DisplayName>
-                  <span style={{ color: '#8899a6', marginLeft: '4px' }}>
-                    @{author.username}
-                  </span>
-                </ProfileLink>
-                <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
-                  <MomentLinks
-                    aria-label="投稿へ"
-                    href={postUrl}
+          <div style={{ padding: '12px 0 6px 0' }}>
+            {repostedBy && (
+              <MomentLinks
+                aria-label="リポストしたユーザー"
+                href={`/${repostedBy.username}`}
+                onClick={(event) => event.stopPropagation()}
+              >
+                {repostedBy.name}さんがリポスト
+              </MomentLinks>
+            )}
+            <Original>
+              <AvatarIcon
+                src={author.profileImageUrl}
+                href={`/${author.username}`}
+              />
+              <Content>
+                <Header>
+                  <ProfileLink
+                    href={`/${author.username}`}
                     onClick={(event) => event.stopPropagation()}
                   >
-                    <MomentAgo postedAt={postedAt} />
-                  </MomentLinks>
-                </Tooltip>
-              </Header>
-              <Typography
-                component="div"
-                whiteSpace="pre-wrap"
-                sx={{ wordWrap: 'break-word' }}
-              >
-                {text}
-              </Typography>
-              <Footer>
-                <div>{/*リプライボタン*/}</div>
-                <RepostButton
-                  postId={id}
-                  reposted={reposted}
-                  repostCount={repostCount}
-                />
-                <FavoriteButton
-                  postId={id}
-                  favorited={favorited}
-                  favoriteCount={favoriteCount}
-                />
-                <div>{/*シェアボタン*/}</div>
-              </Footer>
-            </Content>
-          </Original>
+                    <DisplayName>{author.name}</DisplayName>
+                    <span style={{ color: '#8899a6', marginLeft: '4px' }}>
+                      @{author.username}
+                    </span>
+                  </ProfileLink>
+                  <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
+                    <MomentLinks
+                      aria-label="投稿へ"
+                      href={postUrl}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <MomentAgo postedAt={postedAt} />
+                    </MomentLinks>
+                  </Tooltip>
+                </Header>
+                <Typography
+                  component="div"
+                  whiteSpace="pre-wrap"
+                  sx={{ wordWrap: 'break-word' }}
+                >
+                  {text}
+                </Typography>
+                <Footer>
+                  <div>{/*リプライボタン*/}</div>
+                  <RepostButton
+                    postId={props.id}
+                    reposted={reposted}
+                    repostCount={repostCount}
+                  />
+                  <FavoriteButton
+                    postId={props.id}
+                    favorited={favorited}
+                    favoriteCount={favoriteCount}
+                  />
+                  <div>{/*シェアボタン*/}</div>
+                </Footer>
+              </Content>
+            </Original>
+          </div>
         </div>
       </CardActionArea>
     </Article>
