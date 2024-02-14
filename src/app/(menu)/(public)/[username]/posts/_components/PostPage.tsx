@@ -21,19 +21,7 @@ export function PostPage({ postId, fallbackData }: Props) {
 
   return (
     <PrimaryColumn columnName="ポスト" showBack>
-      <Post
-        displayName={data.author.name}
-        userName={data.author.username}
-        profileImageUrl={data.author.profileImageUrl}
-        text={data.text ?? ''}
-        postId={data.id}
-        postedAt={data.postedAt}
-        replyCount={0} //FIXME
-        favorited={data.favorited}
-        favoriteCount={data.favoriteCount}
-        reposted={data.reposted}
-        repostCount={data.repostCount}
-      />
+      <Post {...data} />
     </PrimaryColumn>
   );
 }

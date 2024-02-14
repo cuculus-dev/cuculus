@@ -74,34 +74,41 @@ const MomentLinks = styled(Link)`
   }
 `;
 
-type Props = {
-  displayName: string;
-  userName: string;
+type UserProps = {
+  name: string;
+  username: string;
   profileImageUrl: string;
-  text: string;
-  postId: string;
+};
+
+type PostProps = {
+  id: string;
+  originalPostId?: string;
+  replyToPostId?: string;
+  author: UserProps;
+  text?: string;
   postedAt: Date;
-  replyCount: number;
+};
+
+type Props = {
   favorited: boolean;
   favoriteCount: number;
   reposted: boolean;
   repostCount: number;
-};
+  originalPost?: PostProps;
+} & PostProps;
 
 export default function Post({
-  displayName,
-  userName,
-  profileImageUrl,
   text,
-  postId,
+  id,
   postedAt,
   favorited,
   favoriteCount,
   reposted,
   repostCount,
+  author,
 }: Props) {
   const router = useRouter();
-  const postUrl = `/${userName}/posts/${postId}`;
+  const postUrl = `/${author.username}/posts/${id}`;
 
   return (
     <Article>
@@ -121,16 +128,19 @@ export default function Post({
         <div style={{ padding: '0 16px' }}>
           {/*<div>〇〇さんがリポストしました。</div>*/}
           <Original>
-            <AvatarIcon src={profileImageUrl} href={`/${userName}`} />
+            <AvatarIcon
+              src={author.profileImageUrl}
+              href={`/${author.username}`}
+            />
             <Content>
               <Header>
                 <ProfileLink
-                  href={`/${userName}`}
+                  href={`/${author.username}`}
                   onClick={(event) => event.stopPropagation()}
                 >
-                  <DisplayName>{displayName}</DisplayName>
+                  <DisplayName>{author.name}</DisplayName>
                   <span style={{ color: '#8899a6', marginLeft: '4px' }}>
-                    @{userName}
+                    @{author.username}
                   </span>
                 </ProfileLink>
                 <Tooltip title={format(postedAt, 'yyyy/MM/dd HH:mm:ss')}>
@@ -153,12 +163,12 @@ export default function Post({
               <Footer>
                 <div>{/*リプライボタン*/}</div>
                 <RepostButton
-                  postId={postId}
+                  postId={id}
                   reposted={reposted}
                   repostCount={repostCount}
                 />
                 <FavoriteButton
-                  postId={postId}
+                  postId={id}
                   favorited={favorited}
                   favoriteCount={favoriteCount}
                 />
