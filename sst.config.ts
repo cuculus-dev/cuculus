@@ -1,5 +1,13 @@
 import { SSTConfig } from 'sst';
 import { NextjsSite } from 'sst/constructs';
+import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
+import {
+  AllowedMethods,
+  CachePolicy,
+  OriginProtocolPolicy,
+  OriginRequestPolicy,
+  ViewerProtocolPolicy,
+} from 'aws-cdk-lib/aws-cloudfront';
 
 export default {
   config(_input) {
@@ -28,6 +36,21 @@ export default {
         warm: 100,
         memorySize: '2048 MB',
         logging: 'combined',
+        cdk: {
+          distribution: {
+            additionalBehaviors: {
+              '.well-known/*': {
+                origin: new HttpOrigin(`api.${domain}`, {
+                  protocolPolicy: OriginProtocolPolicy.MATCH_VIEWER,
+                }),
+                viewerProtocolPolicy: ViewerProtocolPolicy.ALLOW_ALL,
+                allowedMethods: AllowedMethods.ALLOW_ALL,
+                cachePolicy: CachePolicy.CACHING_DISABLED,
+                originRequestPolicy: OriginRequestPolicy.ALL_VIEWER,
+              },
+            },
+          },
+        },
       });
 
       stack.addOutputs({

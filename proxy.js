@@ -9,6 +9,16 @@ const handle = app.getRequestHandler();
 // Next.js を localhost:3000 で起動
 app.prepare().then(() => {
   const server = express();
+
+  // .well-known/*へのリクエストをプロキシする
+  server.use(
+    '/.well-known/*',
+    createProxyMiddleware({
+      target: 'http://localhost:8080',
+      changeOrigin: true,
+    }),
+  );
+
   server.all('*', (req, res) => {
     return handle(req, res);
   });
