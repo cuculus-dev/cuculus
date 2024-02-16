@@ -22,7 +22,8 @@ const getUser = cache(async (username: string) => {
 });
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const user = await getUser(params.username);
+  const username = decodeURIComponent(params.username);
+  const user = await getUser(username);
   if (!user) {
     return {};
   }
@@ -51,7 +52,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function page({ params }: Params) {
-  const user = await getUser(params.username);
+  const username = decodeURIComponent(params.username);
+  const user = await getUser(username);
   if (!user) {
     notFound();
   }
