@@ -70,7 +70,8 @@ export default async function page({ params }: Params) {
     notFound();
   }
 
-  if (post.author.username !== params.username) {
+  const username = decodeURIComponent(params.username);
+  if (post.author.username !== username) {
     redirect(`/${post.author.username}/posts/${post.id}`);
   }
 
