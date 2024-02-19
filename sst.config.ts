@@ -52,6 +52,7 @@ export default {
               '.well-known/*': apiBehavior,
               'users/*': apiBehavior,
               'nodeinfo/*': apiBehavior,
+              inbox: apiBehavior,
             },
           },
         },

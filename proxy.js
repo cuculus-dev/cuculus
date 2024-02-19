@@ -37,6 +37,15 @@ app.prepare().then(() => {
     }),
   );
 
+  // inboxへのリクエストをプロキシする
+  server.use(
+    '/inbox',
+    createProxyMiddleware({
+      target: 'http://localhost:8080',
+      changeOrigin: true,
+    }),
+  );
+
   server.all('*', (req, res) => {
     return handle(req, res);
   });
