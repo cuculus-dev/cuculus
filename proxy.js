@@ -28,6 +28,15 @@ app.prepare().then(() => {
     }),
   );
 
+  // nodeinfo/*へのリクエストをプロキシする
+  server.use(
+    '/nodeinfo/*',
+    createProxyMiddleware({
+      target: 'http://localhost:8080',
+      changeOrigin: true,
+    }),
+  );
+
   server.all('*', (req, res) => {
     return handle(req, res);
   });

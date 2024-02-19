@@ -51,6 +51,7 @@ export default {
             additionalBehaviors: {
               '.well-known/*': apiBehavior,
               'users/*': apiBehavior,
+              'nodeinfo/*': apiBehavior,
             },
           },
         },
