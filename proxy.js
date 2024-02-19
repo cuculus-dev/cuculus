@@ -19,6 +19,15 @@ app.prepare().then(() => {
     }),
   );
 
+  // users/*へのリクエストをプロキシする
+  server.use(
+    '/users/*',
+    createProxyMiddleware({
+      target: 'http://localhost:8080',
+      changeOrigin: true,
+    }),
+  );
+
   server.all('*', (req, res) => {
     return handle(req, res);
   });

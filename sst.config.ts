@@ -23,6 +23,16 @@ export default {
       if (stack.stage !== 'production') {
         domain = `${stack.stage}.${domain}`;
       }
+      // APIへ飛ばすビヘイビア
+      const apiBehavior = {
+        origin: new HttpOrigin(`api.${domain}`, {
+          protocolPolicy: OriginProtocolPolicy.MATCH_VIEWER,
+        }),
+        viewerProtocolPolicy: ViewerProtocolPolicy.ALLOW_ALL,
+        allowedMethods: AllowedMethods.ALLOW_ALL,
+        cachePolicy: CachePolicy.CACHING_DISABLED,
+        originRequestPolicy: OriginRequestPolicy.ALL_VIEWER,
+      };
       const site = new NextjsSite(stack, 'site', {
         customDomain: {
           domainName: domain,
@@ -39,15 +49,8 @@ export default {
         cdk: {
           distribution: {
             additionalBehaviors: {
-              '.well-known/*': {
-                origin: new HttpOrigin(`api.${domain}`, {
-                  protocolPolicy: OriginProtocolPolicy.MATCH_VIEWER,
-                }),
-                viewerProtocolPolicy: ViewerProtocolPolicy.ALLOW_ALL,
-                allowedMethods: AllowedMethods.ALLOW_ALL,
-                cachePolicy: CachePolicy.CACHING_DISABLED,
-                originRequestPolicy: OriginRequestPolicy.ALL_VIEWER,
-              },
+              '.well-known/*': apiBehavior,
+              'users/*': apiBehavior,
             },
           },
         },
