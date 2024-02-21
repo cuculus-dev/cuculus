@@ -13,8 +13,9 @@ export default function SignUpForm() {
 
   // 招待限定
   const { data: systemSettings } = useSystem();
-  // 1 => 招待コード入力, 2 => 表示名とメールアドレス入力, 3 => 確認コード入力, 4 => パスワード入力とユーザー名入力
-  const [step, setStep] = useState(1);
+
+  // 0 => 招待コード入力, 1 => 表示名とメールアドレス入力, 2 => 確認コード入力, 3 => パスワード入力とユーザー名入力
+  const [step, setStep] = useState(0);
 
   const [invitationCode, setInvitationCode] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -25,45 +26,52 @@ export default function SignUpForm() {
     return <></>;
   }
 
-  const maxStep = 4 - (systemSettings.invitationOnly ? 0 : 1);
+  // 招待コードの有無で表示上のステップを変更する
+  const maxStep = systemSettings.invitationOnly ? 4 : 3;
+  const addStep = systemSettings.invitationOnly ? 1 : 0;
+
+  // 招待コード入力をスキップする
+  if (systemSettings.invitationOnly === false && step === 0) {
+    setStep(1);
+  }
 
   return (
     <>
-      {step === 1 - (systemSettings.invitationOnly ? 0 : 1) && (
+      {step === 0 && (
         <StepInvitationCode
           onSuccess={(code) => {
             setInvitationCode(code);
-            setStep(2);
+            setStep(1);
           }}
-          step={step}
+          step={step + addStep}
           maxStep={maxStep}
         />
       )}
-      {step === 2 - (systemSettings.invitationOnly ? 0 : 1) && (
+      {step === 1 && (
         <StepEmail
           onSuccess={(email, displayName) => {
             setEmail(email);
             setDisplayName(displayName);
-            setStep(3);
+            setStep(2);
           }}
-          step={step}
+          step={step + addStep}
           maxStep={maxStep}
         />
       )}
-      {step === 3 - (systemSettings.invitationOnly ? 0 : 1) && (
+      {step === 2 && (
         <StepVerifyCode
           email={email}
           onSuccess={(pinCode) => {
             setPinCode(pinCode);
-            setStep(4);
+            setStep(3);
           }}
-          step={step}
+          step={step + addStep}
           maxStep={maxStep}
         />
       )}
-      {step === 4 - (systemSettings.invitationOnly ? 0 : 1) && (
+      {step === 3 && (
         <StepSignup
-          step={step}
+          step={step + addStep}
           maxStep={maxStep}
           email={email}
           displayName={displayName}
