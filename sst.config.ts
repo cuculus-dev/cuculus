@@ -50,9 +50,7 @@ export default {
           distribution: {
             additionalBehaviors: {
               '.well-known/*': apiBehavior,
-              'users/*': apiBehavior,
-              'nodeinfo/*': apiBehavior,
-              inbox: apiBehavior,
+              'ap/*': apiBehavior,
             },
           },
         },

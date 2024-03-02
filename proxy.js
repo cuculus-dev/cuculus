@@ -19,27 +19,9 @@ app.prepare().then(() => {
     }),
   );
 
-  // users/*へのリクエストをプロキシする
+  // ap/*へのリクエストをプロキシする
   server.use(
-    '/users/*',
-    createProxyMiddleware({
-      target: 'http://localhost:8080',
-      changeOrigin: true,
-    }),
-  );
-
-  // nodeinfo/*へのリクエストをプロキシする
-  server.use(
-    '/nodeinfo/*',
-    createProxyMiddleware({
-      target: 'http://localhost:8080',
-      changeOrigin: true,
-    }),
-  );
-
-  // inboxへのリクエストをプロキシする
-  server.use(
-    '/inbox',
+    '/ap/*',
     createProxyMiddleware({
       target: 'http://localhost:8080',
       changeOrigin: true,
