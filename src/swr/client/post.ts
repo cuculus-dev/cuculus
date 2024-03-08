@@ -49,7 +49,8 @@ const update = async (
     if (arg.reposted) {
       userPost = await postsApi.createRepost({ id: key.postId }, { headers });
     } else {
-      userPost = await postsApi.deleteRepost({ id: key.postId }, { headers });
+      // FIXME 一旦通るようにしただけなのでエラーになります。
+      await postsApi.deletePost({ id: key.postId }, { headers });
     }
   }
   // どちらでもない場合

@@ -22,7 +22,7 @@ export const NormalProfileCard: Story = {
     username: 'takecchi',
     createdAt: new Date('2023-10-04T18:57:44.373Z'),
     profileImageUrl: '/mock/profileAvatarImage.png',
-    _protected: false,
+    isPrivate: false,
     verified: false,
     bio: 'こんにちは。',
     url: '',
