@@ -72,9 +72,7 @@ export default function page() {
       <StyledLogin>
         <StyledLeftColumn>
           <StyledTitle>ログイン</StyledTitle>
-          <StyledText>
-            メールアドレス、パスワードを入力してください。
-          </StyledText>
+          <StyledText>ユーザー名、パスワードを入力してください。</StyledText>
         </StyledLeftColumn>
         <Title>Cuculusにログイン</Title>
         <StyledRightColumn>
