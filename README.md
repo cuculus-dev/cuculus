@@ -32,4 +32,4 @@ npm run dev:proxy
 [http://localhost:3000](http://localhost:3000) をブラウザからアクセスして動作を確認してください。
 
 ### 開発環境アカウントについて
-[takecchi](https://twitter.com/CureDotTyphoon)宛に連絡頂ければテスト環境(develop.cuculus.jp)用の招待コードを発行致します！
+[takecchi](https://twitter.com/CureDotTyphoon)宛に連絡頂ければ開発環境用の招待コードを発行致します！
