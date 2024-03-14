@@ -16,6 +16,7 @@ Cuculusに関する情報は[こちら](https://github.com/cuculus-dev)
 プロジェクトの実行には以下の環境が必要です：
 - [Node.js](https://nodejs.org/en)
 - npm
+
 ※後述のVoltaが入っている場合は自動で構築されるためインストール不要です
 
 ### ⚡ Voltaによる環境構築
