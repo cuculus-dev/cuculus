@@ -10,8 +10,10 @@ type Props = {
 };
 
 export default function StepEmail({ onSuccess, step, maxStep }: Props) {
-  const { mutate, error, isPending } = usePreSignUp((_, request) => {
-    onSuccess(request.email, request.name);
+  const { mutate, error, isPending } = usePreSignUp((result, request) => {
+    if (result) {
+      onSuccess(request.email, request.name);
+    }
   });
 
   const [email, setEmail] = useState('');
