@@ -12,7 +12,7 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSignIn } from '@/swr/client/auth';
+import { useSignIn } from '@/react-query/client/auth';
 
 const StyledForm = styled('form')`
   display: flex;
@@ -30,7 +30,11 @@ const Bottom = styled('div')`
 
 export default function LoginForm() {
   const router = useRouter();
-  const { isMutating, trigger, error } = useSignIn();
+  const { mutate, isPending, isError, error } = useSignIn((auth) => {
+    if (auth) {
+      router.push('/home');
+    }
+  });
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -42,17 +46,13 @@ export default function LoginForm() {
     <StyledForm
       onSubmit={(event) => {
         event.preventDefault();
-        void trigger({ username, password }).then((auth) => {
-          if (auth) {
-            router.push('/home');
-          }
-        });
+        mutate({ username, password });
       }}
     >
       <OutlinedInput
         sx={{ width: '100%' }}
         size="small"
-        disabled={isMutating}
+        disabled={isPending}
         name="username"
         autoComplete="username"
         type="text"
@@ -62,7 +62,7 @@ export default function LoginForm() {
       <OutlinedInput
         sx={{ width: '100%' }}
         size="small"
-        disabled={isMutating}
+        disabled={isPending}
         name="password"
         type={showPassword ? 'text' : 'password'}
         autoComplete="current-password"
@@ -83,8 +83,8 @@ export default function LoginForm() {
           </InputAdornment>
         }
       />
-      {isMutating && <LinearProgress />}
-      {!isMutating && error && <Alert severity="error">{error.message}</Alert>}
+      {isPending && <LinearProgress />}
+      {!isPending && isError && <Alert severity="error">{error.message}</Alert>}
       <Bottom>
         <Button
           type="button"
@@ -95,7 +95,7 @@ export default function LoginForm() {
           Back
         </Button>
         <div style={{ marginLeft: 'auto' }} />
-        <Button type="submit" disabled={isMutating}>
+        <Button type="submit" disabled={isPending}>
           Next
         </Button>
       </Bottom>

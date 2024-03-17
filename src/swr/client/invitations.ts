@@ -6,7 +6,7 @@ import {
 } from '@cuculus/cuculus-api';
 import useSWRMutation from 'swr/mutation';
 import useSWR from 'swr';
-import { useAuth } from '@/swr/client/auth';
+import { useAuth } from '@/react-query/client/auth';
 import { getAuthorizationHeader } from '@/libs/auth';
 import { Invitation } from '@cuculus/cuculus-api/dist/models/Invitation';
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
 import StepTemplate from '@/app/(plain)/(guest)/signup/_components/layouts/StepTemplate';
-import { useSignUp } from '@/swr/client/auth';
+import { useSignUp } from '@/react-query/client/auth';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 type Props = {
@@ -22,7 +22,11 @@ export default function StepSignup({
   invitationCode,
   email,
 }: Props) {
-  const { trigger, error, isMutating } = useSignUp();
+  const { mutate, error, isPending } = useSignUp((result) => {
+    if (result && onSuccess) {
+      onSuccess();
+    }
+  });
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -33,19 +37,15 @@ export default function StepSignup({
   return (
     <StepTemplate
       onSubmit={() => {
-        void trigger({
+        mutate({
           username,
           password,
           email,
           code: pinCode,
           invitationCode,
-        }).then((value) => {
-          if (value && onSuccess) {
-            onSuccess();
-          }
         });
       }}
-      isMutating={isMutating}
+      isMutating={isPending}
       error={error}
       step={step}
       maxStep={maxStep}
@@ -54,7 +54,7 @@ export default function StepSignup({
       <OutlinedInput
         sx={{ width: '100%' }}
         size="small"
-        disabled={isMutating}
+        disabled={isPending}
         name="username"
         autoComplete="username"
         type="text"
@@ -64,7 +64,7 @@ export default function StepSignup({
       <OutlinedInput
         sx={{ width: '100%' }}
         size="small"
-        disabled={isMutating}
+        disabled={isPending}
         name="password"
         type={showPassword ? 'text' : 'password'}
         autoComplete="current-password"

@@ -2,10 +2,10 @@
 
 import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
 import ProfileCard from '@/app/(menu)/(public)/[username]/_components/layouts/ProfileCard';
-import { useUser } from '@/swr/client/user';
+import { useUser } from '@/react-query/client/user';
 import UserTimeline from '@/app/(menu)/(public)/[username]/_components/UserTimeline';
 import { UserWithFollows } from '@cuculus/cuculus-api';
-import { useAuth } from '@/swr/client/auth';
+import { useAuth } from '@/react-query/client/auth';
 
 type Props = {
   fallbackData: UserWithFollows;

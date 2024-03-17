@@ -5,6 +5,7 @@ import { ReactNode } from 'react';
 import theme from '@/theme/theme';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material';
+import TanstackQueryProvider from '@/app/_providers/TanstackQueryProvider';
 
 const siteName = 'Cuculus';
 const description = 'Cuculusは新しいけどどこか懐かしい短文投稿サービスです。';
@@ -58,10 +59,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-          </ThemeProvider>
+          <TanstackQueryProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              {children}
+            </ThemeProvider>
+          </TanstackQueryProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

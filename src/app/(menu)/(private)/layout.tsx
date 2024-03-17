@@ -1,17 +1,17 @@
 'use client';
 
-import { useAuth } from '@/swr/client/auth';
+import { useAuth } from '@/react-query/client/auth';
 import { ReactNode, useEffect } from 'react';
 import { redirect } from 'next/navigation';
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const { data, isLoading } = useAuth();
+  const { data, isLoading, isError } = useAuth();
 
   useEffect(() => {
-    if (!isLoading && !data) {
+    if (!isLoading && isError) {
       redirect('/');
     }
-  }, [data, isLoading]);
+  }, [isError, isLoading]);
 
   return <>{data && children}</>;
 }

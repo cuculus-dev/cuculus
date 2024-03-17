@@ -1,6 +1,6 @@
 import { getAuthorizationHeader } from '@/libs/auth';
 import { accountsApi } from '@/libs/cuculus-client';
-import { useAuth } from '@/swr/client/auth';
+import { useAuth } from '@/react-query/client/auth';
 import useSWRMutation from 'swr/mutation';
 import { UserWithFollows } from '@cuculus/cuculus-api/dist/models';
 

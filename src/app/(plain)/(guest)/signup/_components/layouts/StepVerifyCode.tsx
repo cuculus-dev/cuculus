@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { OutlinedInput } from '@mui/material';
 import StepTemplate from '@/app/(plain)/(guest)/signup/_components/layouts/StepTemplate';
-import { useVerifyCode } from '@/swr/client/auth';
+import { useVerifyCode } from '@/react-query/client/auth';
 
 type Props = {
   step: number;
@@ -16,20 +16,20 @@ export default function StepVerifyCode({
   step,
   maxStep,
 }: Props) {
-  const { trigger, error, isMutating } = useVerifyCode();
+  const { mutate, error, isPending } = useVerifyCode((result, request) => {
+    if (result) {
+      onSuccess(request.code, request.email);
+    }
+  });
 
   const [pinCode, setPinCode] = useState('');
 
   return (
     <StepTemplate
       onSubmit={() => {
-        void trigger({ code: pinCode, email }).then((value) => {
-          if (value) {
-            onSuccess(pinCode, email);
-          }
-        });
+        mutate({ code: pinCode, email });
       }}
-      isMutating={isMutating}
+      isMutating={isPending}
       error={error}
       step={step}
       maxStep={maxStep}
@@ -38,7 +38,7 @@ export default function StepVerifyCode({
       <OutlinedInput
         sx={{ width: '100%' }}
         size="small"
-        disabled={isMutating}
+        disabled={isPending}
         name="pinCode"
         type="text"
         onChange={(e) => setPinCode(e.target.value)}

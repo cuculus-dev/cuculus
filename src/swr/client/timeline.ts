@@ -2,7 +2,7 @@ import { UserPost } from '@cuculus/cuculus-api';
 import { timelinesApi } from '@/libs/cuculus-client';
 import useSWRTimeline from '@/libs/swr/timeline';
 import { getAuthorizationHeader } from '@/libs/auth';
-import { useAuth } from '@/swr/client/auth';
+import { useAuth } from '@/react-query/client/auth';
 
 const LIMIT = 20;
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { OutlinedInput } from '@mui/material';
 import StepTemplate from '@/app/(plain)/(guest)/signup/_components/layouts/StepTemplate';
-import { usePreSignUp } from '@/swr/client/auth';
+import { usePreSignUp } from '@/react-query/client/auth';
 
 type Props = {
   step: number;
@@ -10,7 +10,9 @@ type Props = {
 };
 
 export default function StepEmail({ onSuccess, step, maxStep }: Props) {
-  const { trigger, error, isMutating } = usePreSignUp();
+  const { mutate, error, isPending } = usePreSignUp((_, request) => {
+    onSuccess(request.email, request.name);
+  });
 
   const [email, setEmail] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -18,13 +20,9 @@ export default function StepEmail({ onSuccess, step, maxStep }: Props) {
   return (
     <StepTemplate
       onSubmit={() => {
-        void trigger({ name: displayName, email }).then((value) => {
-          if (value) {
-            onSuccess(email, displayName);
-          }
-        });
+        mutate({ name: displayName, email });
       }}
-      isMutating={isMutating}
+      isMutating={isPending}
       error={error}
       step={step}
       maxStep={maxStep}
@@ -33,7 +31,7 @@ export default function StepEmail({ onSuccess, step, maxStep }: Props) {
       <OutlinedInput
         sx={{ width: '100%' }}
         size="small"
-        disabled={isMutating}
+        disabled={isPending}
         name="displayName"
         type="text"
         onChange={(e) => setDisplayName(e.target.value)}
@@ -42,7 +40,7 @@ export default function StepEmail({ onSuccess, step, maxStep }: Props) {
       <OutlinedInput
         sx={{ width: '100%' }}
         size="small"
-        disabled={isMutating}
+        disabled={isPending}
         name="email"
         type="text"
         onChange={(e) => setEmail(e.target.value)}

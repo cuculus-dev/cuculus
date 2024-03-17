@@ -2,7 +2,7 @@
 
 import { IconButton } from '@/app/_components/button/IconButton';
 import PostDialog from '@/app/_components/post/PostDialog';
-import { useAuth } from '@/swr/client/auth';
+import { useAuth } from '@/react-query/client/auth';
 import { Send } from '@mui/icons-material';
 import { styled } from '@mui/material';
 import { usePathname } from 'next/navigation';

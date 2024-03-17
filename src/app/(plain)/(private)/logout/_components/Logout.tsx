@@ -3,7 +3,7 @@
 import { Button, Dialog, styled } from '@mui/material';
 import CapsuleButton from '@/app/_components/button/CapsuleButton';
 import { useRouter } from 'next/navigation';
-import { useSignOut } from '@/swr/client/auth';
+import { useSignOut } from '@/react-query/client/auth';
 
 const Container = styled('div')`
   display: flex;
@@ -16,7 +16,9 @@ const Container = styled('div')`
 
 export default function Logout() {
   const router = useRouter();
-  const { trigger, isMutating } = useSignOut();
+  const { mutate, isPending } = useSignOut(() => {
+    router.push('/');
+  });
 
   return (
     <>
@@ -25,13 +27,11 @@ export default function Logout() {
           <h2>ログアウトの確認</h2>
           <span>本当にログアウトしますか？</span>
           <CapsuleButton
-            disabled={isMutating}
+            disabled={isPending}
             color={'primary'}
             variant="contained"
             onClick={() => {
-              void trigger().then(() => {
-                router.push('/');
-              });
+              mutate();
             }}
           >
             ログアウト

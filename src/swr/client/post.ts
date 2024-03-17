@@ -2,7 +2,7 @@ import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 import { postsApi } from '@/libs/cuculus-client';
 import { CreatePostRequest, UserPost } from '@cuculus/cuculus-api';
-import { useAuth } from '@/swr/client/auth';
+import { useAuth } from '@/react-query/client/auth';
 import { getAuthorizationHeader } from '@/libs/auth';
 
 type Key = {

@@ -28,7 +28,7 @@ type Props = {
   maxStep: number;
   title: string;
   isMutating: boolean;
-  error?: Error;
+  error?: Error | null;
   children: ReactNode;
 };
 
