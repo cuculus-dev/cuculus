@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Typography, styled } from '@mui/material';
-import { FollowButton } from '@/app/(menu)/(public)/[username]/_components/elements/FollowButton';
+import FollowButton from '@/app/(menu)/(public)/[username]/_components/elements/FollowButton';
 import UserCount from '@/app/(menu)/(public)/[username]/_components/elements/UserCount';
 import { usePathname } from 'next/navigation';
 import HeaderImage from '@/app/(menu)/(public)/[username]/_components/elements/HeaderImage';
@@ -109,9 +109,7 @@ export default function ProfileCard({
                       {/*  </IconButton>*/}
                       {/*)}*/}
                       {/* フォローボタン */}
-                      {authId && !isMe && (
-                        <FollowButton isFollowing={false} userId={id} />
-                      )}
+                      {authId && !isMe && <FollowButton userId={id} />}
                       {authId && isMe && <EditProfileButton />}
                     </HFlex>
                   </FillFlex>
