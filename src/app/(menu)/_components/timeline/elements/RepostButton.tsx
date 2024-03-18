@@ -2,7 +2,7 @@
 
 import { IconButton, styled } from '@mui/material';
 import { Sync } from '@mui/icons-material';
-import { usePostMutation } from '@/swr/client/post';
+import { useRepostCreate } from '@/swr/client/post';
 import React from 'react';
 
 const Icon = styled(Sync)<{ active: 'true' | 'false' }>`
@@ -17,12 +17,17 @@ type Props = {
 };
 
 export default function RepostButton({ postId, reposted, repostCount }: Props) {
-  const { trigger } = usePostMutation(postId);
+  const { trigger } = useRepostCreate(postId);
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.stopPropagation();
-    void trigger({ reposted: !reposted });
+    if (!reposted) {
+      void trigger();
+    } else {
+      // TODO リポスト解除
+      console.error('リポスト解除は未実装です。');
+    }
   };
   return (
     <div aria-label={`${repostCount}件のリポスト。リポストする`}>

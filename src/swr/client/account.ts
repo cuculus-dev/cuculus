@@ -40,7 +40,6 @@ export const useProfile = () => {
  */
 export const useProfileUpdate = () => {
   const { data: authId } = useAuth();
-  const { mutate } = useProfile();
   // 非ログイン時はキー値にnullを渡して実行させないようにする
   const key = authId ? { key: 'useProfile', authId } : null;
   return useSWRMutation<UserWithFollows, Error, SWRKey | null, UpdateRequest>(
@@ -76,9 +75,7 @@ export const useProfileUpdate = () => {
       }
     },
     {
-      onSuccess: async () => {
-        await mutate();
-      },
+      revalidate: true,
     },
   );
 };

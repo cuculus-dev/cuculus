@@ -64,9 +64,8 @@ type Key = { key: string; authId: number };
  */
 export const useInvitationCreate = () => {
   const { data: authId } = useAuth();
-  const { mutate } = useInvitations();
   // 非ログイン時はキー値にnullを渡して実行させないようにする
-  const swrKey = authId ? { key: 'useInvitationCreate', authId } : null;
+  const swrKey = authId ? { key: 'useInvitations', authId } : null;
   return useSWRMutation<Invitation | undefined, Error, Key | null>(
     swrKey,
     async () => {
@@ -74,9 +73,7 @@ export const useInvitationCreate = () => {
       return await invitationsApi.postInvitationsCreate({ headers });
     },
     {
-      onSuccess: () => {
-        void mutate();
-      },
+      revalidate: true,
     },
   );
 };
