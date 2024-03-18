@@ -11,19 +11,6 @@ type Key = {
   authId?: number;
 };
 
-const getKey = (postId: string, authId?: number): Key => {
-  return { key: 'usePost', postId, authId };
-};
-
-const fetcher = async ({ postId, authId }: Key): Promise<UserPost> => {
-  return await postsApi.getPost(
-    { id: postId },
-    {
-      headers: await getAuthorizationHeader(authId),
-    },
-  );
-};
-
 type UpdateRequest = {
   favorited?: boolean;
   reposted?: boolean;
@@ -67,7 +54,8 @@ const update = async (
  */
 export const usePostMutation = (postId: string) => {
   const { data: authId } = useAuth();
-  const swrKey = authId ? getKey(postId, authId) : null;
+  // 非ログイン時はキー値にnullを渡して実行させないようにする
+  const swrKey = authId ? { key: 'usePost', postId, authId } : null;
   return useSWRMutation<UserPost, Error, Key | null, UpdateRequest>(
     swrKey,
     update,
@@ -86,9 +74,20 @@ export const usePostMutation = (postId: string) => {
  */
 export const usePost = (postId: string, initialData?: UserPost) => {
   const { data: authId } = useAuth();
-  return useSWR<UserPost>(getKey(postId, authId), fetcher, {
-    fallbackData: initialData,
-  });
+  return useSWR<UserPost>(
+    { key: 'usePost', postId, authId },
+    async () => {
+      return await postsApi.getPost(
+        { id: postId },
+        {
+          headers: await getAuthorizationHeader(authId),
+        },
+      );
+    },
+    {
+      fallbackData: initialData,
+    },
+  );
 };
 
 type SendKey = {
@@ -96,24 +95,22 @@ type SendKey = {
   authId: number;
 };
 
-const send = async (
-  key: SendKey,
-  { arg }: { arg: CreatePostRequest },
-): Promise<UserPost> => {
-  // FIXME header上書きで消えてるので手動で設定
-  const headers = {
-    ...(await getAuthorizationHeader(key.authId)),
-    accept: 'application/json',
-    'Content-Type': 'application/json',
-  };
-  return await postsApi.createPost(arg, { headers });
-};
-
-export const usePostSend = () => {
+/**
+ * 投稿作成
+ */
+export const usePostCreate = () => {
   const { data: authId } = useAuth();
-  const key = authId ? { key: 'usePostSend', authId } : null;
+  const key = authId ? { key: 'usePostCreate', authId } : null;
   return useSWRMutation<UserPost, Error, SendKey | null, CreatePostRequest>(
     key,
-    send,
+    async (_, { arg: request }) => {
+      // header上書きで消えてるので手動で設定
+      const headers = {
+        ...(await getAuthorizationHeader(authId)),
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      return await postsApi.createPost(request, { headers });
+    },
   );
 };

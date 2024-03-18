@@ -10,65 +10,73 @@ import { useAuth } from '@/swr/client/auth';
 import { getAuthorizationHeader } from '@/libs/auth';
 import { Invitation } from '@cuculus/cuculus-api/dist/models/Invitation';
 
-const postVerifyCode = async (
-  _key: string,
-  { arg }: { arg: InvitationCodeRequest },
-) => {
-  try {
-    await invitationsApi.postInvitationVerifyCode({
-      invitationCodeRequest: arg,
-    });
-    return true;
-  } catch (error) {
-    if (error instanceof ResponseError) {
-      if (error.response.status === 400) {
-        throw new Error('招待コードが無効です。');
-      }
-    }
-  }
-  throw new Error('サーバーとの通信に失敗しました。');
-};
-
+/**
+ * 招待コード検証
+ */
 export const useInvitationVerify = () => {
   return useSWRMutation<boolean, Error, string, InvitationCodeRequest>(
-    `postInvitationVerifyCode`,
-    postVerifyCode,
+    `useInvitationVerify`,
+    async (_, { arg: request }) => {
+      try {
+        await invitationsApi.postInvitationVerifyCode({
+          invitationCodeRequest: request,
+        });
+        return true;
+      } catch (error) {
+        if (error instanceof ResponseError) {
+          if (error.response.status === 400) {
+            throw new Error('招待コードが無効です。');
+          }
+        }
+      }
+      throw new Error('サーバーとの通信に失敗しました。');
+    },
     { throwOnError: false },
   );
 };
 
-const fetcher = async ({
-  authId,
-}: {
-  authId: number;
-}): Promise<UserInvitations> => {
-  try {
-    return await invitationsApi.getInvitationsMe({
-      headers: await getAuthorizationHeader(authId),
-    });
-  } catch (error) {
-    throw error;
-  }
-};
-
+/**
+ * 招待コード一覧
+ */
 export const useInvitations = () => {
   const { data: authId } = useAuth();
+  // 非ログイン時はキー値にnullを渡して実行させないようにする
   const swrKey = authId ? { key: 'useInvitations', authId } : null;
-  return useSWR<UserInvitations | undefined, Error>(swrKey, fetcher, undefined);
+  return useSWR<UserInvitations | undefined, Error>(
+    swrKey,
+    async () => {
+      try {
+        return await invitationsApi.getInvitationsMe({
+          headers: await getAuthorizationHeader(authId),
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
+    undefined,
+  );
 };
 
 type Key = { key: string; authId: number };
 
-const create = async (key: Key): Promise<Invitation> => {
-  const headers = await getAuthorizationHeader(key.authId);
-  return await invitationsApi.postInvitationsCreate({ headers });
-};
-
+/**
+ * 招待コードを作成して一覧を再取得
+ */
 export const useInvitationCreate = () => {
   const { data: authId } = useAuth();
+  const { mutate } = useInvitations();
+  // 非ログイン時はキー値にnullを渡して実行させないようにする
   const swrKey = authId ? { key: 'useInvitationCreate', authId } : null;
   return useSWRMutation<Invitation | undefined, Error, Key | null>(
     swrKey,
-    create,
+    async () => {
+      const headers = await getAuthorizationHeader(authId);
+      return await invitationsApi.postInvitationsCreate({ headers });
+    },
+    {
+      onSuccess: async () => {
+        await mutate();
+      },
+    },
   );
 };

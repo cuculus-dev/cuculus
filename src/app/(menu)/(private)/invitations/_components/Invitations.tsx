@@ -38,7 +38,7 @@ const StyledItem = styled(ListItem)`
 `;
 
 export default function Invitations() {
-  const { data, mutate } = useInvitations();
+  const { data } = useInvitations();
   const { trigger, isMutating } = useInvitationCreate();
   const [invitations, setInvitations] = useState<Array<Invitation>>([]);
   const [succeedMessage, setSucceedMessage] = useState('');
@@ -65,7 +65,6 @@ export default function Invitations() {
 
   const handleClick = () => {
     void trigger().then(() => {
-      void mutate();
       setSucceedMessage('発行完了しました！');
     });
   };

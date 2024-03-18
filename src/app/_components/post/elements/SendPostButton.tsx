@@ -2,7 +2,7 @@
 
 import CapsuleButton from '@/app/_components/button/CapsuleButton';
 import { Send } from '@mui/icons-material';
-import { usePostSend } from '@/swr/client/post';
+import { usePostCreate } from '@/swr/client/post';
 
 interface Props {
   disabled: boolean;
@@ -21,7 +21,7 @@ export default function SendPostButton({
   onSucceed,
   onError,
 }: Props) {
-  const { trigger, isMutating } = usePostSend();
+  const { trigger, isMutating } = usePostCreate();
 
   const sendPost = async () => {
     await trigger({ createPost: { text: sendData.plainText } })
