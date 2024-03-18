@@ -1,0 +1,38 @@
+name: Renovate SST Update
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+
+jobs:
+  sst-update:
+    runs-on: ubuntu-latest
+#    if: github.actor == 'renovate[bot]' && contains(github.event.pull_request.title, 'Update dependency sst')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Run sst update and npm install
+        run: |
+          sst update
+          npm install
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add package.json
+          git add package-lock.json
+          git commit -m "Update dependencies" || echo "No changes to commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
