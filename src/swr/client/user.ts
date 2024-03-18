@@ -4,6 +4,8 @@ import { UserPost, UserWithFollows } from '@cuculus/cuculus-api';
 import { getAuthorizationHeader } from '@/libs/auth';
 import { useAuth } from '@/swr/client/auth';
 import useSWRTimeline from '@/libs/swr/timeline';
+import useSWRMutation from 'swr/mutation';
+import { RelationshipKey } from '@/swr/client/relationship';
 
 const LIMIT = 20;
 
@@ -77,6 +79,33 @@ export const useUserPosts = (userId: number) => {
     {
       refreshInterval: 5000,
       enableQueue: true,
+    },
+  );
+};
+
+/**
+ * ユーザーIDをフォローする。またはフォローリクエストを送る
+ * @param userId
+ */
+export const useFollowUpdate = (userId: number) => {
+  const { data: authId } = useAuth();
+  // 非ログイン時はキー値にnullを渡して実行させないようにする
+  const key = authId
+    ? { key: 'useRelationship' as const, userId, authId }
+    : null;
+  return useSWRMutation<void, Error, RelationshipKey | null, boolean>(
+    key,
+    async (_, { arg: follow }) => {
+      const headers = await getAuthorizationHeader(authId);
+      if (follow) {
+        await usersApi.createFollow({ id: userId }, { headers });
+      } else {
+        await usersApi.deleteFollow({ id: userId }, { headers });
+      }
+    },
+    {
+      revalidate: true,
+      populateCache: false,
     },
   );
 };

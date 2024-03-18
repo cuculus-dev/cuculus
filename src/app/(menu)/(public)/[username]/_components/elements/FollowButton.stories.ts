@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { FollowButton } from './FollowButton';
+import FollowButton from './FollowButton';
 
 const meta = {
   component: FollowButton,
@@ -13,6 +13,5 @@ type Story = StoryObj<typeof meta>;
 export const NormalFollowButton: Story = {
   args: {
     userId: 123,
-    isFollowing: true,
   },
 };
