@@ -2,9 +2,18 @@
 
 import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import stableHash from 'stable-hash';
 
 function makeQueryClient() {
-  return new QueryClient();
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        structuralSharing: (oldData, newData) => {
+          return stableHash(oldData) == stableHash(newData) ? oldData : newData;
+        },
+      },
+    },
+  });
 }
 
 let browserQueryClient: QueryClient | undefined = undefined;

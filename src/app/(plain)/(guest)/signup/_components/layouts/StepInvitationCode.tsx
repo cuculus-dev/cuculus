@@ -1,4 +1,4 @@
-import { useInvitationVerify } from '@/swr/client/invitations';
+import { useInvitationVerify } from '@/react-query/client/invitations';
 import { useState } from 'react';
 import { OutlinedInput } from '@mui/material';
 import StepTemplate from '@/app/(plain)/(guest)/signup/_components/layouts/StepTemplate';
@@ -14,19 +14,21 @@ export default function StepInvitationCode({
   step,
   maxStep,
 }: Props) {
-  const { trigger, error, isMutating } = useInvitationVerify();
+  const { mutate, error, isPending } = useInvitationVerify(
+    (result, request) => {
+      if (result) {
+        onSuccess(request.invitationCode);
+      }
+    },
+  );
   const [invitationCode, setInvitationCode] = useState('');
 
   return (
     <StepTemplate
       onSubmit={() => {
-        void trigger({ invitationCode }).then((value) => {
-          if (value) {
-            onSuccess(invitationCode);
-          }
-        });
+        mutate({ invitationCode });
       }}
-      isMutating={isMutating}
+      isMutating={isPending}
       error={error}
       step={step}
       maxStep={maxStep}
@@ -35,7 +37,7 @@ export default function StepInvitationCode({
       <OutlinedInput
         sx={{ width: '100%' }}
         size="small"
-        disabled={isMutating}
+        disabled={isPending}
         name="invitationCode"
         type="text"
         onChange={(e) => setInvitationCode(e.target.value)}

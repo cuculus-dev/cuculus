@@ -23,7 +23,7 @@ import UserIcon from '@/app/(menu)/(public)/[username]/_components/elements/User
 import Cropper, { Area, Point } from 'react-easy-crop';
 import CapsuleButton from '@/app/_components/button/CapsuleButton';
 import { getCroppedImg } from '@/app/(menu)/(public)/[username]/_utils/cropImage';
-import { useProfileMutation } from '@/swr/client/profile';
+import { useProfileUpdate } from '@/react-query/client/account';
 import CapsuleLoadingButton from '@/app/_components/button/CapsuleLoadingButton';
 
 const HEADER_HEIGHT = '50px';
@@ -218,10 +218,19 @@ export default function ProfileSettingModal({
   const [displayName, setDisplayName] = useState<string>(initDisplayName);
   const [bio, setBio] = useState<string>(initBio);
   const [iconSrc, setIconSrc] = useState<string | undefined>(undefined);
-  const { trigger, isMutating } = useProfileMutation();
 
   const [errorMessage, setErrorMesssage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  const { mutate, isPending } = useProfileUpdate(
+    () => {
+      setSuccessMessage('プロフィールを更新しました。');
+      handleClose();
+    },
+    () => {
+      setErrorMesssage('プロフィールの更新に失敗しました。');
+    },
+  );
 
   const handleClose = () => {
     onClose();
@@ -275,17 +284,10 @@ export default function ProfileSettingModal({
                 if (isAllUndefined) {
                   handleClose();
                 } else {
-                  void trigger(request)
-                    .then(() => {
-                      setSuccessMessage('プロフィールを更新しました。');
-                      handleClose();
-                    })
-                    .catch(() => {
-                      setErrorMesssage('プロフィールの更新に失敗しました。');
-                    });
+                  mutate(request);
                 }
               }}
-              loading={isMutating}
+              loading={isPending}
             >
               保存
             </CapsuleLoadingButton>

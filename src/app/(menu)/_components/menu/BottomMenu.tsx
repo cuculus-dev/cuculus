@@ -1,7 +1,7 @@
 'use client';
 
 import MobileBottomMenuLinkItem from '@/app/(menu)/_components/menu/elements/MobileBottomMenuLinkItem';
-import { useProfile } from '@/swr/client/auth';
+import { useProfile } from '@/react-query/client/account';
 import {
   Home,
   HomeOutlined,

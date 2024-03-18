@@ -16,7 +16,7 @@ import {
 import SideMenuAccountButton from '@/app/(menu)/_components/menu/elements/SideMenuAccountButton';
 import SideMenuPostButton from '@/app/(menu)/_components/menu/elements/SideMenuPostButton';
 import SideMenuLinkItem from '@/app/(menu)/_components/menu/elements/SideMenuLinkItem';
-import { useProfile } from '@/swr/client/auth';
+import { useProfile } from '@/react-query/client/account';
 import LogoLink from '@/app/(menu)/_components/menu/elements/LogoLink';
 
 const Root = styled('div')`

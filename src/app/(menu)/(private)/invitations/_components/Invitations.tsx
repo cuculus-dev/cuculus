@@ -9,7 +9,10 @@ import {
   Snackbar,
   styled,
 } from '@mui/material';
-import { useInvitationCreate, useInvitations } from '@/swr/client/invitations';
+import {
+  useInvitationCreate,
+  useInvitations,
+} from '@/react-query/client/invitations';
 import { useEffect, useState } from 'react';
 import { Invitation } from '@cuculus/cuculus-api/dist/models/Invitation';
 import Loading from '@/app/(menu)/_components/main/Loading';
@@ -38,8 +41,10 @@ const StyledItem = styled(ListItem)`
 `;
 
 export default function Invitations() {
-  const { data, mutate } = useInvitations();
-  const { trigger, isMutating } = useInvitationCreate();
+  const { data } = useInvitations();
+  const { mutate, isPending } = useInvitationCreate(() => {
+    setSucceedMessage('発行完了しました！');
+  });
   const [invitations, setInvitations] = useState<Array<Invitation>>([]);
   const [succeedMessage, setSucceedMessage] = useState('');
 
@@ -63,13 +68,6 @@ export default function Invitations() {
     return <Loading />;
   }
 
-  const handleClick = () => {
-    void trigger().then(() => {
-      void mutate();
-      setSucceedMessage('発行完了しました！');
-    });
-  };
-
   return (
     <Root>
       <Title>招待コード</Title>
@@ -78,8 +76,10 @@ export default function Invitations() {
         <LoadingButton
           variant="contained"
           disabled={data.remainingInvitations <= 0}
-          onClick={handleClick}
-          loading={isMutating}
+          onClick={() => {
+            mutate();
+          }}
+          loading={isPending}
         >
           発行する
         </LoadingButton>

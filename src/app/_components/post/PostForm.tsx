@@ -1,7 +1,7 @@
 'use client';
 
 import Editor from '@/app/_components/post/elements/Editor';
-import { useProfile } from '@/swr/client/auth';
+import { useProfile } from '@/react-query/client/account';
 import { Avatar, Box, styled } from '@mui/material';
 
 // FIXME: レイアウト
