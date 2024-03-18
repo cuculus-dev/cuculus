@@ -7,6 +7,7 @@ import {
   HomeOutlined,
   Notifications,
   NotificationsOutlined,
+  Public,
   Search,
   SearchOutlined,
   Settings,
@@ -32,7 +33,7 @@ const Menu = styled('nav')`
   right: 0;
 
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   padding-bottom: env(safe-area-inset-bottom, 0);
 `;
 
@@ -66,6 +67,11 @@ export default function BottomMenu() {
             activeIcon={<Search />}
             href={'/search'}
             label={'検索'}
+          />
+          <MobileBottomMenuLinkItem
+            icon={<Public />}
+            href={'/public'}
+            label={'グローバル'}
           />
           <MobileBottomMenuLinkItem
             icon={<NotificationsOutlined />}

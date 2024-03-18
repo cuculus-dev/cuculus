@@ -8,6 +8,7 @@ import {
   NotificationsOutlined,
   PersonAddAlt1,
   PersonAddAlt1Outlined,
+  Public,
   Search,
   SearchOutlined,
   Settings,
@@ -78,6 +79,11 @@ const SideMenu = () => {
           icon={<SearchOutlined />}
           activeIcon={<Search />}
           label={'検索'}
+        />
+        <SideMenuLinkItem
+          href={'/public'}
+          icon={<Public />}
+          label={'グローバル'}
         />
         {profile && (
           <>
