@@ -5,79 +5,6 @@ import { CreatePostRequest, UserPost } from '@cuculus/cuculus-api';
 import { useAuth } from '@/swr/client/auth';
 import { getAuthorizationHeader } from '@/libs/auth';
 
-type Key = {
-  key: string;
-  postId: string;
-  authId?: number;
-};
-
-const getKey = (postId: string, authId?: number): Key => {
-  return { key: 'usePost', postId, authId };
-};
-
-const fetcher = async ({ postId, authId }: Key): Promise<UserPost> => {
-  return await postsApi.getPost(
-    { id: postId },
-    {
-      headers: await getAuthorizationHeader(authId),
-    },
-  );
-};
-
-type UpdateRequest = {
-  favorited?: boolean;
-  reposted?: boolean;
-};
-
-const update = async (
-  key: Key,
-  { arg }: { arg: UpdateRequest },
-): Promise<UserPost> => {
-  let userPost: UserPost | undefined = undefined;
-  if (key.authId === undefined) {
-    throw new Error('未ログイン状態です。');
-  }
-  const headers = await getAuthorizationHeader(key.authId);
-  if (arg.favorited !== undefined) {
-    if (arg.favorited) {
-      userPost = await postsApi.createFavorite({ id: key.postId }, { headers });
-    } else {
-      userPost = await postsApi.deleteFavorite({ id: key.postId }, { headers });
-    }
-  }
-  if (arg.reposted !== undefined) {
-    if (arg.reposted) {
-      userPost = await postsApi.createRepost({ id: key.postId }, { headers });
-    } else {
-      // FIXME 一旦通るようにしただけなのでエラーになります。
-      await postsApi.deletePost({ id: key.postId }, { headers });
-    }
-  }
-  // どちらでもない場合
-  if (!userPost) {
-    throw new Error('不正なリクエスト');
-  }
-  return userPost;
-};
-
-/**
- * 投稿に対するアクション
- * ※非ログイン状態だと使えません。
- * @param postId
- */
-export const usePostMutation = (postId: string) => {
-  const { data: authId } = useAuth();
-  const swrKey = authId ? getKey(postId, authId) : null;
-  return useSWRMutation<UserPost, Error, Key | null, UpdateRequest>(
-    swrKey,
-    update,
-    {
-      populateCache: true,
-      revalidate: false,
-    },
-  );
-};
-
 /**
  * ポスト取得
  * 自動再検証されるので、詳細ページで使うのが望ましい
@@ -86,9 +13,20 @@ export const usePostMutation = (postId: string) => {
  */
 export const usePost = (postId: string, initialData?: UserPost) => {
   const { data: authId } = useAuth();
-  return useSWR<UserPost>(getKey(postId, authId), fetcher, {
-    fallbackData: initialData,
-  });
+  return useSWR<UserPost>(
+    { key: 'usePost', postId, authId },
+    async () => {
+      return await postsApi.getPost(
+        { id: postId },
+        {
+          headers: await getAuthorizationHeader(authId),
+        },
+      );
+    },
+    {
+      fallbackData: initialData,
+    },
+  );
 };
 
 type SendKey = {
@@ -96,24 +34,73 @@ type SendKey = {
   authId: number;
 };
 
-const send = async (
-  key: SendKey,
-  { arg }: { arg: CreatePostRequest },
-): Promise<UserPost> => {
-  // FIXME header上書きで消えてるので手動で設定
-  const headers = {
-    ...(await getAuthorizationHeader(key.authId)),
-    accept: 'application/json',
-    'Content-Type': 'application/json',
-  };
-  return await postsApi.createPost(arg, { headers });
-};
-
-export const usePostSend = () => {
+/**
+ * 投稿作成
+ */
+export const usePostCreate = () => {
   const { data: authId } = useAuth();
-  const key = authId ? { key: 'usePostSend', authId } : null;
+  const key = authId ? { key: 'usePostCreate', authId } : null;
   return useSWRMutation<UserPost, Error, SendKey | null, CreatePostRequest>(
     key,
-    send,
+    async (_, { arg: request }) => {
+      // header上書きで消えてるので手動で設定
+      const headers = {
+        ...(await getAuthorizationHeader(authId)),
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      return await postsApi.createPost(request, { headers });
+    },
+  );
+};
+
+type Key = {
+  key: string;
+  postId: string;
+  authId?: number;
+};
+
+/**
+ * 投稿をお気に入りに追加/削除
+ * @param postId
+ */
+export const useFavoriteUpdate = (postId: string) => {
+  const { data: authId } = useAuth();
+  // 非ログイン時はキー値にnullを渡して実行させないようにする
+  const swrKey = authId ? { key: 'usePost', postId, authId } : null;
+  return useSWRMutation<UserPost, Error, Key | null, boolean>(
+    swrKey,
+    async (_, { arg: value }) => {
+      const headers = await getAuthorizationHeader(authId);
+      if (value) {
+        return await postsApi.createFavorite({ id: postId }, { headers });
+      } else {
+        return await postsApi.deleteFavorite({ id: postId }, { headers });
+      }
+    },
+    {
+      populateCache: true,
+      revalidate: false,
+    },
+  );
+};
+
+/**
+ * 投稿をリポストする
+ * @param postId
+ */
+export const useRepostCreate = (postId: string) => {
+  const { data: authId } = useAuth();
+  // 非ログイン時はキー値にnullを渡して実行させないようにする
+  const swrKey = authId ? { key: 'usePost', postId, authId } : null;
+  return useSWRMutation<UserPost>(
+    swrKey,
+    async () => {
+      const headers = await getAuthorizationHeader(authId);
+      return await postsApi.createRepost({ id: postId }, { headers });
+    },
+    {
+      revalidate: true,
+    },
   );
 };
