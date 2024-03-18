@@ -16,7 +16,7 @@ import {
   styled,
 } from '@mui/material';
 import { useState } from 'react';
-import { useHomeTimelineImmutable } from '@/swr/client/timeline';
+import { useHomeTimeline } from '@/swr/client/timeline';
 
 const Flex = styled('div')`
   display: flex;
@@ -51,7 +51,7 @@ export default function PostDialog({ fullScreen, open, close }: Props) {
   const [showConfirmCloseDialog, setShowConfirmCloseDialog] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const { mutateLatest } = useHomeTimelineImmutable();
+  const { mutateLatest } = useHomeTimeline();
 
   // NOTE: 閉じきる前に微妙に空になるのが見えるので
   // それが嫌ならsetTimeout(unmount時にcb呼ぶ方法あるならそっち)で包む
