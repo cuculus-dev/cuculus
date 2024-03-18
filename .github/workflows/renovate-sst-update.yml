@@ -20,7 +20,7 @@ jobs:
 
       - name: Run sst update and npm install
         run: |
-          sst update
+          npx sst update
           npm install
 
       - name: Commit changes
