@@ -3,7 +3,7 @@
 import CapsuleButton from '@/app/_components/button/CapsuleButton';
 import ProfileSettingModal from '@/app/(menu)/(public)/[username]/_components/layouts/ProfileSettingModal';
 import { useState } from 'react';
-import { useProfile } from '@/swr/client/auth';
+import { useProfile } from '@/swr/client/account';
 
 export function EditProfileButton() {
   const text = 'プロフィールを編集';
