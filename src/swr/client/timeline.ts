@@ -11,12 +11,12 @@ type TimelineKey = {
   key: string;
   sinceId: string | null;
   maxId: string | null;
-  authId: number;
+  authId?: number;
 };
 
 // タイムライン専用のキー生成関数
 const getKey =
-  (key: string, authId: number) =>
+  (key: string, authId?: number) =>
   (since: UserPost | null, max: UserPost | null): TimelineKey => {
     return {
       key: key,
@@ -37,6 +37,38 @@ export const useHomeTimeline = () => {
     swrKey,
     async (key) => {
       const posts = await timelinesApi.getHomeTimeline(
+        {
+          sinceId: key.sinceId ?? undefined,
+          maxId: key.maxId ?? undefined,
+          limit: LIMIT,
+        },
+        {
+          headers: await getAuthorizationHeader(authId),
+        },
+      );
+      return {
+        data: posts,
+        //取得し切れなかった時にtrueを返す
+        possiblyHasGap: key.sinceId !== null && posts.length >= LIMIT,
+      };
+    },
+    {
+      refreshInterval: 5000,
+      enableQueue: true,
+    },
+  );
+};
+
+/**
+ * パブリックタイムライン取得
+ */
+export const usePublicTimeline = () => {
+  const { data: authId } = useAuth();
+  const swrKey = getKey('usePublicTimeline', authId);
+  return useSWRTimeline<UserPost, Error, TimelineKey>(
+    swrKey,
+    async (key) => {
+      const posts = await timelinesApi.getPublicTimeline(
         {
           sinceId: key.sinceId ?? undefined,
           maxId: key.maxId ?? undefined,
