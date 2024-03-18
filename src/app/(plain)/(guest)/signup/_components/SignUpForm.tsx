@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useSystem } from '@/swr/client/system';
+import { useSystem } from '@/react-query/client/system';
 import StepInvitationCode from '@/app/(plain)/(guest)/signup/_components/layouts/StepInvitationCode';
 import StepEmail from '@/app/(plain)/(guest)/signup/_components/layouts/StepEmail';
 import StepVerifyCode from '@/app/(plain)/(guest)/signup/_components/layouts/StepVerifyCode';
