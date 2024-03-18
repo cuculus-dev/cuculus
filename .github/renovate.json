@@ -15,6 +15,12 @@
         "*"
       ],
       "rangeStrategy": "replace"
+    },
+    {
+      "packageNames": [
+        "aws-cdk-lib"
+      ],
+      "enabled": false
     }
   ]
 }
