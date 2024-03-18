@@ -74,8 +74,8 @@ export const useInvitationCreate = () => {
       return await invitationsApi.postInvitationsCreate({ headers });
     },
     {
-      onSuccess: async () => {
-        await mutate();
+      onSuccess: () => {
+        void mutate();
       },
     },
   );
