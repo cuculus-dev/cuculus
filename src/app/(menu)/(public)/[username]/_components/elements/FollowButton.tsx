@@ -12,6 +12,12 @@ const RemoveButton = styled(CapsuleButton)`
     border-color: ${({ theme }) => theme.palette.error.main};
   }
 `;
+const CancelButton = styled(CapsuleButton)`
+  &:hover {
+    color: ${({ theme }) => theme.palette.error.main};
+    border-color: ${({ theme }) => theme.palette.error.main};
+  }
+`;
 
 /**
  * フォローボタン
@@ -26,6 +32,23 @@ export default function FollowButton({ userId }: { userId: number }) {
   // ロード中または非ログイン時は何も表示しない
   if (!relationship) {
     return <></>;
+  }
+
+  // Relationshipが承認待ちの場合はキャンセルボタンを表示
+  if (relationship.followRequested) {
+    return (
+      <CancelButton
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        aria-label={'キャンセル'}
+        onClick={() => {
+          void updateFollow(false);
+        }}
+        variant={'outlined'}
+      >
+        {isHover ? 'キャンセル' : '承認待ち'}
+      </CancelButton>
+    );
   }
 
   // 非フォローの場合はフォローボタンを表示
