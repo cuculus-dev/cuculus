@@ -28,6 +28,23 @@ export default function FollowButton({ userId }: { userId: number }) {
     return <></>;
   }
 
+  // Relationshipが承認待ちの場合はキャンセルボタンを表示
+  if (relationship.followRequested) {
+    return (
+      <RemoveButton
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        aria-label={'キャンセル'}
+        onClick={() => {
+          void updateFollow(false);
+        }}
+        variant={'outlined'}
+      >
+        {isHover ? 'キャンセル' : '承認待ち'}
+      </RemoveButton>
+    );
+  }
+
   // 非フォローの場合はフォローボタンを表示
   if (!relationship.following) {
     const text = 'フォロー';
