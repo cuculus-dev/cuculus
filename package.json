@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "dev:proxy": "node proxy.js",
+    "analyze": "ANALYZE=true next build",
+    "analyze:win": "set ANALYZE=true&& next build",
     "build": "next build",
     "start": "next start",
     "lint": "next lint -f stylish",
@@ -43,6 +45,7 @@
   "devDependencies": {
     "@fontsource/material-icons": "5.0.16",
     "@fontsource/roboto": "5.0.12",
+    "@next/bundle-analyzer": "14.1.4",
     "@storybook/addon-essentials": "8.0.2",
     "@storybook/addon-interactions": "8.0.2",
     "@storybook/addon-links": "8.0.2",
