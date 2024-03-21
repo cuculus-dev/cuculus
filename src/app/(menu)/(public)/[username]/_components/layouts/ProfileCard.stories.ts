@@ -29,5 +29,6 @@ export const NormalProfileCard: Story = {
     followersCount: 2,
     followingCount: 1,
     authId: undefined,
+    isRemote: false,
   },
 };
