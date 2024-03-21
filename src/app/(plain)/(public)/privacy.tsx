@@ -1,6 +1,6 @@
 import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
+import PrivacyPolicy from '@/app/(plain)/(public)/PrivacyPolicy';
 import { Metadata } from 'next';
-import PrivacyPolicy from '@/app/(menu)/(public)/[privacy]/privacy';
 
 export const metadata: Metadata = {
   title: 'プライバシーポリシー',
