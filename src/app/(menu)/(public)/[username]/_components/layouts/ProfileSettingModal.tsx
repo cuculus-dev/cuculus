@@ -23,7 +23,7 @@ import UserIcon from '@/app/(menu)/(public)/[username]/_components/elements/User
 import Cropper, { Area, Point } from 'react-easy-crop';
 import CapsuleButton from '@/app/_components/button/CapsuleButton';
 import { getCroppedImg } from '@/app/(menu)/(public)/[username]/_utils/cropImage';
-import { useProfileMutation } from '@/swr/client/profile';
+import { useProfileUpdate } from '@/swr/client/account';
 import CapsuleLoadingButton from '@/app/_components/button/CapsuleLoadingButton';
 
 const HEADER_HEIGHT = '50px';
@@ -218,7 +218,7 @@ export default function ProfileSettingModal({
   const [displayName, setDisplayName] = useState<string>(initDisplayName);
   const [bio, setBio] = useState<string>(initBio);
   const [iconSrc, setIconSrc] = useState<string | undefined>(undefined);
-  const { trigger, isMutating } = useProfileMutation();
+  const { trigger, isMutating } = useProfileUpdate();
 
   const [errorMessage, setErrorMesssage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');

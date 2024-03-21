@@ -1,10 +1,9 @@
-import useSWR, { mutate } from 'swr';
-import { usersApi, authApi } from '@/libs/cuculus-client';
+import { mutate } from 'swr';
+import { authApi } from '@/libs/cuculus-client';
 import {
   LoginRequest,
   PreUserRequest,
   ResponseError,
-  User,
   VerifyCodeRequest,
 } from '@cuculus/cuculus-api';
 import useSWRMutation from 'swr/mutation';
@@ -12,52 +11,135 @@ import { UserRequest } from '@cuculus/cuculus-api/dist/models';
 import {
   decodeToAuthJwtPayload,
   fetchAccessToken,
-  getAuthorizationHeader,
   signIn,
   signOut,
   signUp,
 } from '@/libs/auth';
 import useSWRImmutable from 'swr/immutable';
 
-let CACHE: number | undefined;
+// 前回取得したユーザーIDを保持
+let USER_ID: number | undefined;
+
+// 認証情報のキャッシュキー
 const AUTH_KEY = 'useAuth';
 
-const fetchAuthenticated = async (): Promise<number> => {
-  const token = await fetchAccessToken(CACHE ?? undefined);
-  if (token) {
-    CACHE = decodeToAuthJwtPayload(token).id;
-    return CACHE;
-  } else {
-    CACHE = undefined;
-    throw new Error('Unauthorized.');
-  }
+/**
+ * 認証情報を取得する
+ */
+export const useAuth = () => {
+  return useSWRImmutable<number, Error>(
+    AUTH_KEY,
+    async () => {
+      const token = await fetchAccessToken(USER_ID ?? undefined);
+      if (token) {
+        USER_ID = decodeToAuthJwtPayload(token).id;
+        return USER_ID;
+      } else {
+        USER_ID = undefined;
+        throw new Error('Unauthorized.');
+      }
+    },
+    {
+      errorRetryCount: 0,
+    },
+  );
 };
 
 /**
- * ログイン状態のみを返す。
+ * 事前登録処理
  */
-export const useAuth = () => {
-  return useSWRImmutable<number, Error>(AUTH_KEY, fetchAuthenticated, {
-    errorRetryCount: 0,
-  });
+export const usePreSignUp = () => {
+  return useSWRMutation<boolean, Error, string, PreUserRequest>(
+    'postPreSignUp',
+    async (_, { arg: request }) => {
+      try {
+        await authApi.postPreSignUp({ preUserRequest: request });
+        return true;
+      } catch (error) {
+        // エラー内容の分析
+        if (error instanceof ResponseError) {
+          if (error.response.status === 409) {
+            throw new Error('既に登録されているメールアドレスです。');
+          }
+        }
+      }
+      throw new Error('サーバーとの通信に失敗しました。');
+    },
+    {
+      throwOnError: false,
+    },
+  );
 };
 
-const fetchSignIn = async (
-  _key: string,
-  { arg }: { arg: LoginRequest },
-): Promise<number> => {
-  try {
-    const result = await signIn(arg.username, arg.password);
-    return result.id;
-  } catch (error) {
-    // エラー内容の分析
-    if (error instanceof ResponseError) {
-      if (error.response.status === 400) {
-        throw new Error('ユーザー名またはパスワードが間違っています。');
+/**
+ * 認証コードの検証処理
+ */
+export const useVerifyCode = () => {
+  return useSWRMutation<boolean, Error, string, VerifyCodeRequest>(
+    'useVerifyCode',
+    async (_, { arg: request }) => {
+      try {
+        await authApi.postPreSignUpVerifyCode({ verifyCodeRequest: request });
+        return true;
+      } catch (error) {
+        // エラー内容の分析
+        if (error instanceof ResponseError) {
+          if (error.response.status === 400) {
+            throw new Error('認証コードが違います。');
+          }
+          if (error.response.status === 403) {
+            throw new Error('認証コードを規定回数以上間違えました。');
+          }
+          if (error.response.status === 404) {
+            throw new Error(
+              'ユーザーが見つかりませんでした。最初からやり直してください。',
+            );
+          }
+        }
       }
-    }
-  }
-  throw new Error('サーバーとの通信に失敗しました。');
+      throw new Error('サーバーとの通信に失敗しました。');
+    },
+    {
+      throwOnError: false,
+    },
+  );
+};
+
+/**
+ * アカウント登録処理
+ */
+export const useSignUp = () => {
+  return useSWRMutation<number, Error, typeof AUTH_KEY, UserRequest>(
+    AUTH_KEY,
+    async (_, { arg: request }) => {
+      try {
+        const result = await signUp(
+          request.username,
+          request.password,
+          request.code,
+          request.email,
+          request.invitationCode,
+        );
+        return result.id;
+      } catch (error) {
+        // エラー内容の分析
+        if (error instanceof ResponseError) {
+          if (error.response.status === 409) {
+            throw new Error('既に登録されているユーザーIDです。');
+          }
+          if (error.response.status === 400) {
+            throw new Error('不正なリクエストです。');
+          }
+        }
+      }
+      throw new Error('サーバーとの通信に失敗しました。');
+    },
+    {
+      throwOnError: false,
+      populateCache: (data) => data,
+      revalidate: false,
+    },
+  );
 };
 
 /**
@@ -66,148 +148,26 @@ const fetchSignIn = async (
 export const useSignIn = () => {
   return useSWRMutation<number, Error, typeof AUTH_KEY, LoginRequest>(
     AUTH_KEY,
-    fetchSignIn,
+    async (_, { arg: request }) => {
+      try {
+        const result = await signIn(request.username, request.password);
+        return result.id;
+      } catch (error) {
+        // エラー内容の分析
+        if (error instanceof ResponseError) {
+          if (error.response.status === 400) {
+            throw new Error('ユーザー名またはパスワードが間違っています。');
+          }
+        }
+      }
+      throw new Error('サーバーとの通信に失敗しました。');
+    },
     {
       throwOnError: false,
       populateCache: (data) => data,
       revalidate: false,
     },
   );
-};
-
-const fetchMe = async ({ authId }: { authId: number }) => {
-  try {
-    return await usersApi.getMe({
-      headers: await getAuthorizationHeader(authId),
-    });
-  } catch (error) {
-    throw error;
-  }
-};
-
-/**
- * 自身の情報を取得する
- */
-export const useProfile = () => {
-  const { data: authId } = useAuth();
-  const swrKey = authId ? { key: 'useProfile', authId } : null;
-  return useSWR<User | undefined, Error>(swrKey, fetchMe, undefined);
-};
-
-const fetchPreSignUp = async (
-  _key: string,
-  { arg }: { arg: PreUserRequest },
-): Promise<boolean> => {
-  try {
-    await authApi.postPreSignUp({ preUserRequest: arg });
-    return true;
-  } catch (error) {
-    // エラー内容の分析
-    if (error instanceof ResponseError) {
-      if (error.response.status === 409) {
-        throw new Error('既に登録されているメールアドレスです。');
-      }
-    }
-  }
-  throw new Error('サーバーとの通信に失敗しました。');
-};
-
-export const usePreSignUp = () => {
-  return useSWRMutation<boolean, Error, string, PreUserRequest>(
-    'postPreSignUp',
-    fetchPreSignUp,
-    {
-      throwOnError: false,
-    },
-  );
-};
-
-const verifyCode = async (
-  _key: string,
-  { arg }: { arg: VerifyCodeRequest },
-): Promise<boolean> => {
-  try {
-    await authApi.postPreSignUpVerifyCode({ verifyCodeRequest: arg });
-    return true;
-  } catch (error) {
-    // エラー内容の分析
-    if (error instanceof ResponseError) {
-      if (error.response.status === 400) {
-        throw new Error('認証コードが違います。');
-      }
-      if (error.response.status === 403) {
-        throw new Error('認証コードを規定回数以上間違えました。');
-      }
-      if (error.response.status === 404) {
-        throw new Error(
-          'ユーザーが見つかりませんでした。最初からやり直してください。',
-        );
-      }
-    }
-  }
-  throw new Error('サーバーとの通信に失敗しました。');
-};
-
-export const useVerifyCode = () => {
-  return useSWRMutation<boolean, Error, string, VerifyCodeRequest>(
-    'postPreSignUpVerifyCode',
-    verifyCode,
-    {
-      throwOnError: false,
-    },
-  );
-};
-
-const fetchSignUp = async (
-  _key: string,
-  { arg }: { arg: UserRequest },
-): Promise<number> => {
-  try {
-    const result = await signUp(
-      arg.username,
-      arg.password,
-      arg.code,
-      arg.email,
-      arg.invitationCode,
-    );
-    return result.id;
-  } catch (error) {
-    // エラー内容の分析
-    if (error instanceof ResponseError) {
-      if (error.response.status === 409) {
-        throw new Error('既に登録されているユーザーIDです。');
-      }
-      if (error.response.status === 400) {
-        throw new Error('不正なリクエストです。');
-      }
-    }
-  }
-  throw new Error('サーバーとの通信に失敗しました。');
-};
-
-/**
- * アカウント登録
- */
-export const useSignUp = () => {
-  return useSWRMutation<number, Error, typeof AUTH_KEY, UserRequest>(
-    AUTH_KEY,
-    fetchSignUp,
-    {
-      throwOnError: false,
-      populateCache: (data) => data,
-      revalidate: false,
-    },
-  );
-};
-
-const fetchSignOut = async () => {
-  try {
-    await signOut();
-    await mutate(() => true, undefined, { revalidate: false });
-    return;
-  } catch {
-    throw new Error('サーバーとの通信に失敗しました。');
-  }
 };
 
 /**
@@ -216,7 +176,15 @@ const fetchSignOut = async () => {
 export const useSignOut = () => {
   return useSWRMutation<void, Error, typeof AUTH_KEY, void>(
     AUTH_KEY,
-    fetchSignOut,
+    async () => {
+      try {
+        await signOut();
+        await mutate(() => true, undefined, { revalidate: false });
+        return;
+      } catch {
+        throw new Error('サーバーとの通信に失敗しました。');
+      }
+    },
     {
       throwOnError: false,
       populateCache: () => undefined,

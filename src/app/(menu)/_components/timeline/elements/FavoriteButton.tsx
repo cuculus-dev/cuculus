@@ -2,7 +2,7 @@
 
 import { IconButton, styled } from '@mui/material';
 import { Star } from '@mui/icons-material';
-import { usePostMutation } from '@/swr/client/post';
+import { useFavoriteUpdate } from '@/swr/client/post';
 import React from 'react';
 
 const Icon = styled(Star)<{ active: 'true' | 'false' }>`
@@ -23,12 +23,12 @@ export default function FavoriteButton({
   favorited,
   favoriteCount,
 }: Props) {
-  const { trigger } = usePostMutation(postId);
+  const { trigger } = useFavoriteUpdate(postId);
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.stopPropagation();
-    void trigger({ favorited: !favorited });
+    void trigger(!favorited);
   };
   return (
     <div aria-label={`${favoriteCount}件のお気に入り。お気に入りに追加する`}>

@@ -1,23 +1,78 @@
 'use client';
 
 import CapsuleButton from '@/app/_components/button/CapsuleButton';
+import { useRelationship } from '@/swr/client/relationship';
+import { useFollowUpdate } from '@/swr/client/user';
+import { styled } from '@mui/material';
+import { useState } from 'react';
 
-type Props = {
-  userId: number;
-  isFollowing: boolean;
-};
+const RemoveButton = styled(CapsuleButton)`
+  &:hover {
+    color: ${({ theme }) => theme.palette.error.main};
+    border-color: ${({ theme }) => theme.palette.error.main};
+  }
+`;
 
-export function FollowButton({ isFollowing }: Props) {
-  const text = isFollowing ? 'フォロー中' : 'フォロー';
+/**
+ * フォローボタン
+ * @param userId
+ * @constructor
+ */
+export default function FollowButton({ userId }: { userId: number }) {
+  const { data: relationship } = useRelationship(userId);
+  const { trigger: updateFollow } = useFollowUpdate(userId);
+  const [isHover, setHover] = useState(false);
 
-  return (
-    <CapsuleButton
-      aria-label={text}
-      color="primary"
-      // onClick={onClick}
-      variant={isFollowing ? 'outlined' : 'contained'}
-    >
-      {text}
-    </CapsuleButton>
-  );
+  // ロード中または非ログイン時は何も表示しない
+  if (!relationship) {
+    return <></>;
+  }
+
+  // Relationshipが承認待ちの場合はキャンセルボタンを表示
+  if (relationship.followRequested) {
+    return (
+      <RemoveButton
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        aria-label={'キャンセル'}
+        onClick={() => {
+          void updateFollow(false);
+        }}
+        variant={'outlined'}
+      >
+        {isHover ? 'キャンセル' : '承認待ち'}
+      </RemoveButton>
+    );
+  }
+
+  // 非フォローの場合はフォローボタンを表示
+  if (!relationship.following) {
+    const text = 'フォロー';
+    return (
+      <CapsuleButton
+        aria-label={text}
+        variant={'contained'}
+        onClick={() => {
+          void updateFollow(true);
+        }}
+      >
+        {text}
+      </CapsuleButton>
+    );
+  } else {
+    // フォロー中の場合はフォロー解除ボタンを表示
+    return (
+      <RemoveButton
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        aria-label={'フォロー解除'}
+        onClick={() => {
+          void updateFollow(false);
+        }}
+        variant={'outlined'}
+      >
+        {isHover ? 'フォロー解除' : 'フォロー中'}
+      </RemoveButton>
+    );
+  }
 }

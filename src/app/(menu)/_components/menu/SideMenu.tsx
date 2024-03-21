@@ -8,6 +8,7 @@ import {
   NotificationsOutlined,
   PersonAddAlt1,
   PersonAddAlt1Outlined,
+  Public,
   Search,
   SearchOutlined,
   Settings,
@@ -16,7 +17,7 @@ import {
 import SideMenuAccountButton from '@/app/(menu)/_components/menu/elements/SideMenuAccountButton';
 import SideMenuPostButton from '@/app/(menu)/_components/menu/elements/SideMenuPostButton';
 import SideMenuLinkItem from '@/app/(menu)/_components/menu/elements/SideMenuLinkItem';
-import { useProfile } from '@/swr/client/auth';
+import { useProfile } from '@/swr/client/account';
 import LogoLink from '@/app/(menu)/_components/menu/elements/LogoLink';
 
 const Root = styled('div')`
@@ -85,6 +86,11 @@ const SideMenu = () => {
           icon={<SearchOutlined />}
           activeIcon={<Search />}
           label={'検索'}
+        />
+        <SideMenuLinkItem
+          href={'/public'}
+          icon={<Public />}
+          label={'グローバル'}
         />
         {profile && (
           <>
