@@ -13,7 +13,6 @@ const Root = styled('div')`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  color: ${({ theme }) => theme.palette.primary.main};
 `;
 
 const Container = styled('div')`
@@ -33,7 +32,7 @@ export default function NotFound() {
   return (
     <Root>
       <Container>
-        <Title className={museoModerno.className}>PrivacyPolicy</Title>
+        <Title className={museoModerno.className}></Title>
         <div>
           <h1>Cuculusプライバシーポリシー</h1>
           <h2>1. はじめに</h2>
