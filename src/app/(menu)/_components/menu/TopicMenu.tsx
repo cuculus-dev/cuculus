@@ -84,6 +84,22 @@ export default function TopicMenu() {
             text={'画像生成AIの学習から保護する機能'}
             href={'https://github.com/orgs/cuculus-dev/discussions/33'}
           />
+          <MenuItem
+            text={'ATProtocol(Bluesky)のサポート'}
+            href={'https://github.com/orgs/cuculus-dev/discussions/9'}
+          />
+          <MenuItem
+            text={'Nostrのサポート'}
+            href={'https://github.com/orgs/cuculus-dev/discussions/7'}
+          />
+          <MenuItem
+            text={'ショートカットキーの設定'}
+            href={'https://github.com/orgs/cuculus-dev/discussions/6'}
+          />
+          <MenuItem
+            text={'投げ銭システム'}
+            href={'https://github.com/orgs/cuculus-dev/discussions/4'}
+          />
         </Container>
       </StyledMenu>
     </Root>
