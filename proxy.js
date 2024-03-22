@@ -1,15 +1,26 @@
-require('dotenv').config();
-require('dotenv').config({ path: './.env.local' });
+const fs = require('fs');
+const dotenv = require('dotenv');
+const express = require('express');
+const next = require('next');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
+// .env.localまたは.envファイルを読み込む
+const dotenvFiles = ['.env.local', '.env'];
+for (const envFile of dotenvFiles) {
+  if (fs.existsSync(envFile)) {
+    const stats = fs.statSync(envFile);
+    if (stats.isFile()) {
+      dotenv.config({ path: envFile });
+      break;
+    }
+  }
+}
 
 const SITE_URL = process.env.SITE_URL;
 const API_URL = process.env.NEXT_PUBLIC_CUCULUS_API_URL;
 
 const siteUrl = new URL(SITE_URL);
 const apiUrl = new URL(API_URL);
-
-const express = require('express');
-const next = require('next');
-const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const dev = process.env.STAGE !== 'production';
 const app = next({ dev });
@@ -60,7 +71,7 @@ app.prepare().then(() => {
   });
   server.listen(siteUrl.port, (err) => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${siteUrl.port}`);
+    console.log(`> Ready on ${SITE_URL}`);
   });
 });
 
@@ -93,5 +104,5 @@ proxy.use(
 );
 proxy.listen(apiUrl.port, (err) => {
   if (err) throw err;
-  console.log(`> Proxy server ready on http://localhost:${apiUrl.port}`);
+  console.log(`> Proxy server ready on ${API_URL}`);
 });
