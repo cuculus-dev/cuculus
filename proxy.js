@@ -1,6 +1,26 @@
+const fs = require('fs');
+const dotenv = require('dotenv');
 const express = require('express');
 const next = require('next');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+
+// .env.localまたは.envファイルを読み込む
+const dotenvFiles = ['.env.local', '.env'];
+for (const envFile of dotenvFiles) {
+  if (fs.existsSync(envFile)) {
+    const stats = fs.statSync(envFile);
+    if (stats.isFile()) {
+      dotenv.config({ path: envFile });
+      break;
+    }
+  }
+}
+
+const SITE_URL = process.env.SITE_URL;
+const API_URL = process.env.NEXT_PUBLIC_CUCULUS_API_URL;
+
+const siteUrl = new URL(SITE_URL);
+const apiUrl = new URL(API_URL);
 
 const dev = process.env.STAGE !== 'production';
 const app = next({ dev });
@@ -14,7 +34,7 @@ app.prepare().then(() => {
   server.use(
     '/.well-known/*',
     createProxyMiddleware({
-      target: 'http://localhost:8080',
+      target: API_URL,
       changeOrigin: true,
     }),
   );
@@ -23,7 +43,7 @@ app.prepare().then(() => {
   server.use(
     '/users/*',
     createProxyMiddleware({
-      target: 'http://localhost:8080',
+      target: API_URL,
       changeOrigin: true,
     }),
   );
@@ -32,7 +52,7 @@ app.prepare().then(() => {
   server.use(
     '/nodeinfo/*',
     createProxyMiddleware({
-      target: 'http://localhost:8080',
+      target: API_URL,
       changeOrigin: true,
     }),
   );
@@ -41,7 +61,7 @@ app.prepare().then(() => {
   server.use(
     '/inbox',
     createProxyMiddleware({
-      target: 'http://localhost:8080',
+      target: API_URL,
       changeOrigin: true,
     }),
   );
@@ -49,9 +69,9 @@ app.prepare().then(() => {
   server.all('*', (req, res) => {
     return handle(req, res);
   });
-  server.listen(3000, (err) => {
+  server.listen(siteUrl.port, (err) => {
     if (err) throw err;
-    console.log('> Ready on http://localhost:3000');
+    console.log(`> Ready on ${SITE_URL}`);
   });
 });
 
@@ -64,10 +84,10 @@ proxy.use(
     changeOrigin: true,
     secure: false,
     onProxyReq: (proxyReq) => {
-      proxyReq.setHeader('host', 'localhost');
+      proxyReq.setHeader('host', siteUrl.hostname);
     },
     onProxyRes: (proxyRes) => {
-      proxyRes.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000';
+      proxyRes.headers['Access-Control-Allow-Origin'] = SITE_URL;
       proxyRes.headers['Access-Control-Allow-Credentials'] = 'true';
       // Set-Cookieが返却された際、Domain=.localhost;に変更
       const setCookie = proxyRes.headers['set-cookie'] ?? undefined;
@@ -75,14 +95,14 @@ proxy.use(
         const pattern = /Domain=\.[a-zA-Z0-9-]*\.cuculus\.jp;/;
         const cookies = [];
         setCookie.forEach((value) => {
-          cookies.push(value.replace(pattern, 'Domain=.localhost;'));
+          cookies.push(value.replace(pattern, `Domain=.${siteUrl.hostname};`));
         });
         proxyRes.headers['set-cookie'] = cookies;
       }
     },
   }),
 );
-proxy.listen(8080, (err) => {
+proxy.listen(apiUrl.port, (err) => {
   if (err) throw err;
-  console.log('> Proxy server ready on http://localhost:8080');
+  console.log(`> Proxy server ready on ${API_URL}`);
 });

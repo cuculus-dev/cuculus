@@ -13,7 +13,7 @@ const Layout = styled('div')`
       7fr
     );
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: ${({ theme }) => theme.palette.background.paper};
 
   ${({ theme }) => theme.breakpoints.down('desktop')} {
