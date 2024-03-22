@@ -39,8 +39,15 @@ npm run dev:proxy
 
 [http://localhost:3000](http://localhost:3000) をブラウザからアクセスして動作を確認してください。
 
-また、`.env.local`を作成することで環境変数を上書きできます。  
-`localhost:3000`以外で動作させる場合は`.env.local`の作成をお願いします。
+### localhost:3000以外で実行したい場合
+`.env.local`を作成することで環境変数を上書きできます。  
+
+例：`192.168.0.X:4000`で実行したい場合
+```env
+NEXT_PUBLIC_API_URL=http://192.168.0.X:8080
+SITE_URL=http://192.168.0.X:4000
+```
+
 
 ### 開発環境アカウントについて
 
