@@ -57,7 +57,7 @@ export default function LoginForm() {
         autoComplete="username"
         type="text"
         onChange={(e) => setUsername(e.target.value)}
-        placeholder="username"
+        placeholder="ユーザー名またはメールアドレス"
       />
       <OutlinedInput
         sx={{ width: '100%' }}
@@ -67,7 +67,7 @@ export default function LoginForm() {
         type={showPassword ? 'text' : 'password'}
         autoComplete="current-password"
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="password"
+        placeholder="パスワード"
         endAdornment={
           <InputAdornment position="end">
             <IconButton
