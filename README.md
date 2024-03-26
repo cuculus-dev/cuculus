@@ -26,7 +26,7 @@ Cuculusに関する情報は[こちら](https://github.com/cuculus-dev)
 ### ⚡ Voltaによる環境構築
 
 Cuculusは[Volta](https://volta.sh/)の使用を推奨しています。  
-Voltaを使用した場合、`pckages.json`に記載されたバージョンの`npm`と`Node.js`が自動的にインストールされます。
+Voltaを使用した場合、`package.json`に記載されたバージョンの`npm`と`Node.js`が自動的にインストールされます。
 
 ## 実行方法
 
