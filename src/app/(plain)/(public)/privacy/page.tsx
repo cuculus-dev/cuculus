@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function page() {
   return (
-    <PrimaryColumn columnName={'プライバシーポリシー'}>
+    <PrimaryColumn columnName={''}>
       <PrivacyPolicy />
     </PrimaryColumn>
   );

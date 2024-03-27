@@ -4,7 +4,7 @@ import { styled } from '@mui/material';
 import LinkButton from '@/app/_components/button/LinkButton';
 import { MuseoModerno } from 'next/font/google';
 
-const museoModerno = MuseoModerno({ subsets: ['latin'], weight: ['700'] });
+const museoModerno = MuseoModerno({ subsets: ['latin'], weight: ['300'] });
 
 const Root = styled('div')`
   display: flex;
@@ -37,6 +37,7 @@ export default function NotFound() {
   return (
     <Root>
       <Container>
+        <Title className={museoModerno.className}>PrivacyPolicy</Title>
         <div>
           <h3>1. はじめに</h3>
           <p>
