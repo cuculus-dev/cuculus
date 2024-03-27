@@ -60,6 +60,7 @@ const StyledLink = styled(Link)`
   justify-content: left;
   align-items: center;
   padding-left: 9px;
+  font-size: 12px;
 `;
 
 const Spacer = styled(Box)<{ size?: number | string }>(({ size }) => {
