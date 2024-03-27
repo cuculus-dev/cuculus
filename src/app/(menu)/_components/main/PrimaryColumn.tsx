@@ -9,11 +9,11 @@ const Main = styled('main')`
   flex-direction: column;
   border-left: 1px solid ${({ theme }) => theme.palette.grey[100]};
   border-right: 1px solid ${({ theme }) => theme.palette.grey[100]};
-  min-height: 100vh;
+  min-height: 100dvh;
 
   ${({ theme }) => theme.breakpoints.down('tablet')} {
     min-height: calc(
-      100vh - ${({ theme }) => theme.mixins.bottomMenu.height}px +
+      100dvh - ${({ theme }) => theme.mixins.bottomMenu.height}px +
         env(safe-area-inset-bottom)
     );
   }

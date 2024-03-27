@@ -32,7 +32,7 @@ const SLIDER_HEIGHT = '50px';
 const Dialog = styled(MuiDialog)`
   .MuiDialog-paper {
     width: 100vw;
-    max-height: 100vh;
+    max-height: 100dvh;
     margin: 0;
 
     ${({ theme }) => theme.breakpoints.up('tablet')} {
@@ -41,7 +41,7 @@ const Dialog = styled(MuiDialog)`
 
     ${({ theme }) => theme.breakpoints.down('tablet')} {
       border-radius: 0;
-      height: 100vh;
+      height: 100dvh;
     }
   }
 `;
@@ -76,7 +76,7 @@ const SliderContainer = styled('div')`
 
 const CropContainer = styled('div')`
   position: relative;
-  height: calc(100vh - ${HEADER_HEIGHT} - ${SLIDER_HEIGHT});
+  height: calc(100dvh - ${HEADER_HEIGHT} - ${SLIDER_HEIGHT});
 
   ${({ theme }) => theme.breakpoints.up('tablet')} {
     max-height: 600px;

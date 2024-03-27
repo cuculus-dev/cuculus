@@ -1,7 +1,6 @@
 'use client';
 
 import MobileBottomMenuLinkItem from '@/app/(menu)/_components/menu/elements/MobileBottomMenuLinkItem';
-import { useProfile } from '@/swr/client/account';
 import {
   Home,
   HomeOutlined,
@@ -49,44 +48,40 @@ const Spacer = styled('div')`
 `;
 
 export default function BottomMenu() {
-  const { data: profile } = useProfile();
-
   return (
     <>
-      {profile && <Spacer />}
-      {profile && (
-        <Menu>
-          <MobileBottomMenuLinkItem
-            icon={<HomeOutlined />}
-            activeIcon={<Home />}
-            href={'/home'}
-            label={'ホーム'}
-          />
-          <MobileBottomMenuLinkItem
-            icon={<SearchOutlined />}
-            activeIcon={<Search />}
-            href={'/search'}
-            label={'検索'}
-          />
-          <MobileBottomMenuLinkItem
-            icon={<Public />}
-            href={'/public'}
-            label={'グローバル'}
-          />
-          <MobileBottomMenuLinkItem
-            icon={<NotificationsOutlined />}
-            activeIcon={<Notifications />}
-            href={'/notifications'}
-            label={'通知'}
-          />
-          <MobileBottomMenuLinkItem
-            icon={<SettingsOutlined />}
-            activeIcon={<Settings />}
-            href={'/settings'}
-            label={'設定'}
-          />
-        </Menu>
-      )}
+      <Spacer />
+      <Menu>
+        <MobileBottomMenuLinkItem
+          icon={<HomeOutlined />}
+          activeIcon={<Home />}
+          href={'/home'}
+          label={'ホーム'}
+        />
+        <MobileBottomMenuLinkItem
+          icon={<SearchOutlined />}
+          activeIcon={<Search />}
+          href={'/search'}
+          label={'検索'}
+        />
+        <MobileBottomMenuLinkItem
+          icon={<Public />}
+          href={'/public'}
+          label={'グローバル'}
+        />
+        <MobileBottomMenuLinkItem
+          icon={<NotificationsOutlined />}
+          activeIcon={<Notifications />}
+          href={'/notifications'}
+          label={'通知'}
+        />
+        <MobileBottomMenuLinkItem
+          icon={<SettingsOutlined />}
+          activeIcon={<Settings />}
+          href={'/settings'}
+          label={'設定'}
+        />
+      </Menu>
     </>
   );
 }
