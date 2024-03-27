@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Link, styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import {
   Home,
   HomeOutlined,
@@ -53,14 +53,6 @@ const StyledMenu = styled('nav')`
     // ラップトップ
     width: 56px;
   }
-`;
-
-const StyledLink = styled(Link)`
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  padding-left: 9px;
-  font-size: 12px;
 `;
 
 const Spacer = styled(Box)<{ size?: number | string }>(({ size }) => {
