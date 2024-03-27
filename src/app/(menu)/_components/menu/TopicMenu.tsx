@@ -55,6 +55,15 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const LinkArea = styled('div')`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 0;
+  font-size: 12px;
+  margin: 8px 0;
+`;
+
 function MenuItem({ text, href }: { text: string; href: string }) {
   return (
     <Item>
@@ -101,6 +110,11 @@ export default function TopicMenu() {
             href={'https://github.com/orgs/cuculus-dev/discussions/4'}
           />
         </Container>
+        <LinkArea>
+          <StyledLink href="/privacy">{'プライバシーポリシー'}</StyledLink>
+          <StyledLink href="/">{'利用規約（仮）'}</StyledLink>
+          <StyledLink href="/">{'お問い合わせ（仮）'}</StyledLink>
+        </LinkArea>
       </StyledMenu>
     </Root>
   );

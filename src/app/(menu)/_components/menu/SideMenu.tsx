@@ -124,7 +124,6 @@ const SideMenu = () => {
             userName={profile.username}
           />
         )}
-        <StyledLink href="/privacy">{'プライバシーポリシー'}</StyledLink>
       </StyledMenu>
     </Root>
   );
