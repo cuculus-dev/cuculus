@@ -6,6 +6,22 @@ export default function page({}: { params: { userName: string } }) {
   return (
     <PrimaryColumn hideHeader={true}>
       <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
+      <FFProfileCard />
       {/* <ComingSoon /> */}
     </PrimaryColumn>
   );
