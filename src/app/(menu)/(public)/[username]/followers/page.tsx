@@ -1,52 +1,40 @@
-import { SWRInfiniteResponse } from 'swr/infinite';
-import { FollowList } from '@cuculus/cuculus-api';
-import { CircularProgress } from '@mui/material';
-import FFProfileCard from '@/app/(menu)/(public)/[username]/_components/layouts/FFProfileCard';
+import PrimaryColumn from '@/app/(menu)/_components/main/PrimaryColumn';
+import { cache } from 'react';
+import { usersApi } from '@/libs/cuculus-client';
+import { notFound } from 'next/navigation';
+import Following from '@/app/(menu)/(public)/[username]/_components/Following';
 
-type Props = {
-  follows: SWRInfiniteResponse<FollowList | undefined, Error>;
-};
+type Params = { params: { username: string } };
+
+const getUser = cache(async (username: string) => {
+  try {
+    return await usersApi.getUserByUsername(
+      { username },
+      {
+        next: {
+          revalidate: 300,
+        },
+      },
+    );
+  } catch {
+    return undefined;
+  }
+});
 
 /**
- * フォロー/フォロワーリスト
- * @param follows
- * @constructor
+ * フォロワー一覧ページ
+ * @param params
  */
-export default function FollowList({ follows }: Props) {
-  const { data, isLoading, size, setSize } = follows;
-
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <CircularProgress />
-      </div>
-    );
+export default async function page({ params }: Params) {
+  const username = decodeURIComponent(params.username);
+  const user = await getUser(username);
+  if (!user) {
+    notFound();
   }
 
   return (
-    <>
-      <div>現在のページ: {size}</div>
-      <button onClick={() => void setSize(size + 1)}>次のページへ</button>
-      {data?.map((follows, index) => (
-        <div key={index}>
-          {follows?.users.map((User, number) => (
-            <FFProfileCard
-              key={number}
-              name={User.name}
-              userName={User.username}
-              bio={User.bio}
-              profileImageUrl={User.profileImageUrl}
-              id={User.id}
-            />
-          ))}
-        </div>
-      ))}
-    </>
+    <PrimaryColumn hideHeader={true}>
+      {/* <Following user={user} /> */}
+    </PrimaryColumn>
   );
 }
