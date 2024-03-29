@@ -38,6 +38,10 @@ const DisplayName = styled(Typography)`
   font-size: 20px;
 `;
 
+const ButtonArea = styled(Box)`
+  hight: 20px;
+`;
+
 const UserName = styled(Typography)`
   color: #8899a6;
   font-size: 15px;
@@ -68,8 +72,8 @@ const Bio = styled(Typography)`
   -webkit-box-orient: vertical;
 `;
 
-type FFProfileCardProps = {
-  displayName: string;
+type Props = {
+  name: string;
   userName: string;
   profileAvatarImageUrl: string;
   bio: string;
@@ -77,13 +81,13 @@ type FFProfileCardProps = {
 } & UserWithFollows;
 
 export default function FFProfileCard({
-  displayname,
-  username,
+  name,
+  userName,
   profileImageUrl,
   bio,
   authId,
   id,
-}: FFProfileCardProps) {
+}: Props) {
   const isMe = id === authId;
   return (
     <UnselectableCard>
@@ -92,17 +96,15 @@ export default function FFProfileCard({
         <VFlex style={{ margin: '12px 0' }}>
           <HFlexS>
             <VFlex>
-              <DisplayName>{displayname}ユーザー表示名</DisplayName>
-              <UserName>@{username}usernoid</UserName>
+              <DisplayName>{name}</DisplayName>
+              <UserName>@{userName}</UserName>
             </VFlex>
-            {/* {authId && !isMe && <FollowButton userId={id} />} */}
-            <FollowButton userId={1} />
+            <ButtonArea>
+              <FollowButton userId={id} />
+            </ButtonArea>
           </HFlexS>
           <FillFlex>
-            <Bio>
-              {bio}
-              あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
-            </Bio>
+            <Bio>{bio}</Bio>
           </FillFlex>
         </VFlex>
       </HFlex>
