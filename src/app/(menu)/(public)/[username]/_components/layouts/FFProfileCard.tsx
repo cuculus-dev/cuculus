@@ -1,7 +1,6 @@
 'use client';
 import FollowButton from '@/app/(menu)/(public)/[username]/_components/elements/FollowButton';
 import UserIcon from '@/app/(menu)/(public)/[username]/_components/elements/UserIcon';
-import { UserWithFollows } from '@cuculus/cuculus-api';
 import { Box, Typography, styled } from '@mui/material';
 
 const UnselectableCard = styled('div')`
@@ -73,11 +72,12 @@ const Bio = styled(Typography)`
 `;
 
 type Props = {
+  id: number;
   name: string;
   username: string;
   profileImageUrl: string;
   bio: string;
-} & UserWithFollows;
+};
 
 export default function FFProfileCard({
   name,
