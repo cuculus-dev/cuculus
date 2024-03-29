@@ -39,7 +39,7 @@ export default function FollowList({ follows }: Props) {
             <FFProfileCard
               key={number}
               name={User.name}
-              userName={User.username}
+              username={User.username}
               bio={User.bio}
               profileImageUrl={User.profileImageUrl}
               id={User.id}

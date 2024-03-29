@@ -74,14 +74,14 @@ const Bio = styled(Typography)`
 
 type Props = {
   name: string;
-  userName: string;
+  username: string;
   profileImageUrl: string;
   bio: string;
 } & UserWithFollows;
 
 export default function FFProfileCard({
   name,
-  userName,
+  username,
   profileImageUrl,
   bio,
   id,
@@ -94,7 +94,7 @@ export default function FFProfileCard({
           <HFlexS>
             <VFlex>
               <DisplayName>{name}</DisplayName>
-              <UserName>@{userName}</UserName>
+              <UserName>@{username}</UserName>
             </VFlex>
             {/* フォローされてるか表示 */}
             {/* <FollowedDisplay/> */}
