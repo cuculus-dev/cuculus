@@ -35,9 +35,9 @@ export default function FollowList({ follows }: Props) {
       <button onClick={() => void setSize(size + 1)}>次のページへ</button>
       {data?.map((follows, index) => (
         <div key={index}>
-          {follows?.users.map((User, index) => (
+          {follows?.users.map((User, number) => (
             <FFProfileCard
-              key={index}
+              key={number}
               name={User.name}
               userName={User.username}
               bio={User.bio}

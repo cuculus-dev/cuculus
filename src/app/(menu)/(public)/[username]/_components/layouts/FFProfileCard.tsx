@@ -75,9 +75,8 @@ const Bio = styled(Typography)`
 type Props = {
   name: string;
   userName: string;
-  profileAvatarImageUrl: string;
+  profileImageUrl: string;
   bio: string;
-  authId: number | undefined;
 } & UserWithFollows;
 
 export default function FFProfileCard({
@@ -85,10 +84,8 @@ export default function FFProfileCard({
   userName,
   profileImageUrl,
   bio,
-  authId,
   id,
 }: Props) {
-  const isMe = id === authId;
   return (
     <UnselectableCard>
       <HFlex>
@@ -99,6 +96,8 @@ export default function FFProfileCard({
               <DisplayName>{name}</DisplayName>
               <UserName>@{userName}</UserName>
             </VFlex>
+            {/* フォローされてるか表示 */}
+            {/* <FollowedDisplay/> */}
             <ButtonArea>
               <FollowButton userId={id} />
             </ButtonArea>
