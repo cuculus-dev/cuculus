@@ -98,7 +98,7 @@ function ReplyTo({ replyToPostId }: { replyToPostId: string }) {
 
   return (
     <MomentLinks
-      aria-label="リポストしたユーザー"
+      aria-label="返信先の投稿へ"
       href={`/${data.author.username}/posts/${data.id}`}
       onClick={(event) => event.stopPropagation()}
     >
