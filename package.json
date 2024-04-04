@@ -40,7 +40,7 @@
     "react-dom": "18.2.0",
     "react-easy-crop": "5.0.6",
     "swr": "2.2.5",
-    "virtua": "0.29.1"
+    "virtua": "0.29.2"
   },
   "devDependencies": {
     "@fontsource/material-icons": "5.0.16",
