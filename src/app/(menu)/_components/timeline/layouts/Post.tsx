@@ -1,6 +1,12 @@
 'use client';
 
-import { CardActionArea, styled, Tooltip, Typography } from '@mui/material';
+import {
+  CardActionArea,
+  Skeleton,
+  styled,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import Link from 'next/link';
 import FavoriteButton from '@/app/(menu)/_components/timeline/elements/FavoriteButton';
 import RepostButton from '@/app/(menu)/_components/timeline/elements/RepostButton';
@@ -9,6 +15,7 @@ import MomentAgo from '@/app/(menu)/_components/timeline/elements/MomentAgo';
 import { format } from 'date-fns';
 import AvatarIcon from '@/app/(menu)/_components/timeline/elements/AvatarIcon';
 import { isRepost as checkRepost } from '@/app/(menu)/_utils/post.utils';
+import { usePost } from '@/swr/client/post';
 
 const Article = styled('article')`
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
@@ -74,6 +81,32 @@ const MomentLinks = styled(Link)`
   }
 `;
 
+/**
+ * 〇〇さんへの返信
+ * @constructor
+ */
+function ReplyTo({ replyToPostId }: { replyToPostId: string }) {
+  const { data, isLoading } = usePost(replyToPostId);
+
+  if (isLoading) {
+    return <Skeleton style={{ maxWidth: '250px' }} />;
+  }
+
+  if (!data) {
+    return <div>読み込みエラー</div>;
+  }
+
+  return (
+    <MomentLinks
+      aria-label="リポストしたユーザー"
+      href={`/${data.author.username}/posts/${data.id}`}
+      onClick={(event) => event.stopPropagation()}
+    >
+      {data.author.name}さんへの返信
+    </MomentLinks>
+  );
+}
+
 type UserProps = {
   name: string;
   username: string;
@@ -109,6 +142,7 @@ export default function Post(props: Props) {
   const postedAt = isRepost ? originalPost.postedAt : props.postedAt;
   const author = isRepost ? originalPost.author : props.author;
   const repostedBy = isRepost ? props.author : undefined;
+  const replyToPostId = props.replyToPostId;
 
   const postUrl = `/${author.username}/posts/${id}`;
 
@@ -138,6 +172,7 @@ export default function Post(props: Props) {
                 {repostedBy.name}さんがリポスト
               </MomentLinks>
             )}
+            {replyToPostId && <ReplyTo replyToPostId={replyToPostId} />}
             <Original>
               <AvatarIcon
                 src={author.profileImageUrl}
