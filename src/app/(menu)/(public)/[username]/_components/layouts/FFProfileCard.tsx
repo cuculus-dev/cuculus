@@ -16,6 +16,7 @@ const Flex = styled(Box)`
 
 const VFlex = styled(Flex)`
   flex-direction: column;
+  width: 100%;
 `;
 
 const HFlex = styled(Flex)`
@@ -38,7 +39,8 @@ const DisplayName = styled(Typography)`
 `;
 
 const ButtonArea = styled(Box)`
-  hight: 20px;
+  width: 100%;
+  text-align: right;
 `;
 
 const UserName = styled(Typography)`
@@ -50,12 +52,10 @@ const Avater = styled(UserIcon)`
   aspect-ratio: 1;
   height: 64px;
   width: 64px;
-  margin: auto 10px;
-  margin-top: 0;
+  margin: 0 10px auto;
 
   ${({ theme }) => theme.breakpoints.down('desktop')} {
-    margin: auto 10px;
-    margin-top: 0;
+    margin: 0 10px auto;
     height: 64px;
     width: 64px;
   }
