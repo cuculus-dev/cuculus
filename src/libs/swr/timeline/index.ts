@@ -73,9 +73,14 @@ const timeline = (<Data, Error, SWRKey extends Key = Key>(
 
     /**
      * キー値から再検証を行い、検証結果を返す
+     * @param _keys キー値
+     * @param _latest 最新のデータ
      */
     const validateKeys = useCallback(
-      async (_keys: SWRKey[]): Promise<[SWRKey[], TimelineData<Data>]> => {
+      async (
+        _keys: SWRKey[],
+        _latest: Data | undefined,
+      ): Promise<[SWRKey[], TimelineData<Data>]> => {
         const data: TimelineData<Data> = [];
         const keys: SWRKey[] = [];
 
@@ -155,6 +160,24 @@ const timeline = (<Data, Error, SWRKey extends Key = Key>(
             keys.push(_key);
           }
         }
+
+        // 最後のループで取得漏れがあった場合はここで処理を行う
+        if (prevOldest && _latest) {
+          const gap: Gap<Data> = {
+            since: _latest,
+            max: prevOldest,
+          };
+          const gapHistory: SWRKey = getKey(gap.since, gap.max);
+          const [gapKey, gapArg] = serialize(gapHistory);
+          const [, setGapCache] = createCacheHelper<
+            Data,
+            ResultDataCacheValue<Data>
+          >(cache, gapKey);
+          setGapCache({ data: gap, _k: gapArg });
+          data.push(gap);
+          keys.push(gapHistory);
+        }
+
         return [keys, data];
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -183,7 +206,7 @@ const timeline = (<Data, Error, SWRKey extends Key = Key>(
           // 前回のキャッシュキー
           const _keys = getCache()._keys;
           if (_keys) {
-            const [keys, data] = await validateKeys(_keys);
+            const [keys, data] = await validateKeys(_keys, getCache()._latest);
             setCache({ _keys: keys });
             return data;
           }
@@ -195,32 +218,41 @@ const timeline = (<Data, Error, SWRKey extends Key = Key>(
     const swr: SWRResponse<TimelineData<Data> | undefined, Error> = useSWRNext(
       timelineKey,
       async (key: string): Promise<TimelineData<Data> | undefined> => {
+        // タイムラインのキャッシュヘルパー
         const [getCache, setCache] = createCacheHelper<
           Data,
           TimelineDataCacheValue<Data, Error, SWRKey>
         >(cache, key);
 
-        // 前回のキャッシュキー
+        // キャッシュから各種データを取得
         let _keys = getCache()._keys;
+        const _trigger = getCache()._trigger;
+        const cacheData = getCache().data;
 
-        // ない場合は初期値を入れる
+        // 処理タイプの判別
         if (_keys === undefined || _keys.length === 0) {
-          setCache({ _keys: [getKey(null, null)] });
-          _keys = getCache()._keys;
-        } else {
-          // 初期化が終わっている場合
-          const _trigger = getCache()._trigger;
-          const cacheData = getCache().data;
-
-          if (_trigger === 'older') {
-            // cacheから最古のDataを取得
-            const oldest = cacheData ? findOldest(cacheData) : undefined;
-            if (oldest) {
-              _keys = [..._keys, getKey(null, oldest)];
-            }
+          /**
+           * 初回読み込み
+           * 1. _keysに初期値をいれる
+           */
+          _keys = [getKey(null, null)];
+        } else if (_trigger === 'older') {
+          /**
+           * 過去の投稿の読み込み
+           * 1. キャッシュから最古のデータを取得
+           * 2. _keysの最後尾に追加
+           */
+          const oldest = cacheData ? findOldest(cacheData) : undefined;
+          if (oldest) {
+            _keys = [..._keys, getKey(null, oldest)];
           }
-
-          // キューの更新(基本的にはここで更新は起こらない想定)
+        } else if (_trigger === 'gap') {
+          /**
+           * 取得漏れの読み込み
+           * mutateGapで既に処理済みのため、ここでは何もしない
+           */
+        } else if (_trigger === 'latest' || _trigger === undefined) {
+          // キューの更新(ここで更新は起こらない想定)
           let queueData: TimelineData<Data> | undefined;
           if ((getQueue()._keys?.length ?? 0) > 0) {
             queueData = await swrQueue.mutate();
@@ -232,44 +264,49 @@ const timeline = (<Data, Error, SWRKey extends Key = Key>(
             latest = cacheData ? findLatest(cacheData) : undefined;
           }
 
-          // latestが特定できた場合
-          if (latest) {
-            const queueKeys = getQueue()._keys;
-            const latestKey = getKey(latest, null);
-            const hasQueue = queueKeys && queueKeys.length > 0;
+          // あり得ないのでエラー処理
+          if (!latest) {
+            throw new Error('latest is undefined');
+          }
 
-            if (_trigger === undefined && enableQueue) {
-              // 最新のデータをキューに取得させる
-              if (hasQueue) {
-                setQueue({ _keys: [latestKey, ...queueKeys] });
-              } else {
-                setQueue({ _keys: [latestKey] });
-              }
-            } else if (!enableQueue || _trigger === 'latest') {
-              // キューのデータを移し替える
-              if (hasQueue) {
-                _keys = [...queueKeys, ..._keys];
-                setQueue({ _keys: [] });
-              }
-              // 最新のデータ取得指示
-              _keys = [latestKey, ..._keys];
+          const queueKeys = getQueue()._keys;
+          const latestKey = getKey(latest, null);
+
+          if (_trigger === undefined && enableQueue) {
+            /**
+             * キューが有効かつ通常の読み込み
+             * 1. キューに積み上げていく
+             */
+            if (queueKeys && queueKeys.length > 0) {
+              setQueue({ _keys: [latestKey, ...queueKeys], _latest: latest });
+            } else {
+              setQueue({ _keys: [latestKey], _latest: latest });
             }
+          } else {
+            /**
+             * 最新の投稿を読み込む
+             * 1. キューのデータを移し替える
+             * 2. _keysの先頭に最新のキー値を追加
+             */
+            if (queueKeys && queueKeys.length > 0) {
+              _keys = [...queueKeys, ..._keys];
+              setQueue({ _keys: [] });
+            }
+            _keys = [latestKey, ..._keys];
           }
         }
 
         // トリガーのリセット
         setCache({ _trigger: undefined });
 
-        if (_keys) {
-          const [keys, data] = await validateKeys(_keys);
-          setCache({ _keys: keys });
-          await swrQueue.mutate();
-          return data;
-        }
-
+        // キューの更新
         await swrQueue.mutate();
 
-        return [];
+        // キャッシュの更新
+        const [keys, data] = await validateKeys(_keys, undefined);
+        setCache({ _keys: keys });
+
+        return data;
       },
       config,
     );

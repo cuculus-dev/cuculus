@@ -75,6 +75,8 @@ export interface TimelineDataCacheValue<
   _keys?: SWRKey[];
   // mutate trigger
   _trigger?: 'older' | 'latest' | 'gap';
+  // latest
+  _latest?: Data;
 }
 
 export interface ResultDataCacheValue<Data = never, Error = never>
