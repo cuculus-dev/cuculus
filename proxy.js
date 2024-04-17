@@ -83,22 +83,26 @@ proxy.use(
     target: 'https://api.develop.cuculus.jp',
     changeOrigin: true,
     secure: false,
-    onProxyReq: (proxyReq) => {
-      proxyReq.setHeader('host', siteUrl.hostname);
-    },
-    onProxyRes: (proxyRes) => {
-      proxyRes.headers['Access-Control-Allow-Origin'] = SITE_URL;
-      proxyRes.headers['Access-Control-Allow-Credentials'] = 'true';
-      // Set-Cookieが返却された際、Domain=.localhost;に変更
-      const setCookie = proxyRes.headers['set-cookie'] ?? undefined;
-      if (setCookie) {
-        const pattern = /Domain=\.[a-zA-Z0-9-]*\.cuculus\.jp;/;
-        const cookies = [];
-        setCookie.forEach((value) => {
-          cookies.push(value.replace(pattern, `Domain=.${siteUrl.hostname};`));
-        });
-        proxyRes.headers['set-cookie'] = cookies;
-      }
+    on: {
+      proxyReq: (proxyReq) => {
+        proxyReq.setHeader('host', siteUrl.hostname);
+      },
+      proxyRes: (proxyRes) => {
+        proxyRes.headers['Access-Control-Allow-Origin'] = SITE_URL;
+        proxyRes.headers['Access-Control-Allow-Credentials'] = 'true';
+        // Set-Cookieが返却された際、Domain=.localhost;に変更
+        const setCookie = proxyRes.headers['set-cookie'] ?? undefined;
+        if (setCookie) {
+          const pattern = /Domain=\.[a-zA-Z0-9-]*\.cuculus\.jp;/;
+          const cookies = [];
+          setCookie.forEach((value) => {
+            cookies.push(
+              value.replace(pattern, `Domain=.${siteUrl.hostname};`),
+            );
+          });
+          proxyRes.headers['set-cookie'] = cookies;
+        }
+      },
     },
   }),
 );
