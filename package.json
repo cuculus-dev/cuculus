@@ -24,7 +24,7 @@
     }
   },
   "dependencies": {
-    "@cuculus/cuculus-api": "0.4.6",
+    "@cuculus/cuculus-api": "0.4.8",
     "@ducanh2912/next-pwa": "10.2.6",
     "@emotion/cache": "11.11.0",
     "@emotion/react": "11.11.4",
