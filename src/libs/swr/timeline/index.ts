@@ -299,12 +299,12 @@ const timeline = (<Data, Error, SWRKey extends Key = Key>(
         // トリガーのリセット
         setCache({ _trigger: undefined });
 
-        // キューの更新
-        await swrQueue.mutate();
-
         // キャッシュの更新
         const [keys, data] = await validateKeys(_keys, undefined);
         setCache({ _keys: keys });
+
+        // キューの更新
+        await swrQueue.mutate();
 
         return data;
       },
