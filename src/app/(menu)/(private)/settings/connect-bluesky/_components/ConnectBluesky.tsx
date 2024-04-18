@@ -7,6 +7,7 @@ import {
   InputAdornment,
   LinearProgress,
   OutlinedInput,
+  Snackbar,
   styled,
 } from '@mui/material';
 import Link from 'next/link';
@@ -32,6 +33,7 @@ export default function ConnectBluesky() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
+  const [successMessage, setSuccessMessage] = useState('');
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
@@ -85,11 +87,22 @@ export default function ConnectBluesky() {
               id: username,
               appPassword: password,
             },
+          }).then((result) => {
+            if (result) {
+              setSuccessMessage('連携しました。');
+            }
           });
         }}
       >
         連携
       </Button>
+      <Snackbar
+        open={!!successMessage.length}
+        onClose={() => setSuccessMessage('')}
+        autoHideDuration={2_000}
+      >
+        <Alert severity="success">{successMessage}</Alert>
+      </Snackbar>
     </Root>
   );
 }
