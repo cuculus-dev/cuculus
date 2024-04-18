@@ -1,5 +1,6 @@
 import {
   AccountsApi,
+  AtProtocolApi,
   AuthApi,
   Configuration,
   DefaultApi,
@@ -20,6 +21,7 @@ const invitationsApi = new InvitationsApi(config);
 const timelinesApi = new TimelinesApi(config);
 const postsApi = new PostsApi(config);
 const accountsApi = new AccountsApi(config);
+const atProtocolApi = new AtProtocolApi(config);
 
 export {
   authApi,
@@ -29,4 +31,5 @@ export {
   timelinesApi,
   postsApi,
   accountsApi,
+  atProtocolApi,
 };
