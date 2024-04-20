@@ -43,8 +43,8 @@
     "virtua": "0.30.0"
   },
   "devDependencies": {
-    "@fontsource/material-icons": "5.0.17",
-    "@fontsource/roboto": "5.0.12",
+    "@fontsource/material-icons": "5.0.18",
+    "@fontsource/roboto": "5.0.13",
     "@next/bundle-analyzer": "14.1.4",
     "@storybook/addon-essentials": "8.0.8",
     "@storybook/addon-interactions": "8.0.8",
