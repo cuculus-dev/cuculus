@@ -76,7 +76,7 @@
     "prettier": "3.3.2",
     "sst": "2.41.3",
     "storybook": "8.4.4",
-    "ts-jest": "29.1.5",
+    "ts-jest": "29.2.5",
     "ts-node": "10.9.2",
     "typescript": "5.3.3",
     "webpack": "5.93.0"
