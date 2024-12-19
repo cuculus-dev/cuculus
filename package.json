@@ -45,7 +45,7 @@
   "devDependencies": {
     "@fontsource/material-icons": "5.0.18",
     "@fontsource/roboto": "5.0.13",
-    "@next/bundle-analyzer": "14.2.5",
+    "@next/bundle-analyzer": "14.2.21",
     "@storybook/addon-essentials": "8.4.4",
     "@storybook/addon-interactions": "8.4.4",
     "@storybook/addon-links": "8.4.4",
@@ -65,7 +65,7 @@
     "constructs": "10.3.0",
     "dotenv": "16.4.5",
     "eslint": "8.57.0",
-    "eslint-config-next": "14.2.5",
+    "eslint-config-next": "14.2.21",
     "eslint-config-prettier": "9.1.0",
     "eslint-import-resolver-typescript": "3.6.1",
     "eslint-plugin-storybook": "0.8.0",
